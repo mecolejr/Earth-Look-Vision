@@ -1,0 +1,166 @@
+You don’t have to “install” anything on that site; you just call the National Weather Service API from your own code or tool using HTTPS requests to `https://api.weather.gov`, with a proper User-Agent header and the right endpoints. [weather](https://www.weather.gov/documentation/services-web-api)
+
+Below are minimal, copy‑pasteable examples so you can test the API and then integrate it into whatever you’re building.
+
+***
+
+## 1. Basic test in your browser
+
+1. In your browser address bar, go to (example point in Oklahoma):
+   - `https://api.weather.gov/points/35.7479,-95.3697`  
+2. If it loads, you’ll see JSON with links, including `forecast` and `forecastHourly` URLs. [weather](https://www.weather.gov/documentation/services-web-api)
+
+This proves the API is reachable for your location.
+
+***
+
+## 2. Required header (User-Agent)
+
+Every request must include a descriptive **User-Agent** string, ideally with contact info. [weather](https://www.weather.gov/documentation/services-web-api)
+
+Example (what they suggest on the page, adjust to your own app):
+
+```text
+User-Agent: (myokweatherapp.com, me@example.com)
+```
+
+You’ll add this differently depending on environment.
+
+***
+
+## 3. Example: fetch forecast with `curl` (command line)
+
+```bash
+curl "https://api.weather.gov/points/35.7479,-95.3697" \
+  -H "User-Agent: (myokweatherapp.com, me@example.com)" \
+  -H "Accept: application/geo+json"
+```
+
+Then use the `"properties"."forecast"` URL from that response:
+
+```bash
+curl "https://api.weather.gov/gridpoints/TSA/77,61/forecast" \
+  -H "User-Agent: (myokweatherapp.com, me@example.com)" \
+  -H "Accept: application/geo+json"
+```
+
+***
+
+## 4. Example: JavaScript in a web page
+
+Put this in a `<script>` tag on your site (or in your JS bundle). Browsers don’t let you fully control the User‑Agent, but NWS also allows a `User-Agent`‑style string via a custom header from server‑side calls; the most robust setup is to call from your backend (next section). [weather](https://www.weather.gov/documentation/services-web-api)
+
+```js
+async function getForecast() {
+  // Step 1: get forecast URL for a point
+  const pointResp = await fetch(
+    "https://api.weather.gov/points/35.7479,-95.3697",
+    {
+      headers: {
+        "Accept": "application/geo+json"
+        // Real User-Agent should be added on server-side
+      }
+    }
+  );
+  const pointData = await pointResp.json();
+  const forecastUrl = pointData.properties.forecast;
+
+  // Step 2: get the forecast
+  const forecastResp = await fetch(forecastUrl, {
+    headers: {
+      "Accept": "application/geo+json"
+    }
+  });
+  const forecastData = await forecastResp.json();
+
+  console.log(forecastData);
+  const period = forecastData.properties.periods[0];
+  document.getElementById("forecast").textContent =
+    `${period.name}: ${period.detailedForecast}`;
+}
+
+getForecast();
+```
+
+In your HTML:
+
+```html
+<div id="forecast">Loading forecast…</div>
+<script src="your-script.js"></script>
+```
+
+***
+
+## 5. Example: server‑side (Node.js/Express)
+
+This is the cleanest way to comply with the header requirement and then serve simplified data to your site. [weather](https://www.weather.gov/documentation/services-web-api)
+
+```js
+import express from "express";
+import fetch from "node-fetch";
+
+const app = express();
+const PORT = 3000;
+
+app.get("/api/forecast", async (req, res) => {
+  try {
+    const lat = 35.7479;
+    const lon = -95.3697;
+
+    // 1) Get the point info (to find forecast endpoint)
+    const pointResp = await fetch(
+      `https://api.weather.gov/points/${lat},${lon}`,
+      {
+        headers: {
+          "User-Agent": "(myokweatherapp.com, me@example.com)",
+          "Accept": "application/geo+json"
+        }
+      }
+    );
+
+    const pointData = await pointResp.json();
+    const forecastUrl = pointData.properties.forecast;
+
+    // 2) Call the forecast endpoint
+    const forecastResp = await fetch(forecastUrl, {
+      headers: {
+        "User-Agent": "(myokweatherapp.com, me@example.com)",
+        "Accept": "application/geo+json"
+      }
+    });
+
+    const forecastData = await forecastResp.json();
+
+    // 3) Return just what your frontend needs
+    res.json({
+      updated: forecastData.properties.updated,
+      periods: forecastData.properties.periods
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to load forecast" });
+  }
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});
+```
+
+On your site, you then call `/api/forecast` instead of `https://api.weather.gov/...`.
+
+***
+
+## 6. Choosing formats
+
+By default, many endpoints respond with **GeoJSON**; you can request other formats with the `Accept` header. [weather](https://www.weather.gov/documentation/services-web-api)
+
+Common examples: [weather](https://www.weather.gov/documentation/services-web-api)
+
+- GeoJSON: `Accept: application/geo+json`
+- JSON‑LD: `Accept: application/ld+json`
+- CAP (alerts): `Accept: application/cap+xml`
+
+***
+
+If you tell me what you’re building on (plain HTML, WordPress, React, Django, etc.), I can give you an exact “paste this here” setup tailored to your site.
