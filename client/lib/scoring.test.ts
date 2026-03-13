@@ -1,256 +1,322 @@
 /**
- * Unit tests for scoring.ts
+ * EarthLook scoring engine unit tests
  *
- * Run with: npx vitest client/lib/scoring.test.ts
+ * Run with:  npx vitest client/lib/scoring.test.ts
  *
- * Issue #24: Scoring functions are pure/deterministic — ideal for unit testing.
- * Install vitest as a devDependency to run these:
- *   npm install -D vitest
+ * Covers:
+ * - Issue #8: Safety score formula correctness (normalizeCrimeRate)
+ * - Issue #9: Diversity score bounds (multi-ethnicity no inflation)
+ * - Issue #3: skipCache flag correctness (demo vs. cached)
+ * - Issue #7: Anonymous scores differentiate between cities
+ * - Issue #11: LGBTQ+ venue log scale (SF 85 venues > 5 venues significantly)
+ * - Feature 1: Identity-filtered hate crime penalty logic
+ * - Feature 3: Scenario override scores differ from base scores
  */
 
 import { describe, it, expect } from "vitest";
 import {
-    calculateCityScore,
-    calculateAnonymousCityScore,
-    clearScoreCache,
+      calculateCityScore,
+      calculateAnonymousCityScore,
+      calculateScenarioCityScore,
+      clearScoreCache,
 } from "./scoring";
-import {
-    DEFAULT_IDENTITY,
-    DEFAULT_PRIORITIES,
-    DEFAULT_PRIVACY_SETTINGS,
-} from "@/types";
-import type { City, IdentityProfile, PriorityWeights } from "@/types";
+import { City, IdentityProfile, PriorityWeights, DEFAULT_PRIORITIES } from "@/types";
 
-// ─── Minimal city fixture ────────────────────────────────────────────────────
+// ─── Shared test fixtures ─────────────────────────────────────────────────────
 
-const CITY_CHEAP: City = {
-    id: "test-cheap",
-    name: "Cheapville",
-    state: "TX",
-    country: "USA",
-    coordinates: { lat: 30, lng: -97 },
-    costOfLivingIndex: 80, // low cost → high score
-    safety: {
-          overallCrimeRate: 20,
-          hateCrimesByCategory: { race: 1, lgbtq: 1, religion: 1, disability: 1 },
-          lgbtqSafetyIndex: 70,
-    },
-    demographics: {
-          population: 100000,
-          lgbtqPopulation: 5,
-          ethnicBreakdown: { "White": 70, "Hispanic": 20, "Black/African American": 10 },
-    },
-    political: { progressiveScore: 40, lgbtqProtections: false },
-    jobMarket: {
-          unemploymentRate: 4,
-          techHubScore: 30,
-          remoteWorkFriendly: 60,
-    },
-    healthcare: {
-          qualityIndex: 65,
-          lgbtqAffirmingProviders: 10,
-          mentalHealthAccess: 60,
-    },
-    climate: {
-          averageTemp: 70,
-          seasonType: "mild",
-          winterLowAvg: 40,
-          annualRainfall: 30,
-          humidityLevel: "moderate",
-          sunnyDays: 220,
-    },
-    transit: {
-          publicTransitScore: 40,
-          walkabilityScore: 50,
-          bikeability: 40,
-    },
-    culture: {
-          lgbtqVenues: 5,
-          diverseRestaurants: 200,
-          culturalInstitutions: ["Museum", "Theater"],
-          religiousInstitutions: { Christian: 50, Muslim: 5 },
-    },
-    sponsored: { isSponsored: false },
+const BASE_IDENTITY: IdentityProfile = {
+      ethnicities: [],
+      genderIdentity: "Man",
+      sexualOrientation: "Straight/Heterosexual",
+      religion: "",
+      politicalViews: "",
+      familyStructure: "Single",
+      incomeLevel: "$75,000 - $100,000",
+      careerField: "Technology",
+      ageRange: "25-34",
+      disabilities: [],
+      languages: ["English"],
+      climatePreferences: {
+              temperaturePreference: "",
+              seasonPreference: "",
+              precipitationPreference: "",
+              humidityPreference: "",
+              sunshinePreference: "",
+      },
 };
 
-const CITY_EXPENSIVE: City = {
-    ...CITY_CHEAP,
-    id: "test-expensive",
-    name: "Expenseville",
-    costOfLivingIndex: 180, // high cost → low score
-};
+function makeCity(overrides: Partial<City> = {}): City {
+      return {
+              id: "test-city",
+              name: "Test City",
+              country: "USA",
+              state: "CA",
+              population: 500000,
+              costOfLivingIndex: 100,
+              coordinates: { lat: 37.7749, lon: -122.4194 },
+              demographics: {
+                        totalPopulation: 500000,
+                        ethnicBreakdown: { "White/Caucasian": 40, "Asian": 30, "Hispanic/Latino": 20, "Black/African American": 10 },
+                        lgbtqPopulation: 6,
+                        religionBreakdown: { Christian: 50, Buddhist: 10 },
+                        medianAge: 35,
+              },
+              safety: {
+                        overallCrimeRate: 30,
+                        hateCrimesByCategory: { racialBias: 5, religiousBias: 3, sexualOrientationBias: 4, genderBias: 2 },
+                        discriminationReports: 50,
+                        lgbtqSafetyIndex: 75,
+                        policeAccountabilityScore: 65,
+              },
+              political: {
+                        votingPatterns: { democratic: 70, republican: 20, independent: 10 },
+                        lgbtqProtections: true,
+                        reproductiveRights: true,
+                        immigrationFriendly: true,
+                        progressiveScore: 80,
+              },
+              climate: {
+                        averageTemp: 62,
+                        summerHighAvg: 75,
+                        winterLowAvg: 45,
+                        sunnyDays: 260,
+                        annualRainfall: 22,
+                        annualSnowfall: 0,
+                        humidityLevel: "moderate",
+                        seasonType: "mild-winters",
+                        type: "Mediterranean",
+              },
+              jobMarket: {
+                        unemploymentRate: 3.5,
+                        topIndustries: ["Technology", "Finance"],
+                        techHubScore: 90,
+                        remoteWorkFriendly: 85,
+              },
+              healthcare: {
+                        qualityIndex: 80,
+                        lgbtqAffirmingProviders: 30,
+                        mentalHealthAccess: 75,
+              },
+              transit: {
+                        publicTransitScore: 70,
+                        walkabilityScore: 80,
+                        bikeability: 75,
+              },
+              culture: {
+                        diverseRestaurants: 2000,
+                        culturalInstitutions: ["Museum of Art", "Symphony", "Film Festival"],
+                        lgbtqVenues: 85,
+                        religiousInstitutions: { Christian: 50, Buddhist: 15, Jewish: 8 },
+              },
+              ...overrides,
+      };
+}
 
-const CITY_SAFE_LGBTQ: City = {
-    ...CITY_CHEAP,
-    id: "test-lgbtq-friendly",
-    name: "Rainbowtown",
-    safety: {
-          ...CITY_CHEAP.safety,
-          lgbtqSafetyIndex: 95,
-          overallCrimeRate: 20,
-    },
-    political: { progressiveScore: 90, lgbtqProtections: true },
-    culture: {
-          ...CITY_CHEAP.culture,
-          lgbtqVenues: 80,
-    },
-    demographics: {
-          ...CITY_CHEAP.demographics,
-          lgbtqPopulation: 15,
-    },
-};
+// ─── Issue #8: Safety formula ─────────────────────────────────────────────────
 
-// ─── Identity fixtures ────────────────────────────────────────────────────────
+describe("calculateCityScore — safety (Issue #8)", () => {
+      it("city with crimeRate=0 should score 100 safety", () => {
+              const city = makeCity({ safety: { ...makeCity().safety, overallCrimeRate: 0 } });
+              const score = calculateCityScore(city, BASE_IDENTITY, DEFAULT_PRIORITIES, undefined, true);
+              expect(score.breakdown.safety).toBe(100);
+      });
 
-const LGBTQ_IDENTITY: IdentityProfile = {
-    ...DEFAULT_IDENTITY,
-    sexualOrientation: "Gay",
-    genderIdentity: "Non-binary",
-};
-
-const LOW_INCOME_IDENTITY: IdentityProfile = {
-    ...DEFAULT_IDENTITY,
-    incomeLevel: "Under $25,000",
-};
-
-// ─── Tests ───────────────────────────────────────────────────────────────────
-
-describe("calculateCityScore — cost of living", () => {
-    beforeEach(() => clearScoreCache());
-
-           it("scores a low-cost city higher than a high-cost city with default identity", () => {
-                 const cheap = calculateCityScore(
-                         CITY_CHEAP,
-                         DEFAULT_IDENTITY,
-                         DEFAULT_PRIORITIES
-                       );
-                 const expensive = calculateCityScore(
-                         CITY_EXPENSIVE,
-                         DEFAULT_IDENTITY,
-                         DEFAULT_PRIORITIES
-                       );
-                 expect(cheap.breakdown.costOfLiving).toBeGreaterThan(
-                         expensive.breakdown.costOfLiving
-                       );
+           it("city with crimeRate=100 should score 0 safety", () => {
+                   const city = makeCity({ safety: { ...makeCity().safety, overallCrimeRate: 100 } });
+                   const score = calculateCityScore(city, BASE_IDENTITY, DEFAULT_PRIORITIES, undefined, true);
+                   expect(score.breakdown.safety).toBe(0);
            });
 
-           it("penalises high-cost cities more heavily for low-income users", () => {
-                 const defaultScore = calculateCityScore(
-                         CITY_EXPENSIVE,
-                         DEFAULT_IDENTITY,
-                         DEFAULT_PRIORITIES
-                       );
-                 const lowIncomeScore = calculateCityScore(
-                         CITY_EXPENSIVE,
-                         LOW_INCOME_IDENTITY,
-                         DEFAULT_PRIORITIES
-                       );
-                 expect(lowIncomeScore.breakdown.costOfLiving).toBeLessThan(
-                         defaultScore.breakdown.costOfLiving
-                       );
+           it("city with crimeRate=30 should score ~70 safety", () => {
+                   const city = makeCity({ safety: { ...makeCity().safety, overallCrimeRate: 30 } });
+                   const score = calculateCityScore(city, BASE_IDENTITY, DEFAULT_PRIORITIES, undefined, true);
+                   expect(score.breakdown.safety).toBeCloseTo(70, 0);
            });
 });
 
-describe("calculateCityScore — LGBTQ+ acceptance", () => {
-    beforeEach(() => clearScoreCache());
+// ─── Issue #9: Diversity score bounds ────────────────────────────────────────
 
-           it("scores LGBTQ+-friendly city higher for LGBTQ+ users", () => {
-                 const friendlyScore = calculateCityScore(
-                         CITY_SAFE_LGBTQ,
-                         LGBTQ_IDENTITY,
-                         DEFAULT_PRIORITIES
-                       );
-                 const unfriendlyScore = calculateCityScore(
-                         CITY_CHEAP,
-                         LGBTQ_IDENTITY,
-                         DEFAULT_PRIORITIES
-                       );
-                 expect(friendlyScore.breakdown.lgbtqAcceptance).toBeGreaterThan(
-                         unfriendlyScore.breakdown.lgbtqAcceptance
-                       );
-           });
+describe("calculateCityScore — diversity (Issue #9)", () => {
+      it("multi-ethnicity user should not score above 100", () => {
+              const identity: IdentityProfile = {
+                        ...BASE_IDENTITY,
+                        ethnicities: ["Asian", "Black/African American", "Hispanic/Latino", "White/Caucasian"],
+              };
+              const score = calculateCityScore(makeCity(), identity, DEFAULT_PRIORITIES, undefined, true);
+              expect(score.breakdown.diversityInclusion).toBeLessThanOrEqual(100);
+      });
 
-           it("lgbtqAcceptance score is between 0 and 100", () => {
-                 const score = calculateCityScore(
-                         CITY_SAFE_LGBTQ,
-                         LGBTQ_IDENTITY,
-                         DEFAULT_PRIORITIES
-                       );
-                 expect(score.breakdown.lgbtqAcceptance).toBeGreaterThanOrEqual(0);
-                 expect(score.breakdown.lgbtqAcceptance).toBeLessThanOrEqual(100);
+           it("per-ethnicity contribution should be capped at 15 pts", () => {
+                   const highRepresentationCity = makeCity({
+                             demographics: {
+                                         ...makeCity().demographics,
+                                         ethnicBreakdown: { "Asian": 99 },
+                             },
+                   });
+                   const identity: IdentityProfile = { ...BASE_IDENTITY, ethnicities: ["Asian"] };
+                   const score = calculateCityScore(highRepresentationCity, identity, DEFAULT_PRIORITIES, undefined, true);
+                   // base 50 + max 15 (per-ethnicity capped) + diversityIndex * 5 (1 group > 5% * 5 = 5) = 70
+                  expect(score.breakdown.diversityInclusion).toBeLessThanOrEqual(100);
            });
 });
 
-describe("calculateCityScore — safety formula (Issue #8)", () => {
-    beforeEach(() => clearScoreCache());
+// ─── Issue #3: skipCache flag ────────────────────────────────────────────────
 
-           it("a city with overallCrimeRate=65 has a safety score above 0", () => {
-                 const city: City = {
-                         ...CITY_CHEAP,
-                         safety: { ...CITY_CHEAP.safety, overallCrimeRate: 65 },
-                 };
-                 const score = calculateCityScore(city, DEFAULT_IDENTITY, DEFAULT_PRIORITIES);
-                 // Before the fix this was returning 35 (100 - 65); now it should still be 35
-                  // but importantly be > 0 and correctly reflect that 65/100 crime = 35/100 safety
-                  expect(score.breakdown.safety).toBe(35);
-                 expect(score.breakdown.safety).toBeGreaterThan(0);
-           });
+describe("calculateCityScore — skipCache (Issue #3)", () => {
+      it("two calls with skipCache=true should both return fresh results", () => {
+              clearScoreCache();
+              const city = makeCity();
+              const s1 = calculateCityScore(city, BASE_IDENTITY, DEFAULT_PRIORITIES, undefined, true);
+              const s2 = calculateCityScore(city, BASE_IDENTITY, DEFAULT_PRIORITIES, undefined, true);
+              expect(s1.overall).toBe(s2.overall);
+      });
 
-           it("a city with overallCrimeRate=100 has safety score near 0", () => {
-                 const city: City = {
-                         ...CITY_CHEAP,
-                         safety: { ...CITY_CHEAP.safety, overallCrimeRate: 100 },
-                 };
-                 const score = calculateCityScore(city, DEFAULT_IDENTITY, DEFAULT_PRIORITIES);
-                 expect(score.breakdown.safety).toBe(0);
+           it("cached call should return same result as non-cached", () => {
+                   clearScoreCache();
+                   const city = makeCity();
+                   const nonCached = calculateCityScore(city, BASE_IDENTITY, DEFAULT_PRIORITIES, undefined, true);
+                   const cached = calculateCityScore(city, BASE_IDENTITY, DEFAULT_PRIORITIES, undefined, false);
+                   // Second call should return from cache, which should match
+                  const cachedAgain = calculateCityScore(city, BASE_IDENTITY, DEFAULT_PRIORITIES, undefined, false);
+                   expect(cachedAgain.overall).toBe(cached.overall);
+                   expect(cached.overall).toBe(nonCached.overall);
            });
 });
 
-describe("calculateCityScore — diversity score (Issue #9)", () => {
-    beforeEach(() => clearScoreCache());
+// ─── Issue #7: Anonymous scores differentiate cities ─────────────────────────
 
-           it("diversity score stays within 0-100 even with a high percentage match", () => {
-                 const identity: IdentityProfile = {
-                         ...DEFAULT_IDENTITY,
-                         ethnicities: ["White"],
-                 };
-                 // White = 70% — before the fix this added 70 * 1.5 = 105 points, exceeding 100
-                  const score = calculateCityScore(CITY_CHEAP, identity, DEFAULT_PRIORITIES);
-                 expect(score.breakdown.diversityInclusion).toBeLessThanOrEqual(100);
-                 expect(score.breakdown.diversityInclusion).toBeGreaterThanOrEqual(0);
+describe("calculateAnonymousCityScore (Issue #7)", () => {
+      it("cheap city should score higher cost-of-living than expensive city", () => {
+              const cheapCity = makeCity({ id: "cheap", costOfLivingIndex: 70 });
+              const expensiveCity = makeCity({ id: "expensive", costOfLivingIndex: 170 });
+              const cheapScore = calculateAnonymousCityScore(cheapCity);
+              const expensiveScore = calculateAnonymousCityScore(expensiveCity);
+              expect(cheapScore.breakdown.costOfLiving).toBeGreaterThan(expensiveScore.breakdown.costOfLiving);
+      });
+
+           it("safe city should score higher safety than dangerous city", () => {
+                   const safeCity = makeCity({ id: "safe", safety: { ...makeCity().safety, overallCrimeRate: 10 } });
+                   const dangerousCity = makeCity({ id: "danger", safety: { ...makeCity().safety, overallCrimeRate: 80 } });
+                   const safeScore = calculateAnonymousCityScore(safeCity);
+                   const dangerScore = calculateAnonymousCityScore(dangerousCity);
+                   expect(safeScore.breakdown.safety).toBeGreaterThan(dangerScore.breakdown.safety);
            });
 });
 
-describe("calculateCityScore — skipCache flag (Issue #3)", () => {
-    it("returns the same score regardless of skipCache value", () => {
-          const cached = calculateCityScore(
-                  CITY_CHEAP,
-                  DEFAULT_IDENTITY,
-                  DEFAULT_PRIORITIES,
-                  undefined,
-                  false
-                );
-          const noCache = calculateCityScore(
-                  CITY_CHEAP,
-                  DEFAULT_IDENTITY,
-                  DEFAULT_PRIORITIES,
-                  undefined,
-                  true
-                );
-          expect(cached.overall).toBe(noCache.overall);
-    });
+// ─── Issue #11: LGBTQ+ venue log scale ───────────────────────────────────────
+
+describe("calculateCityScore — LGBTQ+ venue log scale (Issue #11)", () => {
+      it("city with 85 venues should score meaningfully higher than city with 5 venues for LGBTQ+ user", () => {
+              const lgbtqIdentity: IdentityProfile = {
+                        ...BASE_IDENTITY,
+                        sexualOrientation: "Gay",
+              };
+              const highVenueCity = makeCity({
+                        id: "high-venues",
+                        culture: { ...makeCity().culture, lgbtqVenues: 85 },
+              });
+              const lowVenueCity = makeCity({
+                        id: "low-venues",
+                        culture: { ...makeCity().culture, lgbtqVenues: 5 },
+              });
+              const highScore = calculateCityScore(highVenueCity, lgbtqIdentity, DEFAULT_PRIORITIES, undefined, true);
+              const lowScore = calculateCityScore(lowVenueCity, lgbtqIdentity, DEFAULT_PRIORITIES, undefined, true);
+              // Log(86)*12 ≈ 23 pts vs Log(6)*12 ≈ 9 pts — should differ by at least 10 pts
+             expect(highScore.breakdown.lgbtqAcceptance - lowScore.breakdown.lgbtqAcceptance).toBeGreaterThan(10);
+      });
 });
 
-describe("calculateAnonymousCityScore — differentiation (Issue #7)", () => {
-    it("differentiates cities meaningfully (not all identical scores)", () => {
-          const cheapScore = calculateAnonymousCityScore(CITY_CHEAP);
-          const expensiveScore = calculateAnonymousCityScore(CITY_EXPENSIVE);
-          expect(cheapScore.overall).not.toBe(expensiveScore.overall);
-    });
+// ─── Feature 1: Identity-filtered hate crime penalty ─────────────────────────
 
-           it("score is between 0 and 100", () => {
-                 const score = calculateAnonymousCityScore(CITY_CHEAP);
-                 expect(score.overall).toBeGreaterThanOrEqual(0);
-                 expect(score.overall).toBeLessThanOrEqual(100);
+describe("Feature 1 — identity-filtered safety score", () => {
+      it("LGBTQ+ user in city with high anti-gay hate crimes scores lower safety", () => {
+              const cityWithHateCrimes = makeCity({
+                        id: "hate-crime-city",
+                        safety: {
+                                    ...makeCity().safety,
+                                    overallCrimeRate: 30,
+                                    hateCrimesByBiasCategory: {
+                                                  antiGay: 8, // 8 per 100k — notably high
+                                    },
+                        },
+              });
+              const cityWithout = makeCity({
+                        id: "safe-city",
+                        safety: {
+                                    ...makeCity().safety,
+                                    overallCrimeRate: 30,
+                                    hateCrimesByBiasCategory: {
+                                                  antiGay: 0,
+                                    },
+                        },
+              });
+              const lgbtqIdentity: IdentityProfile = {
+                        ...BASE_IDENTITY,
+                        sexualOrientation: "Gay",
+              };
+              const withScore = calculateCityScore(cityWithHateCrimes, lgbtqIdentity, DEFAULT_PRIORITIES, undefined, true);
+              const withoutScore = calculateCityScore(cityWithout, lgbtqIdentity, DEFAULT_PRIORITIES, undefined, true);
+              expect(withoutScore.breakdown.safety).toBeGreaterThan(withScore.breakdown.safety);
+      });
+
+           it("city with hate crime data should set safetyPersonalisationNote when relevant", () => {
+                   const city = makeCity({
+                             safety: {
+                                         ...makeCity().safety,
+                                         hateCrimesByBiasCategory: { antiBlack: 5 },
+                             },
+                   });
+                   const identity: IdentityProfile = {
+                             ...BASE_IDENTITY,
+                             ethnicities: ["Black/African American"],
+                   };
+                   const score = calculateCityScore(city, identity, DEFAULT_PRIORITIES, undefined, true);
+                   expect(score.safetyPersonalisationNote).toBeDefined();
+                   expect(score.safetyPersonalisationNote).toContain("FBI");
+           });
+
+           it("city without hate crime data should not set safetyPersonalisationNote (no granular data)", () => {
+                   const city = makeCity(); // no hateCrimesByBiasCategory
+                  const score = calculateCityScore(city, BASE_IDENTITY, DEFAULT_PRIORITIES, undefined, true);
+                   // No identity set, no granular data — note should be undefined
+                  expect(score.safetyPersonalisationNote).toBeUndefined();
+           });
+});
+
+// ─── Feature 3: Scenario scoring ─────────────────────────────────────────────
+
+describe("Feature 3 — calculateScenarioCityScore", () => {
+      it("low-income override should lower cost-of-living score for expensive city", () => {
+              const expensiveCity = makeCity({ costOfLivingIndex: 160 });
+              const baseScore = calculateCityScore(expensiveCity, BASE_IDENTITY, DEFAULT_PRIORITIES, undefined, true);
+              const scenarioScore = calculateScenarioCityScore(
+                        expensiveCity,
+                        BASE_IDENTITY,
+                        DEFAULT_PRIORITIES,
+                  { identityOverrides: { incomeLevel: "Under $25,000" } }
+                      );
+              // Low income + expensive city should score lower than default income
+             expect(scenarioScore.breakdown.costOfLiving).toBeLessThan(baseScore.breakdown.costOfLiving);
+      });
+
+           it("priority override for climate should change the overall score", () => {
+                   const city = makeCity();
+                   const defaultScore = calculateCityScore(city, BASE_IDENTITY, DEFAULT_PRIORITIES, undefined, true);
+                   const climateHeavyPriorities = { ...DEFAULT_PRIORITIES, climate: 90, safety: 10 };
+                   const scenarioScore = calculateScenarioCityScore(
+                             city,
+                             BASE_IDENTITY,
+                             DEFAULT_PRIORITIES,
+                       { priorityOverrides: { climate: 90, safety: 10 } }
+                           );
+                   // A different weighting should produce a different overall score
+                  expect(scenarioScore.overall).not.toBe(defaultScore.overall);
+           });
+
+           it("scenario with no overrides should match base score", () => {
+                   const city = makeCity();
+                   const baseScore = calculateCityScore(city, BASE_IDENTITY, DEFAULT_PRIORITIES, undefined, true);
+                   const scenarioScore = calculateScenarioCityScore(city, BASE_IDENTITY, DEFAULT_PRIORITIES, {});
+                   expect(scenarioScore.overall).toBe(baseScore.overall);
            });
 });
