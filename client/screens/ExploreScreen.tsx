@@ -148,7 +148,7 @@ export default function ExploreScreen() {
           title="Tell us about yourself"
           description="Complete your profile to see personalized city matches based on your unique identity."
           actionLabel="Set Up Profile"
-          onAction={() => {}}
+          onAction={() => navigation.navigate("Onboarding")}
         />
       );
     }
