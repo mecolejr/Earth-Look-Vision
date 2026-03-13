@@ -67,11 +67,22 @@ This document tracks the full development plan for the EarthLook app — a priva
 
                                         ## Open Items & Ongoing Watch Points
 
-                                        ### 1. Testimonials Moderation Workflow — Required Before Feature Goes Live ⚠️ Still Open
-                                        The testimonials pipeline is fully built but all submissions land in `status: "pending"` with no mechanism to approve them yet. Before this feature is visible to users, one of the following is needed:
-                                        - A simple admin UI (protected route) to review and approve/reject pending testimonials.
-                                        - - An automated moderation pass (e.g., a lightweight profanity/hate-speech filter that auto-approves clean submissions).
-                                          - - Seeding the database with an initial set of approved testimonials so the feature is not empty on launch.
+                                        ### 1. Testimonials Moderation Workflow ✅ Resolved
+                                        The testimonials pipeline is now fully operational with a protected admin moderation dashboard.
+
+                                        **What was built:**
+                                        - `adminAuth` middleware in `server/routes.ts` — bearer-token guard keyed to `ADMIN_SECRET` env var. Fails closed (503) if no secret is configured.
+                                        - `GET /api/admin/testimonials` — returns all testimonials with counts by status, supports `?status=` filter.
+                                        - `POST /api/admin/testimonials/:id/approve` — promotes a testimonial to `approved`.
+                                        - `POST /api/admin/testimonials/:id/reject` — moves to `rejected`.
+                                        - `DELETE /api/admin/testimonials/:id` — permanent deletion for spam/illegal content.
+                                        - `GET /admin?secret=<ADMIN_SECRET>` — browser-accessible dark-mode moderation dashboard. Shows live counts, filter tabs (Pending / Approved / Rejected / All), and per-card Approve/Reject/Delete actions with optimistic UI updates.
+                                        - `scripts/seed-testimonials.ts` — inserts 19 curated approved testimonials across all 8 cities (diverse identities, realistic voices). Run via `npm run db:seed:testimonials`. Safe to re-run (idempotent).
+
+                                        **To activate in Replit:**
+                                        1. Add `ADMIN_SECRET=<your-strong-password>` to Replit Secrets.
+                                        2. Run `npm run db:seed:testimonials` once to populate seed data.
+                                        3. Access the dashboard at `/admin?secret=<your-password>`.
                                            
                                             - ### 2. `hateCrimesByBiasCategory` Coverage ✅ Resolved
                                             - All 8 cities now have `hateCrimesByBiasCategory` populated with real government data (FBI NIBRS, Statistics Canada, BKA, Spanish Interior Ministry — all per-100k normalized, data years 2022–2023). The UI in `CityDetailScreen` shows a three-state data-completeness banner so users always know whether their safety score is personalised or aggregate.

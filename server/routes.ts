@@ -1,12 +1,30 @@
-import type { Express } from "express";
+import type { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "node:http";
 import { db } from "./db";
 import { newsletterSubscribers, testimonials } from "@shared/schema";
-import { eq, and, sql } from "drizzle-orm";
+import { eq, and, sql, desc } from "drizzle-orm";
 import { z } from "zod";
 import { sendWelcomeEmail } from "./resend";
 import { getWeatherForecast, getCurrentWeather } from "./weather";
 import { getPersonalizedRecommendations } from "./cohere";
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Admin auth middleware — protects all /admin/* routes with a bearer token.
+// Set ADMIN_SECRET in your environment variables. Never hard-code a value here.
+// ─────────────────────────────────────────────────────────────────────────────
+function adminAuth(req: Request, res: Response, next: NextFunction) {
+  const secret = process.env.ADMIN_SECRET;
+  if (!secret) {
+    // Fail closed: if no secret is configured, block all admin access.
+    return res.status(503).json({ error: "Admin access not configured" });
+  }
+  const authHeader = req.headers["authorization"] ?? "";
+  const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : null;
+  if (!token || token !== secret) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+  next();
+}
 
 // Validation schema for newsletter subscription email
 const newsletterSchema = z.object({
@@ -418,6 +436,145 @@ export async function registerRoutes(app: Express): Promise<Server> {
                     console.error("Testimonials fetch error:", error);
                     res.status(500).json({ error: "Failed to fetch testimonials" });
           }
+  });
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Admin — Testimonials Moderation
+  // All routes below are protected by the adminAuth middleware.
+  // ─────────────────────────────────────────────────────────────────────────────
+
+  /**
+   * GET /api/admin/testimonials
+   * Returns all testimonials, newest first, grouped by status.
+   * Query param: ?status=pending|approved|rejected (defaults to all)
+   */
+  app.get("/api/admin/testimonials", adminAuth, async (req, res) => {
+    try {
+      const statusFilter = req.query.status as string | undefined;
+      const validStatuses = ["pending", "approved", "rejected"];
+
+      let query = db
+        .select()
+        .from(testimonials)
+        .orderBy(desc(testimonials.createdAt));
+
+      const rows = await query;
+
+      const filtered =
+        statusFilter && validStatuses.includes(statusFilter)
+          ? rows.filter((t) => t.status === statusFilter)
+          : rows;
+
+      const counts = {
+        pending: rows.filter((t) => t.status === "pending").length,
+        approved: rows.filter((t) => t.status === "approved").length,
+        rejected: rows.filter((t) => t.status === "rejected").length,
+        total: rows.length,
+      };
+
+      res.json({ testimonials: filtered, counts });
+    } catch (error) {
+      console.error("Admin testimonials fetch error:", error);
+      res.status(500).json({ error: "Failed to fetch testimonials" });
+    }
+  });
+
+  /**
+   * POST /api/admin/testimonials/:id/approve
+   * Moves a testimonial to "approved" status so it appears to users.
+   */
+  app.post("/api/admin/testimonials/:id/approve", adminAuth, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const [updated] = await db
+        .update(testimonials)
+        .set({ status: "approved" })
+        .where(eq(testimonials.id, id))
+        .returning({ id: testimonials.id, status: testimonials.status });
+
+      if (!updated) {
+        return res.status(404).json({ error: "Testimonial not found" });
+      }
+      res.json({ message: "Testimonial approved", id: updated.id, status: updated.status });
+    } catch (error) {
+      console.error("Admin approve error:", error);
+      res.status(500).json({ error: "Failed to approve testimonial" });
+    }
+  });
+
+  /**
+   * POST /api/admin/testimonials/:id/reject
+   * Moves a testimonial to "rejected" status, hiding it from users.
+   */
+  app.post("/api/admin/testimonials/:id/reject", adminAuth, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const [updated] = await db
+        .update(testimonials)
+        .set({ status: "rejected" })
+        .where(eq(testimonials.id, id))
+        .returning({ id: testimonials.id, status: testimonials.status });
+
+      if (!updated) {
+        return res.status(404).json({ error: "Testimonial not found" });
+      }
+      res.json({ message: "Testimonial rejected", id: updated.id, status: updated.status });
+    } catch (error) {
+      console.error("Admin reject error:", error);
+      res.status(500).json({ error: "Failed to reject testimonial" });
+    }
+  });
+
+  /**
+   * DELETE /api/admin/testimonials/:id
+   * Permanently deletes a testimonial (use only for spam/illegal content).
+   */
+  app.delete("/api/admin/testimonials/:id", adminAuth, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const [deleted] = await db
+        .delete(testimonials)
+        .where(eq(testimonials.id, id))
+        .returning({ id: testimonials.id });
+
+      if (!deleted) {
+        return res.status(404).json({ error: "Testimonial not found" });
+      }
+      res.json({ message: "Testimonial deleted", id: deleted.id });
+    } catch (error) {
+      console.error("Admin delete error:", error);
+      res.status(500).json({ error: "Failed to delete testimonial" });
+    }
+  });
+
+  /**
+   * GET /admin
+   * Serves the admin moderation dashboard (HTML page).
+   * Protected: requires ?secret=<ADMIN_SECRET> query param for browser access.
+   */
+  app.get("/admin", (req, res) => {
+    const secret = process.env.ADMIN_SECRET;
+    if (!secret) {
+      return res.status(503).send("Admin access not configured.");
+    }
+    // Browser-friendly auth via query param (avoids needing custom headers in browser)
+    const provided = req.query.secret as string | undefined;
+    if (!provided || provided !== secret) {
+      return res
+        .status(401)
+        .send("<h2>401 Unauthorized</h2><p>Pass ?secret=YOUR_ADMIN_SECRET in the URL.</p>");
+    }
+    const path = require("node:path");
+    const fs = require("node:fs");
+    const templatePath = path.resolve(process.cwd(), "server", "templates", "admin.html");
+    if (!fs.existsSync(templatePath)) {
+      return res.status(404).send("Admin template not found.");
+    }
+    const html = fs
+      .readFileSync(templatePath, "utf-8")
+      .replace(/ADMIN_SECRET_PLACEHOLDER/g, secret);
+    res.setHeader("Content-Type", "text/html; charset=utf-8");
+    res.status(200).send(html);
   });
 
   const httpServer = createServer(app);
