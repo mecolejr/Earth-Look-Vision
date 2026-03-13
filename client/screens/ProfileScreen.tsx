@@ -5,6 +5,7 @@ import {
     ScrollView,
     Pressable,
     Image,
+        Alert,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useHeaderHeight } from "@react-navigation/elements";
@@ -72,10 +73,23 @@ export default function ProfileScreen() {
         setActiveSection(null);
   };
 
-  const handleResetProfile = async () => {
-        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
-        await resetProfile();
-  };
+const handleResetProfile = () => {
+            Alert.alert(
+                            "Reset Profile",
+                            "This will permanently erase all your lifestyle, identity, and priority data. This cannot be undone.",
+                            [
+                                { text: "Cancel", style: "cancel" },
+                                {
+                                                        text: "Reset",
+                                                        style: "destructive",
+                                                        onPress: async () => {
+                                                                                    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
+                                                                                    await resetProfile();
+                                                        },
+                                },
+                                            ]
+                        );
+};
 
   return (
         <View style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
