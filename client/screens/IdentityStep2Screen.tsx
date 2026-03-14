@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { StyleSheet, View, ScrollView } from "react-native";
+import { StyleSheet, View, ScrollView, Pressable } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import * as Haptics from "expo-haptics";
+import { Feather } from "@expo/vector-icons";
 
 import { ThemedText } from "@/components/ThemedText";
 import { Button } from "@/components/Button";
@@ -32,12 +33,13 @@ export default function IdentityStep2Screen({
   const insets = useSafeAreaInsets();
   const { theme } = useTheme();
   const { profile, updateIdentity, setOnboardingStep } = useUserProfile();
-
   const [ethnicities, setEthnicities] = useState<string[]>(
     profile?.identity.ethnicities || []
   );
   const [gender, setGender] = useState<string[]>(
-    profile?.identity.genderIdentity ? [profile.identity.genderIdentity] : []
+    profile?.identity.genderIdentity
+      ? [profile.identity.genderIdentity]
+      : []
   );
   const [orientation, setOrientation] = useState<string[]>(
     profile?.identity.sexualOrientation
@@ -48,29 +50,27 @@ export default function IdentityStep2Screen({
     profile?.identity.religion ? [profile.identity.religion] : []
   );
   const [political, setPolitical] = useState<string[]>(
-    profile?.identity.politicalViews ? [profile.identity.politicalViews] : []
+    profile?.identity.politicalViews
+      ? [profile.identity.politicalViews]
+      : []
   );
 
   const handleEthnicitiesChange = async (values: string[]) => {
     setEthnicities(values);
     await updateIdentity({ ethnicities: values });
   };
-
   const handleGenderChange = async (values: string[]) => {
     setGender(values);
     await updateIdentity({ genderIdentity: values[0] || "" });
   };
-
   const handleOrientationChange = async (values: string[]) => {
     setOrientation(values);
     await updateIdentity({ sexualOrientation: values[0] || "" });
   };
-
   const handleReligionChange = async (values: string[]) => {
     setReligion(values);
     await updateIdentity({ religion: values[0] || "" });
   };
-
   const handlePoliticalChange = async (values: string[]) => {
     setPolitical(values);
     await updateIdentity({ politicalViews: values[0] || "" });
@@ -84,18 +84,27 @@ export default function IdentityStep2Screen({
 
   return (
     <View style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
-      <View
-        style={[styles.header, { paddingTop: insets.top + Spacing.lg }]}
-      >
-        <ProgressIndicator steps={3} currentStep={1} />
-        <ThemedText
-          type="small"
-          style={[styles.stepLabel, { color: theme.textSecondary }]}
-        >
-          Step 2 of 3
-        </ThemedText>
+      <View style={[styles.header, { paddingTop: insets.top + Spacing.lg }]}>
+        <View style={styles.headerRow}>
+          <Pressable
+            onPress={() => navigation.goBack()}
+            hitSlop={12}
+            style={styles.backButton}
+          >
+            <Feather name="chevron-left" size={24} color={theme.text} />
+          </Pressable>
+          <View style={styles.headerProgress}>
+            <ProgressIndicator steps={3} currentStep={1} />
+            <ThemedText
+              type="small"
+              style={[styles.stepLabel, { color: theme.textSecondary }]}
+            >
+              Step 2 of 3
+            </ThemedText>
+          </View>
+          <View style={styles.backButton} />
+        </View>
       </View>
-
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={styles.scrollContent}
@@ -108,11 +117,10 @@ export default function IdentityStep2Screen({
           type="body"
           style={[styles.subtitle, { color: theme.textSecondary }]}
         >
-          This personal information helps us find cities where people like you feel safe and welcome. Share only what you're comfortable with.
+          This personal information helps us find cities where people like you
+          feel safe and welcome. Share only what you're comfortable with.
         </ThemedText>
-
         <LiveScorePreview />
-
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
             <ThemedText type="h4" style={styles.sectionTitle}>
@@ -136,7 +144,6 @@ export default function IdentityStep2Screen({
             multiSelect
           />
         </View>
-
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
             <ThemedText type="h4" style={styles.sectionTitle}>
@@ -153,7 +160,6 @@ export default function IdentityStep2Screen({
             onChange={handleGenderChange}
           />
         </View>
-
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
             <ThemedText type="h4" style={styles.sectionTitle}>
@@ -170,7 +176,6 @@ export default function IdentityStep2Screen({
             onChange={handleOrientationChange}
           />
         </View>
-
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
             <ThemedText type="h4" style={styles.sectionTitle}>
@@ -187,7 +192,6 @@ export default function IdentityStep2Screen({
             onChange={handleReligionChange}
           />
         </View>
-
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
             <ThemedText type="h4" style={styles.sectionTitle}>
@@ -205,7 +209,6 @@ export default function IdentityStep2Screen({
           />
         </View>
       </ScrollView>
-
       <View
         style={[
           styles.footer,
@@ -228,6 +231,19 @@ const styles = StyleSheet.create({
   header: {
     paddingHorizontal: Spacing["2xl"],
     paddingBottom: Spacing.lg,
+  },
+  headerRow: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  backButton: {
+    width: 40,
+    alignItems: "flex-start",
+    justifyContent: "center",
+  },
+  headerProgress: {
+    flex: 1,
+    alignItems: "center",
   },
   stepLabel: {
     marginTop: Spacing.sm,
