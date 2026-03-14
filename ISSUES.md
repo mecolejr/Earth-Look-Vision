@@ -51,6 +51,7 @@ This file is the source of truth for all known bugs and UX issues. Update it whe
 | 21 | Pressable missing accessibilityLabel — needed for screen readers. | 🔴 Open | client/screens/IdentityStep2Screen.tsx |
 | 22 | Pressable missing accessibilityLabel — needed for screen readers. | 🔴 Open | client/screens/PrioritiesStepScreen.tsx |
 | 23 | welcome-hero.png used as a placeholder image outside of WelcomeScreen. | 🔴 Open | client/screens/ExploreScreen.tsx |
+| 25 | Pressable missing accessibilityLabel — needed for screen readers. | 🔴 Open | client/screens/PrioritiesStepScreen.tsx |
 
 ---
 
