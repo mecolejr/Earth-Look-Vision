@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { StyleSheet, View, ScrollView } from "react-native";
+import { StyleSheet, View, ScrollView, Pressable } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import * as Haptics from "expo-haptics";
+import { Feather } from "@expo/vector-icons";
 
 import { ThemedText } from "@/components/ThemedText";
 import { Button } from "@/components/Button";
@@ -37,7 +38,6 @@ export default function PrioritiesStepScreen({
   const insets = useSafeAreaInsets();
   const { theme } = useTheme();
   const { profile, updatePriorities, completeOnboarding } = useUserProfile();
-
   const [priorities, setPriorities] = useState<PriorityWeights>(
     profile?.priorities || {
       safety: 50,
@@ -53,7 +53,10 @@ export default function PrioritiesStepScreen({
     }
   );
 
-  const handlePriorityChange = async (key: keyof PriorityWeights, value: number) => {
+  const handlePriorityChange = async (
+    key: keyof PriorityWeights,
+    value: number
+  ) => {
     const newPriorities = { ...priorities, [key]: value };
     setPriorities(newPriorities);
     await updatePriorities({ [key]: value });
@@ -67,18 +70,27 @@ export default function PrioritiesStepScreen({
 
   return (
     <View style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
-      <View
-        style={[styles.header, { paddingTop: insets.top + Spacing.lg }]}
-      >
-        <ProgressIndicator steps={3} currentStep={2} />
-        <ThemedText
-          type="caption"
-          style={[styles.stepLabel, { color: theme.textSecondary }]}
-        >
-          Step 3 of 3
-        </ThemedText>
+      <View style={[styles.header, { paddingTop: insets.top + Spacing.lg }]}>
+        <View style={styles.headerRow}>
+          <Pressable
+            onPress={() => navigation.goBack()}
+            hitSlop={12}
+            style={styles.backButton}
+          >
+            <Feather name="chevron-left" size={24} color={theme.text} />
+          </Pressable>
+          <View style={styles.headerProgress}>
+            <ProgressIndicator steps={3} currentStep={2} />
+            <ThemedText
+              type="caption"
+              style={[styles.stepLabel, { color: theme.textSecondary }]}
+            >
+              Step 3 of 3
+            </ThemedText>
+          </View>
+          <View style={styles.backButton} />
+        </View>
       </View>
-
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={styles.scrollContent}
@@ -94,7 +106,6 @@ export default function PrioritiesStepScreen({
           Adjust these sliders to weight how much each factor influences your
           city compatibility scores.
         </ThemedText>
-
         <View style={styles.sliders}>
           {(Object.keys(PRIORITY_LABELS) as Array<keyof PriorityWeights>).map(
             (key) => (
@@ -109,7 +120,6 @@ export default function PrioritiesStepScreen({
           )}
         </View>
       </ScrollView>
-
       <View
         style={[
           styles.footer,
@@ -132,6 +142,19 @@ const styles = StyleSheet.create({
   header: {
     paddingHorizontal: Spacing["2xl"],
     paddingBottom: Spacing.lg,
+  },
+  headerRow: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  backButton: {
+    width: 40,
+    alignItems: "flex-start",
+    justifyContent: "center",
+  },
+  headerProgress: {
+    flex: 1,
+    alignItems: "center",
   },
   stepLabel: {
     marginTop: Spacing.sm,
