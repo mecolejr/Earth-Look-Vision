@@ -1,1 +1,86 @@
-IyBFYXJ0aExvb2sg4oCUIE9wZW4gSXNzdWVzCgpUaGlzIGZpbGUgaXMgdGhlIHNvdXJjZSBvZiB0cnV0aCBmb3IgYWxsIGtub3duIGJ1Z3MgYW5kIFVYIGlzc3Vlcy4gVXBkYXRlIGl0IHdoZW5ldmVyIGEgZml4IGlzIGNvbW1pdHRlZC4gQXQgdGhlIHN0YXJ0IG9mIGFueSBuZXcgc2Vzc2lvbiwgcmVhZCB0aGlzIGZpbGUgZmlyc3QgdG8ga25vdyBleGFjdGx5IHdoZXJlIHRoaW5ncyBzdGFuZC4KCioqTGFzdCB1cGRhdGVkOioqIDIwMjYtMDMtMTQKKipBdWRpdCBiYXNpczoqKiBGdWxsIGNvZGUgcmV2aWV3IG9mIGNsaWVudC9zY3JlZW5zLyBhZ2FpbnN0IHRoZSAxNy1pc3N1ZSBsaXN0LgoqKkNvbW1pdCBjb252ZW50aW9uOioqIGZpeCgjTik6IHNob3J0IGRlc2NyaXB0aW9uIOKAlCBtYXRjaGVzIHRoZSBpc3N1ZSBudW1iZXIgYmVsb3cuCgotLS0KCiMjIFN0YXR1cyBLZXkKfCBTeW1ib2wgfCBNZWFuaW5nIHwKfC0tLS0tLS0tfC0tLS0tLS0tLXwKfCBGaXhlZCB8IFJlc29sdmVkIGFuZCBjb21taXR0ZWQgfAp8IE9wZW4gfCBOb3QgeWV0IHN0YXJ0ZWQgfAp8IEluIFByb2dyZXNzIHwgV29yayBoYXMgYmVndW4gYnV0IG5vdCBjb21taXR0ZWQgfAoKLS0tCgojIyBDcml0aWNhbAoKfCAjIHwgSXNzdWUgfCBTdGF0dXMgfCBGaWxlcyBBZmZlY3RlZCB8CnwtLS18LS0tLS0tLXwtLS0tLS0tLXwtLS0tLS0tLS0tLS0tLS0tfAp8IDEwIHwgU2V0IFVwIFByb2ZpbGUgZW1wdHktc3RhdGUgYnV0dG9uIHdhcyBhIG5vLW9wIChvbkFjdGlvbjogKCkgPT4ge30pIHwgRml4ZWQgTWFyIDEzIHwgY2xpZW50L3NjcmVlbnMvRXhwbG9yZVNjcmVlbi50c3ggfAp8IDE3IHwgTm8gQWxlcnQgY29uZmlybWF0aW9uIGJlZm9yZSByZXNldFByb2ZpbGUoKSDigJQgb25lIHRhcCB3aXBlZCBhbGwgZGF0YSB8IEZpeGVkIE1hciAxMyB8IGNsaWVudC9zY3JlZW5zL1Byb2ZpbGVTY3JlZW4udHN4IHwKCi0tLQoKIyMgSGlnaAoKfCAjIHwgSXNzdWUgfCBTdGF0dXMgfCBGaWxlcyBBZmZlY3RlZCB8CnwtLS18LS0tLS0tLXwtLS0tLS0tLXwtLS0tLS0tLS0tLS0tLS0tfAp8IDYgfCBObyBiYWNrIGJ1dHRvbiBvbiBvbmJvYXJkaW5nIFN0ZXBzIDIgYW5kIDMg4oCUIGhlYWRlciBvbmx5IHNob3dzIFByb2dyZXNzSW5kaWNhdG9yLCBBbmRyb2lkIHVzZXJzIGFyZSBzdHVjayB8IE9wZW4gfCBJZGVudGl0eVN0ZXAyU2NyZWVuLnRzeCwgUHJpb3JpdGllc1N0ZXBTY3JlZW4udHN4LCBPbmJvYXJkaW5nTmF2aWdhdG9yLnRzeCB8CnwgOCB8IEFsbCAxMCBwcmlvcml0eSBzbGlkZXJzIGRlZmF1bHQgdG8gNTAgcmVnYXJkbGVzcyBvZiBTdGVwcyAxIGFuZCAyIGlucHV0IOKAlCBjYXVzZXMgZGVjaXNpb24gZmF0aWd1ZSB8IE9wZW4gfCBjbGllbnQvc2NyZWVucy9Qcmlvcml0aWVzU3RlcFNjcmVlbi50c3ggfAp8IDkgfCBObyBMaXZlU2NvcmVQcmV2aWV3IG9uIFN0ZXAgMyBQcmlvcml0aWVzIOKAlCB0aGUgbW9zdCBpbXBhY3RmdWwgc3RlcCBoYXMgemVybyB2aXN1YWwgZmVlZGJhY2sgfCBPcGVuIHwgY2xpZW50L3NjcmVlbnMvUHJpb3JpdGllc1N0ZXBTY3JlZW4udHN4IHwKfCAxNSB8IENpdHkgY29sdW1ucyBpbiBDb21wYXJlIHNjcmVlbiBoYXZlIG5vIG9uUHJlc3Mg4oCUIHRhcHBpbmcgYSBjaXR5IGRvZXMgbm90aGluZywgbm8gcGF0aCB0byBDaXR5RGV0YWlsIHwgT3BlbiB8IGNsaWVudC9zY3JlZW5zL0NvbXBhcmVTY3JlZW4udHN4IHwKfCAyMCB8IERlc3RydWN0aXZlIGFjdGlvbiDigJQgdmVyaWZ5IGl0J3Mgd3JhcHBlZCBpbiBhbiBBbGVydC5hbGVydCgpIGNvbmZpcm1hdGlvbi4gfCDwn5S0IE9wZW4gfCBjbGllbnQvc2NyZWVucy9Qcm9maWxlU2NyZWVuLnRzeCB8CgotLS0KCiMjIE1lZGl1bQoKfCAjIHwgSXNzdWUgfCBTdGF0dXMgfCBGaWxlcyBBZmZlY3RlZCB8CnwtLS18LS0tLS0tLXwtLS0tLS0tLXwtLS0tLS0tLS0tLS0tLS0tfAp8IDMgfCBjYW5Qcm9jZWVkIGlzIGhhcmRjb2RlZCB0byB0cnVlIG9uIFN0ZXAgMSDigJQgQ29udGludWUgaXMgYWx3YXlzIGVuYWJsZWQgZXZlbiB3aXRoIG5vdGhpbmcgc2VsZWN0ZWQgfCBPcGVuIHwgY2xpZW50L3NjcmVlbnMvSWRlbnRpdHlTdGVwMVNjcmVlbi50c3ggfAp8IDEyIHwgS2V5IERpZmZlcmVuY2VzIGluIENvbXBhcmUgYWx3YXlzIHNob3dzIDQgaGFyZGNvZGVkIGNhdGVnb3JpZXMg4oCUIGlnbm9yZXMgdXNlciBwcmlvcml0eSB3ZWlnaHRzIHwgT3BlbiB8IGNsaWVudC9zY3JlZW5zL0NvbXBhcmVTY3JlZW4udHN4IHwKfCAxNCB8IGhhbmRsZVNhdmVJZGVudGl0eSBhbmQgaGFuZGxlU2F2ZVByaW9yaXRpZXMgb25seSBjYWxsIHNldEFjdGl2ZVNlY3Rpb24obnVsbCkg4oCUIFNhdmUgYnV0dG9uIGlzIGEgZmFsc2UgYWZmb3JkYW5jZSB8IE9wZW4gfCBjbGllbnQvc2NyZWVucy9Qcm9maWxlU2NyZWVuLnRzeCB8CnwgMTggfCB3ZWxjb21lLWhlcm8ucG5nIHVzZWQgYXMgYSBwbGFjZWhvbGRlciBpbWFnZSBvdXRzaWRlIG9mIFdlbGNvbWVTY3JlZW4uIHwg8J+UtCBPcGVuIHwgY2xpZW50L3NjcmVlbnMvRXhwbG9yZVNjcmVlbi50c3ggfAp8IDE5IHwgUHJlc3NhYmxlIG1pc3NpbmcgYWNjZXNzaWJpbGl0eUxhYmVsIOKAlCBuZWVkZWQgZm9yIHNjcmVlbiByZWFkZXJzLiB8IPCflLQgT3BlbiB8IGNsaWVudC9zY3JlZW5zL0V4cGxvcmVTY3JlZW4udHN4IHwKCi0tLQoKIyMgUG9saXNoCgp8ICMgfCBJc3N1ZSB8IFN0YXR1cyB8IEZpbGVzIEFmZmVjdGVkIHwKfC0tLXwtLS0tLS0tfC0tLS0tLS0tfC0tLS0tLS0tLS0tLS0tLS18CnwgMSB8IFdlbGNvbWUgc2NyZWVuIGhhcyB0b28gbWFueSBjb21wZXRpbmcgYWN0aW9ucyDigJQgMyBzZWNvbmRhcnkgbGlua3MgYXJlIGlkZW50aWNhbCBpbiB2aXN1YWwgd2VpZ2h0IHwgT3BlbiB8IGNsaWVudC9zY3JlZW5zL1dlbGNvbWVTY3JlZW4udHN4IHwKfCAyIHwgUGVyc29uYSBwaWNrZXIgZXhwYW5kcyBpbmxpbmUg4oCUIHNob3VsZCBiZSBhIGJvdHRvbSBzaGVldCBtb2RhbCwgY3JhbXBlZCBvbiBpUGhvbmUgU0UgfCBPcGVuIHwgY2xpZW50L3NjcmVlbnMvV2VsY29tZVNjcmVlbi50c3ggfAp8IDQgfCBDbGltYXRlIHByZWZlcmVuY2VzIG9uIFN0ZXAgMSBoYXZlIG5vIHZpc3VhbCBncm91cGluZyDigJQgVGVtcGVyYXR1cmUsIFNlYXNvbnMsIFByZWNpcGl0YXRpb24gbmVlZCB3cmFwcGluZyBjYXJkIHwgT3BlbiB8IGNsaWVudC9zY3JlZW5zL0lkZW50aXR5U3RlcDFTY3JlZW4udHN4IHwKfCA1IHwgTGl2ZVNjb3JlUHJldmlldyBjb21wYWN0IG1vZGUgb24gU3RlcCAxIGRvZXMgbm90IHNob3cgam9iIG1hcmtldCBiYXIg4oCUIHdlYWtlbnMgYWhhIG1vbWVudCB8IE9wZW4gfCBjbGllbnQvc2NyZWVucy9JZGVudGl0eVN0ZXAxU2NyZWVuLnRzeCwgTGl2ZVNjb3JlUHJldmlldy50c3ggfAp8IDcgfCBSYWNlL0V0aG5pY2l0eSBpcyB0aGUgb25seSBtdWx0aS1zZWxlY3Qgb24gU3RlcCAyIOKAlCBHZW5kZXIsIE9yaWVudGF0aW9uLCBSZWxpZ2lvbiwgUG9saXRpY2FsIFZpZXdzIHNob3VsZCBhbHNvIHN1cHBvcnQgbXVsdGktc2VsZWN0IHwgT3BlbiB8IGNsaWVudC9zY3JlZW5zL0lkZW50aXR5U3RlcDJTY3JlZW4udHN4IHwKfCAxMSB8IEFsbCBzcG9uc29yZWQgY2l0eSBjYXJkcyBzaG93IHRoZSBzYW1lIHdlbGNvbWUtaGVyby5wbmcgcGxhY2Vob2xkZXIgfCBPcGVuIHwgY2xpZW50L3NjcmVlbnMvRXhwbG9yZVNjcmVlbi50c3gsIGNsaWVudC9kYXRhL2NpdGllcy50cyB8CnwgMTMgfCBDb21wYXJlIHNjcmVlbiBoYXMgbmVzdGVkIGhvcml6b250YWwgYW5kIHZlcnRpY2FsIHNjcm9sbCDigJQgYXdrd2FyZCBvbiBzbWFsbCBwaG9uZXMgfCBPcGVuIHwgY2xpZW50L3NjcmVlbnMvQ29tcGFyZVNjcmVlbi50c3ggfAp8IDE2IHwgTWFwIHRhYiBvbiB3ZWIgaGFzIG5vIGRvd25sb2FkLXRoZS1hcHAgcHJvbXB0IOKAlCBFeHBvIEdvIG1lc3NhZ2UgZXhpc3RzIGJ1dCBjb3VsZCBiZSBjbGVhcmVyIHwgUGFydGlhbGx5IGFkZHJlc3NlZCB8IGNsaWVudC9zY3JlZW5zL01hcFNjcmVlbi53ZWIudHN4IHwKCi0tLQoKIyMgRml4IE9yZGVyIFJlY29tbWVuZGF0aW9uCgpXb3JrIHRvcC10by1ib3R0b20gYnkgcHJpb3JpdHkuIFN1Z2dlc3RlZCBiYXRjaGluZzoKCkJhdGNoIEEg4oCUIEhpZ2gsIHF1aWNrIHdpbnM6Ci0gIzYgQWRkIGJhY2sgY2hldnJvbiB0byBTdGVwIDIgYW5kIFN0ZXAgMyBoZWFkZXJzCi0gIzE1IFdyYXAgY2l0eSBjb2x1bW5zIGluIFByZXNzYWJsZSBuYXZpZ2F0aW5nIHRvIENpdHlEZXRhaWwKCkJhdGNoIEIg4oCUIEhpZ2gsIHJlcXVpcmVzIGxvZ2ljOgotICM4IFByZS1wb3B1bGF0ZSBzbGlkZXIgZGVmYXVsdHMgZnJvbSBTdGVwcyAxIGFuZCAyIHByb2ZpbGUgZGF0YQotICM5IEFkZCBMaXZlU2NvcmVQcmV2aWV3IHRvIFByaW9yaXRpZXNTdGVwU2NyZWVuCgpCYXRjaCBDIOKAlCBNZWRpdW06Ci0gIzMgR2F0ZSBjYW5Qcm9jZWVkIG9uIGF0IGxlYXN0IG9uZSBjaGlwIHNlbGVjdGlvbgotICMxMiBTdXJmYWNlIHRvcCBOIHVzZXIgcHJpb3JpdHkgd2VpZ2h0cyBpbiBLZXkgRGlmZmVyZW5jZXMKLSAjMTQgUmVtb3ZlIGZhbHNlIFNhdmUgYnV0dG9uIG9yIGdhdGUgc2F2ZSB0byBidXR0b24gcHJlc3MKCkJhdGNoIEQg4oCUIFBvbGlzaDoKLSAjMSwgIzIsICM0LCAjNSwgIzcsICMxMSwgIzEz
+# EarthLook — Open Issues
+
+This file is the source of truth for all known bugs and UX issues. Update it whenever a fix is committed. At the start of any new session, read this file first to know exactly where things stand.
+
+**Last updated:** 2026-03-14
+**Audit basis:** Full code review of client/screens/ against the 17-issue list.
+**Commit convention:** fix(#N): short description — matches the issue number below.
+
+---
+
+## Status Key
+| Symbol | Meaning |
+|--------|---------|
+| Fixed | Resolved and committed |
+| Open | Not yet started |
+| In Progress | Work has begun but not committed |
+
+---
+
+## Critical
+
+| # | Issue | Status | Files Affected |
+|---|-------|--------|----------------|
+| 10 | Set Up Profile empty-state button was a no-op (onAction: () => {}) | Fixed Mar 13 | client/screens/ExploreScreen.tsx |
+| 17 | No Alert confirmation before resetProfile() — one tap wiped all data | Fixed Mar 13 | client/screens/ProfileScreen.tsx |
+
+---
+
+## High
+
+| # | Issue | Status | Files Affected |
+|---|-------|--------|----------------|
+| 6 | No back button on onboarding Steps 2 and 3 — header only shows ProgressIndicator, Android users are stuck | Open | IdentityStep2Screen.tsx, PrioritiesStepScreen.tsx, OnboardingNavigator.tsx |
+| 8 | All 10 priority sliders default to 50 regardless of Steps 1 and 2 input — causes decision fatigue | Open | client/screens/PrioritiesStepScreen.tsx |
+| 9 | No LiveScorePreview on Step 3 Priorities — the most impactful step has zero visual feedback | Open | client/screens/PrioritiesStepScreen.tsx |
+| 15 | City columns in Compare screen have no onPress — tapping a city does nothing, no path to CityDetail | Open | client/screens/CompareScreen.tsx |
+| 20 | Destructive action — verify it's wrapped in an Alert.alert() confirmation. | 🔴 Open | client/screens/ProfileScreen.tsx |
+
+---
+
+## Medium
+
+| # | Issue | Status | Files Affected |
+|---|-------|--------|----------------|
+| 3 | canProceed is hardcoded to true on Step 1 — Continue is always enabled even with nothing selected | Open | client/screens/IdentityStep1Screen.tsx |
+| 12 | Key Differences in Compare always shows 4 hardcoded categories — ignores user priority weights | Open | client/screens/CompareScreen.tsx |
+| 14 | handleSaveIdentity and handleSavePriorities only call setActiveSection(null) — Save button is a false affordance | Open | client/screens/ProfileScreen.tsx |
+| 18 | welcome-hero.png used as a placeholder image outside of WelcomeScreen. | 🔴 Open | client/screens/ExploreScreen.tsx |
+| 19 | Pressable missing accessibilityLabel — needed for screen readers. | 🔴 Open | client/screens/ExploreScreen.tsx |
+
+---
+
+## Polish
+
+| # | Issue | Status | Files Affected |
+|---|-------|--------|----------------|
+| 1 | Welcome screen has too many competing actions — 3 secondary links are identical in visual weight | Open | client/screens/WelcomeScreen.tsx |
+| 2 | Persona picker expands inline — should be a bottom sheet modal, cramped on iPhone SE | Open | client/screens/WelcomeScreen.tsx |
+| 4 | Climate preferences on Step 1 have no visual grouping — Temperature, Seasons, Precipitation need wrapping card | Open | client/screens/IdentityStep1Screen.tsx |
+| 5 | LiveScorePreview compact mode on Step 1 does not show job market bar — weakens aha moment | Open | client/screens/IdentityStep1Screen.tsx, LiveScorePreview.tsx |
+| 7 | Race/Ethnicity is the only multi-select on Step 2 — Gender, Orientation, Religion, Political Views should also support multi-select | Open | client/screens/IdentityStep2Screen.tsx |
+| 11 | All sponsored city cards show the same welcome-hero.png placeholder | Open | client/screens/ExploreScreen.tsx, client/data/cities.ts |
+| 13 | Compare screen has nested horizontal and vertical scroll — awkward on small phones | Open | client/screens/CompareScreen.tsx |
+| 16 | Map tab on web has no download-the-app prompt — Expo Go message exists but could be clearer | Partially addressed | client/screens/MapScreen.web.tsx |
+
+---
+
+## Fix Order Recommendation
+
+Work top-to-bottom by priority. Suggested batching:
+
+Batch A — High, quick wins:
+- #6 Add back chevron to Step 2 and Step 3 headers
+- #15 Wrap city columns in Pressable navigating to CityDetail
+
+Batch B — High, requires logic:
+- #8 Pre-populate slider defaults from Steps 1 and 2 profile data
+- #9 Add LiveScorePreview to PrioritiesStepScreen
+
+Batch C — Medium:
+- #3 Gate canProceed on at least one chip selection
+- #12 Surface top N user priority weights in Key Differences
+- #14 Remove false Save button or gate save to button press
+
+Batch D — Polish:
+- #1, #2, #4, #5, #7, #11, #13
