@@ -35,6 +35,7 @@ This file is the source of truth for all known bugs and UX issues. Update it whe
 | 9 | No LiveScorePreview on Step 3 Priorities — the most impactful step has zero visual feedback | Open | client/screens/PrioritiesStepScreen.tsx |
 | 15 | City columns in Compare screen have no onPress — tapping a city does nothing, no path to CityDetail | Open | client/screens/CompareScreen.tsx |
 | 20 | Destructive action — verify it's wrapped in an Alert.alert() confirmation. | 🔴 Open | client/screens/ProfileScreen.tsx |
+| 24 | Destructive action — verify it's wrapped in an Alert.alert() confirmation. | 🔴 Open | client/screens/ProfileScreen.tsx |
 
 ---
 
@@ -48,6 +49,8 @@ This file is the source of truth for all known bugs and UX issues. Update it whe
 | 18 | welcome-hero.png used as a placeholder image outside of WelcomeScreen. | 🔴 Open | client/screens/ExploreScreen.tsx |
 | 19 | Pressable missing accessibilityLabel — needed for screen readers. | 🔴 Open | client/screens/ExploreScreen.tsx |
 | 21 | Pressable missing accessibilityLabel — needed for screen readers. | 🔴 Open | client/screens/IdentityStep2Screen.tsx |
+| 22 | Pressable missing accessibilityLabel — needed for screen readers. | 🔴 Open | client/screens/PrioritiesStepScreen.tsx |
+| 23 | welcome-hero.png used as a placeholder image outside of WelcomeScreen. | 🔴 Open | client/screens/ExploreScreen.tsx |
 
 ---
 
