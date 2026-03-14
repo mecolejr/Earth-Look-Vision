@@ -8,6 +8,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { Button } from "@/components/Button";
 import { PrioritySlider } from "@/components/PrioritySlider";
 import { ProgressIndicator } from "@/components/ProgressIndicator";
+import { LiveScorePreview } from "@/components/LiveScorePreview";
 import { useTheme } from "@/hooks/useTheme";
 import { useUserProfile } from "@/contexts/UserProfileContext";
 import { Spacing, Fonts } from "@/constants/theme";
@@ -80,7 +81,6 @@ function computeSmartDefaults(
   } else if (income.startsWith("$150,000") || income === "$250,000+") {
     defaults.costOfLiving = 30;
   } else if (income.startsWith("$75,000") || income.startsWith("$100,000")) {
-    // Middle income — mild preference
     defaults.costOfLiving = 65;
   }
 
@@ -210,6 +210,8 @@ export default function PrioritiesStepScreen({
           Adjust these sliders to weight how much each factor influences your
           city compatibility scores.
         </ThemedText>
+
+        <LiveScorePreview showLabel compact={false} />
 
         <View style={styles.sliders}>
           {(Object.keys(PRIORITY_LABELS) as Array<keyof PriorityWeights>).map(
