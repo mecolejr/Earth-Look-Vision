@@ -2,7 +2,7 @@
 
 This file is the source of truth for all known bugs and UX issues. Update it whenever a fix is committed. At the start of any new session, read this file first to know exactly where things stand.
 
-**Last updated:** 2026-03-14
+**Last updated:** 2026-03-15
 **Audit basis:** Full code review of client/screens/ against the 17-issue list.
 **Commit convention:** fix(#N): short description — matches the issue number below.
 
@@ -52,6 +52,7 @@ This file is the source of truth for all known bugs and UX issues. Update it whe
 | 22 | Pressable missing accessibilityLabel — needed for screen readers. | 🔴 Open | client/screens/PrioritiesStepScreen.tsx |
 | 23 | welcome-hero.png used as a placeholder image outside of WelcomeScreen. | 🔴 Open | client/screens/ExploreScreen.tsx |
 | 25 | Pressable missing accessibilityLabel — needed for screen readers. | 🔴 Open | client/screens/PrioritiesStepScreen.tsx |
+| 26 | Pressable missing accessibilityLabel — needed for screen readers. | 🔴 Open | client/screens/CompareScreen.tsx |
 
 ---
 
