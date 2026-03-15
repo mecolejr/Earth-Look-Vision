@@ -12,7 +12,7 @@ import { InfoTooltip } from "@/components/InfoTooltip";
 import { LiveScorePreview } from "@/components/LiveScorePreview";
 import { useTheme } from "@/hooks/useTheme";
 import { useUserProfile } from "@/contexts/UserProfileContext";
-import { Spacing, Fonts } from "@/constants/theme";
+import { Spacing, Fonts, BorderRadius } from "@/constants/theme";
 import {
   CAREER_OPTIONS,
   INCOME_OPTIONS,
@@ -49,7 +49,14 @@ export default function IdentityStep1Screen({
 
   const handleCareerChange = async (values: string[]) => {
     setCareer(values);
-    await updateIdentity({ careerField: values[0] || "" });
+    await updateIdentity({ careerField: values[0] || ""   climateCard: {
+    borderWidth: 1,
+    borderRadius: BorderRadius.lg,
+    padding: Spacing.md,
+    gap: Spacing.xs,
+    marginTop: Spacing.sm,
+  },
+});
     if (profile?.onboardingStep === 0) {
       await setOnboardingStep(1);
     }
@@ -178,6 +185,7 @@ export default function IdentityStep1Screen({
               description="Your climate preferences help us match you with cities that have weather patterns you'll enjoy. We consider temperature, seasons, rainfall, humidity, and sunshine levels."
             />
           </View>
+          <View style={[styles.climateCard, { backgroundColor: theme.surface, borderColor: theme.border }]}>
 
           <ThemedText type="small" style={[styles.climateSubLabel, { color: theme.textSecondary }]}>
             Temperature
@@ -205,6 +213,7 @@ export default function IdentityStep1Screen({
             selected={climatePrefs.precipitationPreference ? [climatePrefs.precipitationPreference] : []}
             onChange={(values) => handleClimateChange("precipitationPreference", values[0] || "")}
           />
+          </View>
         </View>
       </ScrollView>
 
