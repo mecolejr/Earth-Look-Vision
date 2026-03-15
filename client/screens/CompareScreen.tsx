@@ -7,11 +7,12 @@ import {
   Dimensions,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useHeaderHeight } from "@react-navigation/elements";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { Feather } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
-
 import { ThemedText } from "@/components/ThemedText";
 import { EmptyState } from "@/components/EmptyState";
 import { ScoreDisplay, ScoreBar } from "@/components/ScoreDisplay";
@@ -28,6 +29,7 @@ import {
   clearCompareList,
 } from "@/lib/storage";
 import { CityWithScore, PRIORITY_LABELS, PriorityWeights } from "@/types";
+import { RootStackParamList } from "@/navigation/RootStackNavigator";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const COLUMN_WIDTH = (SCREEN_WIDTH - Spacing.lg * 2 - Spacing.md) / 2;
@@ -37,8 +39,13 @@ export default function CompareScreen() {
   const headerHeight = useHeaderHeight();
   const tabBarHeight = useBottomTabBarHeight();
   const { theme } = useTheme();
-  const { profile, isLoading: profileLoading, isAnonymousMode } = useUserProfile();
-
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const {
+    profile,
+    isLoading: profileLoading,
+    isAnonymousMode,
+  } = useUserProfile();
   const [compareList, setCompareList] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -54,7 +61,6 @@ export default function CompareScreen() {
 
   const citiesWithScores: CityWithScore[] = useMemo(() => {
     if (!profile) return [];
-
     return compareList
       .map((id) => {
         const city = getCityById(id);
@@ -86,12 +92,22 @@ export default function CompareScreen() {
     setCompareList([]);
   };
 
+  const handleCityPress = (cityId: string) => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    navigation.navigate("CityDetail", { cityId });
+  };
+
   if (isLoading || profileLoading) {
     return (
       <View
         style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
       >
-        <View style={[styles.loadingContainer, { paddingTop: headerHeight + Spacing.lg }]}>
+        <View
+          style={[
+            styles.loadingContainer,
+            { paddingTop: headerHeight + Spacing.lg },
+          ]}
+        >
           <CompareListSkeleton count={2} />
         </View>
       </View>
@@ -130,12 +146,11 @@ export default function CompareScreen() {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.header}>
-          <ThemedText type="h4">Comparing {citiesWithScores.length} cities</ThemedText>
+          <ThemedText type="h4">
+            Comparing {citiesWithScores.length} cities
+          </ThemedText>
           <Pressable onPress={handleClearAll}>
-            <ThemedText
-              type="small"
-              style={{ color: theme.danger }}
-            >
+            <ThemedText type="small" style={{ color: theme.danger }}>
               Clear All
             </ThemedText>
           </Pressable>
@@ -147,14 +162,16 @@ export default function CompareScreen() {
           contentContainerStyle={styles.citiesRow}
         >
           {citiesWithScores.map((city) => (
-            <View
+            <Pressable
               key={city.id}
-              style={[
+              onPress={() => handleCityPress(city.id)}
+              style={({ pressed }) => [
                 styles.cityColumn,
                 {
                   backgroundColor: theme.backgroundDefault,
                   borderColor: theme.cardBorder,
                 },
+                pressed && styles.cityColumnPressed,
               ]}
             >
               <Pressable
@@ -187,10 +204,8 @@ export default function CompareScreen() {
 
               <View style={styles.breakdown}>
                 {comparisonCategories.map((category) => {
-                  const score =
-                    city.personalizedScore.breakdown[category];
+                  const score = city.personalizedScore.breakdown[category];
                   const scoreColor = getScoreColor(score);
-
                   return (
                     <View key={category} style={styles.categoryRow}>
                       <ThemedText
@@ -220,7 +235,22 @@ export default function CompareScreen() {
                   );
                 })}
               </View>
-            </View>
+
+              <View
+                style={[
+                  styles.viewDetailsRow,
+                  { borderTopColor: theme.border },
+                ]}
+              >
+                <ThemedText
+                  type="small"
+                  style={[styles.viewDetailsText, { color: theme.primary }]}
+                >
+                  View Details
+                </ThemedText>
+                <Feather name="chevron-right" size={14} color={theme.primary} />
+              </View>
+            </Pressable>
           ))}
         </ScrollView>
 
@@ -228,7 +258,6 @@ export default function CompareScreen() {
           <ThemedText type="h4" style={styles.insightsTitle}>
             Key Differences
           </ThemedText>
-
           {citiesWithScores.length >= 2 ? (
             <>
               <InsightRow
@@ -335,6 +364,9 @@ const styles = StyleSheet.create({
     padding: Spacing.lg,
     position: "relative",
   },
+  cityColumnPressed: {
+    opacity: 0.75,
+  },
   removeButton: {
     position: "absolute",
     top: Spacing.sm,
@@ -372,6 +404,18 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     minWidth: 36,
     alignItems: "center",
+  },
+  viewDetailsRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: Spacing.lg,
+    paddingTop: Spacing.md,
+    borderTopWidth: 1,
+    gap: Spacing.xs,
+  },
+  viewDetailsText: {
+    fontWeight: "600",
   },
   insights: {
     marginTop: Spacing["2xl"],
