@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Pressable, ScrollView, ActivityIndicator } from "react-native";
+import { StyleSheet, View, Pressable, ScrollView, ActivityIndicator, Linking } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Feather } from "@expo/vector-icons";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -55,8 +55,31 @@ export default function MapScreen() {
             Interactive Map
           </ThemedText>
           <ThemedText style={[styles.webFallbackSubtitle, { color: theme.textSecondary }]}>
-            Run this app in Expo Go on your phone to use the interactive map feature with Google Maps.
+            Download the free EarthLook app to explore the full interactive map on your mobile device.
           </ThemedText>
+        </View>
+
+        <View style={styles.downloadRow}>
+          <Pressable
+            style={[styles.downloadBtn, { backgroundColor: theme.surface, borderColor: theme.border }]}
+            onPress={() => Linking.openURL("https://apps.apple.com/us/app/earthlook/id0000000000")}
+          >
+            <Feather name="smartphone" size={20} color={theme.text} />
+            <View style={styles.downloadBtnText}>
+              <ThemedText style={styles.downloadBtnSub}>Download on the</ThemedText>
+              <ThemedText style={styles.downloadBtnTitle}>App Store</ThemedText>
+            </View>
+          </Pressable>
+          <Pressable
+            style={[styles.downloadBtn, { backgroundColor: theme.surface, borderColor: theme.border }]}
+            onPress={() => Linking.openURL("https://play.google.com/store/apps/details?id=com.earthlook")}
+          >
+            <Feather name="play" size={20} color={theme.text} />
+            <View style={styles.downloadBtnText}>
+              <ThemedText style={styles.downloadBtnSub}>Get it on</ThemedText>
+              <ThemedText style={styles.downloadBtnTitle}>Google Play</ThemedText>
+            </View>
+          </Pressable>
         </View>
 
         <ThemedText style={[styles.webFallbackSectionTitle, { fontFamily: Fonts?.serifBold }]}>
@@ -178,5 +201,30 @@ const styles = StyleSheet.create({
   },
   webStatItem: {
     alignItems: "center",
+  },
+  downloadRow: {
+    flexDirection: "row",
+    gap: Spacing.md,
+    marginBottom: Spacing.xl,
+  },
+  downloadBtn: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: Spacing.sm,
+    borderWidth: 1,
+    borderRadius: BorderRadius.lg,
+    padding: Spacing.md,
+  },
+  downloadBtnText: {
+    flex: 1,
+  },
+  downloadBtnSub: {
+    fontSize: 10,
+    opacity: 0.6,
+  },
+  downloadBtnTitle: {
+    fontSize: 14,
+    fontWeight: "600",
   },
 });
