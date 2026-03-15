@@ -310,7 +310,7 @@ function SortIndicator({ sortOption, onClear, theme }: SortIndicatorProps) {
         >
           Sorted by: {labels[sortOption]}
         </ThemedText>
-        <Pressable onPress={onClear} hitSlop={8}>
+        <Pressable onPress={onClear} hitSlop={8} accessibilityLabel="Clear search" accessibilityRole="button">
           <Feather name="x" size={14} color={theme.primary} />
         </Pressable>
       </View>
@@ -362,13 +362,16 @@ function FeaturedSponsored({ cities, onCityPress, theme }: FeaturedSponsoredProp
           <Pressable
             key={city.id}
             onPress={() => onCityPress(city.id)}
+            accessibilityLabel={`View ${city.name} details`}
+            accessibilityRole="button"
             style={[
               sponsoredStyles.card,
               { backgroundColor: theme.backgroundDefault, borderColor: theme.cardBorder },
             ]}
           >
             <Image
-              source={require("../../assets/images/welcome-hero.png")}
+              // TODO: replace with real sponsored city image when available
+              source={require("../../assets/images/empty-explore.png")}
               style={sponsoredStyles.cardImage}
               resizeMode="cover"
             />
