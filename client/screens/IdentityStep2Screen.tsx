@@ -158,6 +158,7 @@ export default function IdentityStep2Screen({
             options={GENDER_OPTIONS}
             selected={gender}
             onChange={handleGenderChange}
+          multiSelect
           />
         </View>
         <View style={styles.section}>
@@ -174,6 +175,7 @@ export default function IdentityStep2Screen({
             options={ORIENTATION_OPTIONS}
             selected={orientation}
             onChange={handleOrientationChange}
+          multiSelect
           />
         </View>
         <View style={styles.section}>
@@ -190,6 +192,7 @@ export default function IdentityStep2Screen({
             options={RELIGION_OPTIONS}
             selected={religion}
             onChange={handleReligionChange}
+          multiSelect
           />
         </View>
         <View style={styles.section}>
@@ -206,6 +209,7 @@ export default function IdentityStep2Screen({
             options={POLITICAL_OPTIONS}
             selected={political}
             onChange={handlePoliticalChange}
+          multiSelect
           />
         </View>
       </ScrollView>
