@@ -46,8 +46,8 @@ This file is the source of truth for all known bugs and UX issues. Update it whe
 | 3 | canProceed is hardcoded to true on Step 1 — Continue is always enabled even with nothing selected | ✅ Fixed Mar 14 | client/screens/IdentityStep1Screen.tsx |
 | 12 | Key Differences in Compare always shows 4 hardcoded categories — ignores user priority weights | ✅ Fixed Mar 14 | client/screens/CompareScreen.tsx |
 | 14 | handleSaveIdentity and handleSavePriorities only call setActiveSection(null) — Save button is a false affordance | Open | client/screens/ProfileScreen.tsx |
-| 18 | welcome-hero.png used as a placeholder image outside of WelcomeScreen. | 🔴 Open | client/screens/ExploreScreen.tsx |
-| 19 | Pressable missing accessibilityLabel — needed for screen readers. | 🔴 Open | client/screens/ExploreScreen.tsx |
+| 18 | welcome-hero.png used as a placeholder image outside of WelcomeScreen. | ✅ Fixed Mar 14 | client/screens/ExploreScreen.tsx |
+| 19 | Pressable missing accessibilityLabel — needed for screen readers. | ✅ Fixed Mar 14 | client/screens/ExploreScreen.tsx |
 | 21 | Pressable missing accessibilityLabel — needed for screen readers. | 🔴 Open | client/screens/IdentityStep2Screen.tsx |
 | 22 | Pressable missing accessibilityLabel — needed for screen readers. | 🔴 Open | client/screens/PrioritiesStepScreen.tsx |
 | 23 | welcome-hero.png used as a placeholder image outside of WelcomeScreen. | 🔴 Open | client/screens/ExploreScreen.tsx |
