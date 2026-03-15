@@ -34,8 +34,8 @@ This file is the source of truth for all known bugs and UX issues. Update it whe
 | 8 | All 10 priority sliders default to 50 regardless of Steps 1 and 2 input — causes decision fatigue | ✅ Fixed Mar 14 | client/screens/PrioritiesStepScreen.tsx |
 | 9 | No LiveScorePreview on Step 3 Priorities — the most impactful step has zero visual feedback | ✅ Fixed Mar 14 | client/screens/PrioritiesStepScreen.tsx |
 | 15 | City columns in Compare screen have no onPress — tapping a city does nothing, no path to CityDetail | ✅ Fixed Mar 14 | client/screens/CompareScreen.tsx |
-| 20 | Destructive action — verify it's wrapped in an Alert.alert() confirmation. | 🔴 Open | client/screens/ProfileScreen.tsx |
-| 24 | Destructive action — verify it's wrapped in an Alert.alert() confirmation. | 🔴 Open | client/screens/ProfileScreen.tsx |
+| 20 | Destructive action — verify it's wrapped in an Alert.alert() confirmation. | ✅ Verified Mar 14 | client/screens/ProfileScreen.tsx |
+| 24 | Destructive action — verify it's wrapped in an Alert.alert() confirmation. | ✅ Fixed Mar 14 | client/screens/CompareScreen.tsx |
 
 ---
 
