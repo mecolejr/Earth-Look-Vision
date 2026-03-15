@@ -64,11 +64,17 @@ export default function ProfileScreen() {
   }
 
   const handleSaveIdentity = async () => {
+        if (profile?.identity) {
+          await updateIdentity(profile.identity);
+        }
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
         setActiveSection(null);
   };
 
   const handleSavePriorities = async () => {
+        if (profile?.priorities) {
+          await updatePriorities(profile.priorities);
+        }
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
         setActiveSection(null);
   };
