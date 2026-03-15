@@ -5,6 +5,7 @@ import {
   ScrollView,
   Pressable,
   Dimensions,
+  Alert,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
@@ -86,10 +87,23 @@ export default function CompareScreen() {
     setCompareList((prev) => prev.filter((id) => id !== cityId));
   };
 
-  const handleClearAll = async () => {
-    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
-    await clearCompareList();
-    setCompareList([]);
+  const handleClearAll = () => {
+    Alert.alert(
+      "Clear All Cities",
+      "This will remove all cities from your comparison list. You can add them back from the Explore tab.",
+      [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "Clear All",
+          style: "destructive",
+          onPress: async () => {
+            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
+            await clearCompareList();
+            setCompareList([]);
+          },
+        },
+      ]
+    );
   };
 
   const handleCityPress = (cityId: string) => {
