@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useCallback } from "react";
-import { StyleSheet, View, FlatList, RefreshControl, Pressable, ScrollView, Image } from "react-native";
+import { StyleSheet, View, FlatList, RefreshControl, Pressable, ScrollView } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useHeaderHeight } from "@react-navigation/elements";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
@@ -336,6 +336,17 @@ const sortIndicatorStyles = StyleSheet.create({
   },
 });
 
+const CITY_PLACEHOLDER_COLORS = [
+  "#4A90D9", "#7B68EE", "#50C878", "#E67E22",
+  "#E74C3C", "#1ABC9C", "#9B59B6", "#F39C12",
+];
+
+function getCityPlaceholderColor(name: string): string {
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) hash += name.charCodeAt(i);
+  return CITY_PLACEHOLDER_COLORS[hash % CITY_PLACEHOLDER_COLORS.length];
+}
+
 interface FeaturedSponsoredProps {
   cities: City[];
   onCityPress: (cityId: string) => void;
@@ -369,12 +380,22 @@ function FeaturedSponsored({ cities, onCityPress, theme }: FeaturedSponsoredProp
               { backgroundColor: theme.backgroundDefault, borderColor: theme.cardBorder },
             ]}
           >
-            <Image
-              // TODO: replace with real sponsored city image when available
-              source={require("../../assets/images/empty-explore.png")}
-              style={sponsoredStyles.cardImage}
-              resizeMode="cover"
-            />
+            <View
+              style={[
+                sponsoredStyles.cardImage,
+                {
+                  backgroundColor: getCityPlaceholderColor(city.name),
+                  justifyContent: "center",
+                  alignItems: "center",
+                },
+              ]}
+            >
+              <ThemedText
+                style={{ fontSize: 36, fontWeight: "700", color: "rgba(255,255,255,0.9)" }}
+              >
+                {city.name.charAt(0)}
+              </ThemedText>
+            </View>
             <View style={sponsoredStyles.cardContent}>
               <ThemedText type="body" style={sponsoredStyles.cardTitle}>
                 {city.name}
