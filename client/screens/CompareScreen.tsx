@@ -158,6 +158,7 @@ export default function CompareScreen() {
           },
         ]}
         showsVerticalScrollIndicator={false}
+        scrollEventThrottle={16}
       >
         <View style={styles.header}>
           <ThemedText type="h4">
@@ -172,6 +173,8 @@ export default function CompareScreen() {
 
         <ScrollView
           horizontal
+          nestedScrollEnabled
+          decelerationRate="fast"
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.citiesRow}
         >
