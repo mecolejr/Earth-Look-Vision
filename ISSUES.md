@@ -43,7 +43,7 @@ This file is the source of truth for all known bugs and UX issues. Update it whe
 
 | # | Issue | Status | Files Affected |
 |---|-------|--------|----------------|
-| 3 | canProceed is hardcoded to true on Step 1 — Continue is always enabled even with nothing selected | Open | client/screens/IdentityStep1Screen.tsx |
+| 3 | canProceed is hardcoded to true on Step 1 — Continue is always enabled even with nothing selected | ✅ Fixed Mar 14 | client/screens/IdentityStep1Screen.tsx |
 | 12 | Key Differences in Compare always shows 4 hardcoded categories — ignores user priority weights | ✅ Fixed Mar 14 | client/screens/CompareScreen.tsx |
 | 14 | handleSaveIdentity and handleSavePriorities only call setActiveSection(null) — Save button is a false affordance | Open | client/screens/ProfileScreen.tsx |
 | 18 | welcome-hero.png used as a placeholder image outside of WelcomeScreen. | 🔴 Open | client/screens/ExploreScreen.tsx |
