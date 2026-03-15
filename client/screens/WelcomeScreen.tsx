@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Image, Dimensions, Pressable, ScrollView } from "react-native";
+import { StyleSheet, View, Image, Dimensions, Pressable, ScrollView, Modal } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Feather } from "@expo/vector-icons";
@@ -192,7 +192,7 @@ export default function WelcomeScreen({ navigation }: WelcomeScreenProps) {
             <Feather name="users" size={16} color={theme.textSecondary} />
             <ThemedText
               type="body"
-              style={[styles.skipText, { color: theme.textSecondary }]}
+              style={[styles.skipText, { color: theme.textSecondary, fontWeight: "500" }]}
             >
               Try with example persona
             </ThemedText>
@@ -202,47 +202,57 @@ export default function WelcomeScreen({ navigation }: WelcomeScreenProps) {
             <Feather name="eye-off" size={16} color={theme.textSecondary} />
             <ThemedText
               type="body"
-              style={[styles.skipText, { color: theme.textSecondary }]}
+              style={[styles.skipText, { color: theme.textSecondary, fontSize: 13, opacity: 0.65 }]}
             >
               Browse anonymously
             </ThemedText>
           </Pressable>
         </View>
 
-        {showPersonas ? (
-          <Animated.View entering={FadeIn.duration(300)} style={styles.personasContainer}>
-            <ThemedText type="h4" style={styles.personasTitle}>
-              Choose an example persona
-            </ThemedText>
-            <ThemedText
-              type="small"
-              style={[styles.personasSubtitle, { color: theme.textSecondary }]}
+                <ThemedText
+          type="small"
+          style={[styles.privacy, { color: theme.textSecondary }]}
+        >
+          Your data stays on your device. We never share your identity information.
+        </ThemedText>
+        <Modal
+          visible={showPersonas}
+          transparent
+          animationType="slide"
+          onRequestClose={() => setShowPersonas(false)}
+        >
+          <Pressable style={styles.modalOverlay} onPress={() => setShowPersonas(false)}>
+            <Animated.View
+              entering={FadeIn.duration(300)}
+              style={[styles.personasSheet, { backgroundColor: theme.card }]}
             >
-              See how EarthLook works before entering your own info
-            </ThemedText>
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={styles.personasList}
-            >
-              {EXAMPLE_PERSONAS.map((persona) => (
-                <PersonaCard
-                  key={persona.id}
-                  persona={persona}
-                  theme={theme}
-                  onSelect={() => handleSelectPersona(persona)}
-                />
-              ))}
-            </ScrollView>
-          </Animated.View>
-        ) : (
-          <ThemedText
-            type="small"
-            style={[styles.privacy, { color: theme.textSecondary }]}
-          >
-            Your data stays on your device. We never share your identity information.
-          </ThemedText>
-        )}
+              <View style={styles.sheetHandle} />
+              <ThemedText type="h4" style={styles.personasTitle}>
+                Choose an example persona
+              </ThemedText>
+              <ThemedText
+                type="small"
+                style={[styles.personasSubtitle, { color: theme.textSecondary }]}
+              >
+                See how EarthLook works before entering your own info
+              </ThemedText>
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={styles.personasList}
+              >
+                {EXAMPLE_PERSONAS.map((persona) => (
+                  <PersonaCard
+                    key={persona.id}
+                    persona={persona}
+                    theme={theme}
+                    onSelect={() => handleSelectPersona(persona)}
+                  />
+                ))}
+              </ScrollView>
+            </Animated.View>
+          </Pressable>
+        </Modal>
       </View>
     </View>
   );
@@ -447,5 +457,25 @@ const styles = StyleSheet.create({
   },
   privacy: {
     textAlign: "center",
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: "flex-end",
+    backgroundColor: "rgba(0,0,0,0.5)",
+  },
+  personasSheet: {
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    paddingHorizontal: Spacing.lg,
+    paddingTop: Spacing.sm,
+    paddingBottom: Spacing.xl,
+  },
+  sheetHandle: {
+    width: 40,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: "rgba(150,150,150,0.4)",
+    alignSelf: "center",
+    marginBottom: Spacing.md,
   },
 });
