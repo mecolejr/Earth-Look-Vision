@@ -83,7 +83,8 @@ export default function IdentityStep1Screen({
     navigation.navigate("IdentityStep2");
   };
 
-  const canProceed = true;
+  const canProceed =
+    career.length > 0 || income.length > 0 || family.length > 0 || climatePrefs.length > 0;
 
   return (
     <View style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
