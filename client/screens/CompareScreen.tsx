@@ -274,49 +274,38 @@ export default function CompareScreen() {
           </ThemedText>
           {citiesWithScores.length >= 2 ? (
             <>
+              {/* Best Overall is always first */}
               <InsightRow
                 label="Best Overall Match"
                 value={
-                  citiesWithScores.sort(
+                  [...citiesWithScores].sort(
                     (a, b) =>
                       b.personalizedScore.overall - a.personalizedScore.overall
                   )[0].name
                 }
                 theme={theme}
               />
-              <InsightRow
-                label="Most Affordable"
-                value={
-                  citiesWithScores.sort(
-                    (a, b) =>
-                      b.personalizedScore.breakdown.costOfLiving -
-                      a.personalizedScore.breakdown.costOfLiving
-                  )[0].name
-                }
-                theme={theme}
-              />
-              <InsightRow
-                label="Best for Safety"
-                value={
-                  citiesWithScores.sort(
-                    (a, b) =>
-                      b.personalizedScore.breakdown.safety -
-                      a.personalizedScore.breakdown.safety
-                  )[0].name
-                }
-                theme={theme}
-              />
-              <InsightRow
-                label="Best LGBTQ+ Scene"
-                value={
-                  citiesWithScores.sort(
-                    (a, b) =>
-                      b.personalizedScore.breakdown.lgbtqAcceptance -
-                      a.personalizedScore.breakdown.lgbtqAcceptance
-                  )[0].name
-                }
-                theme={theme}
-              />
+              {/* Remaining rows driven by user's top-weighted priorities */}
+              {profile &&
+                Object.entries(profile.priorities)
+                  .sort(([, a], [, b]) => b - a)
+                  .slice(0, 3)
+                  .map(([key]) => {
+                    const category = key as keyof PriorityWeights;
+                    const winner = [...citiesWithScores].sort(
+                      (a, b) =>
+                        b.personalizedScore.breakdown[category] -
+                        a.personalizedScore.breakdown[category]
+                    )[0];
+                    return (
+                      <InsightRow
+                        key={category}
+                        label={`Best: ${PRIORITY_LABELS[category]}`}
+                        value={winner.name}
+                        theme={theme}
+                      />
+                    );
+                  })}
             </>
           ) : null}
         </View>
