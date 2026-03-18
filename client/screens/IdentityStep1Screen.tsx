@@ -49,14 +49,7 @@ export default function IdentityStep1Screen({
 
   const handleCareerChange = async (values: string[]) => {
     setCareer(values);
-    await updateIdentity({ careerField: values[0] || ""   climateCard: {
-    borderWidth: 1,
-    borderRadius: BorderRadius.lg,
-    padding: Spacing.md,
-    gap: Spacing.xs,
-    marginTop: Spacing.sm,
-  },
-});
+    await updateIdentity({ careerField: values[0] || "" });
     if (profile?.onboardingStep === 0) {
       await setOnboardingStep(1);
     }
@@ -275,6 +268,13 @@ const styles = StyleSheet.create({
     marginTop: Spacing.lg,
     marginBottom: Spacing.sm,
     fontWeight: "600",
+  },
+  climateCard: {
+    borderWidth: 1,
+    borderRadius: BorderRadius.lg,
+    padding: Spacing.md,
+    gap: Spacing.xs,
+    marginTop: Spacing.sm,
   },
   footer: {
     paddingHorizontal: Spacing["2xl"],

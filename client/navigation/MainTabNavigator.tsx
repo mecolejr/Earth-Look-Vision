@@ -105,6 +105,6 @@ export default function MainTabNavigator() {
                                                 ),
                         }}
                       />
-        </Tab.Navigator>Tab.Navigator>
+        </Tab.Navigator>
       );
-}</Tab.Navigator>
+}

@@ -113,7 +113,7 @@ export default function CityDetailScreen({
                           contentContainerStyle={{ paddingTop: headerHeight }}
                         >
                         <CityDetailSkeleton />
-                </ScrollView>ScrollView>
+                </ScrollView>
               );
   }
   
@@ -122,8 +122,8 @@ export default function CityDetailScreen({
                   <View
                             style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
                           >
-                          <ThemedText>City not found</ThemedText>ThemedText>
-                  </View>View>
+                          <ThemedText>City not found</ThemedText>
+                  </View>
                 );
     }
   
@@ -158,9 +158,9 @@ export default function CityDetailScreen({
                                                   ]}
                                     >
                                     <Feather name={highlight.icon as any} size={16} color={iconColor} />
-                          </View>View>
-                          <ThemedText style={styles.highlightText}>{highlight.text}</ThemedText>ThemedText>
-                  </View>View>
+                          </View>
+                          <ThemedText style={styles.highlightText}>{highlight.text}</ThemedText>
+                  </View>
                 );
     };
   
@@ -182,7 +182,7 @@ export default function CityDetailScreen({
                         >
                         <View style={styles.heroSection}>
                                   <CityImage cityId={cityId} style={styles.heroImage} size="large" />
-                        </View>View>
+                        </View>
                 
                         <View style={styles.headerSection}>
                                   <View style={styles.titleRow}>
@@ -191,23 +191,23 @@ export default function CityDetailScreen({
                                                                               style={[styles.cityName, { fontFamily: Fonts?.serifBold }]}
                                                                             >
                                                               {cityWithScore.name}
-                                                            </ThemedText>ThemedText>
+                                                            </ThemedText>
                                                             <ThemedText
                                                                               type="body"
                                                                               style={[styles.location, { color: theme.textSecondary }]}
                                                                             >
                                                               {cityWithScore.state ? `${cityWithScore.state}, ` : ""}
                                                               {cityWithScore.country}
-                                                            </ThemedText>ThemedText>
-                                              </View>View>
+                                                            </ThemedText>
+                                              </View>
                                               <ScoreDisplay score={cityWithScore.personalizedScore.overall} size="large" />
-                                  </View>View>
-                        </View>View>
+                                  </View>
+                        </View>
                 
                   {isAnonymousMode ? (
                                     <View style={{ paddingHorizontal: Spacing.lg }}>
                                                 <AnonymousModeBanner />
-                                    </View>View>
+                                    </View>
                                   ) : null}
                 
                         <View
@@ -221,13 +221,13 @@ export default function CityDetailScreen({
                                   >
                                   <ThemedText type="h4" style={styles.sectionTitle}>
                                               Why This Score?
-                                  </ThemedText>ThemedText>
+                                  </ThemedText>
                                   <ThemedText
                                                 type="body"
                                                 style={[styles.sectionSubtitle, { color: theme.textSecondary }]}
                                               >
                                               Based on your identity and priorities
-                                  </ThemedText>ThemedText>
+                                  </ThemedText>
                         
                           {/* Feature 1: Safety personalisation notice */}
                           {safetyNote ? (
@@ -239,14 +239,14 @@ export default function CityDetailScreen({
                                                               >
                                                               <View style={styles.personalisationBannerLeft}>
                                                                               <Feather name="shield" size={14} color={theme.primary} />
-                                                              </View>View>
+                                                              </View>
                                                               <ThemedText
                                                                                 type="small"
                                                                                 style={[styles.personalisationBannerText, { color: theme.primary }]}
                                                                               >
                                                                 {safetyNote}
-                                                              </ThemedText>ThemedText>
-                                                </View>View>
+                                                              </ThemedText>
+                                                </View>
                                               ) : !isAnonymousMode && hasHateCrimeData ? (
                                                 <View
                                                                 style={[
@@ -256,7 +256,7 @@ export default function CityDetailScreen({
                                                               >
                                                               <View style={styles.personalisationBannerLeft}>
                                                                               <Feather name="database" size={14} color={theme.success} />
-                                                              </View>View>
+                                                              </View>
                                                               <ThemedText
                                                                                 type="small"
                                                                                 style={[styles.personalisationBannerText, { color: theme.success }]}
@@ -264,8 +264,8 @@ export default function CityDetailScreen({
                                                                               Identity-specific hate crime data available for this city (
                                                                 {cityWithScore.safety.hateCrimeDataYear}). Add identity details to your profile
                                                                               to see your personalised safety score.
-                                                              </ThemedText>ThemedText>
-                                                </View>View>
+                                                              </ThemedText>
+                                                </View>
                                               ) : !isAnonymousMode && !hasHateCrimeData ? (
                                                 <View
                                                                 style={[
@@ -275,15 +275,15 @@ export default function CityDetailScreen({
                                                               >
                                                               <View style={styles.personalisationBannerLeft}>
                                                                               <Feather name="alert-circle" size={14} color={theme.warning} />
-                                                              </View>View>
+                                                              </View>
                                                               <ThemedText
                                                                                 type="small"
                                                                                 style={[styles.personalisationBannerText, { color: theme.warning }]}
                                                                               >
                                                                               Safety score uses aggregate crime data — granular identity-specific data not yet
                                                                               available for this city.
-                                                              </ThemedText>ThemedText>
-                                                </View>View>
+                                                              </ThemedText>
+                                                </View>
                                               ) : null}
                         
                                   <ScoreBreakdown
@@ -291,12 +291,12 @@ export default function CityDetailScreen({
                                                 weights={normalizedWeights}
                                                 labels={PRIORITY_LABELS}
                                               />
-                        </View>View>
+                        </View>
                 
                   {cityWithScore.community?.isVerified ? (
                                     <View style={styles.communitySection}>
                                                 <CommunityBadge community={cityWithScore.community} variant="full" />
-                                    </View>View>
+                                    </View>
                                   ) : null}
                 
                   {cityWithScore.personalizedScore.highlights.length > 0 ? (
@@ -311,11 +311,11 @@ export default function CityDetailScreen({
                                                 >
                                                 <ThemedText type="h4" style={styles.sectionTitle}>
                                                               Highlights for You
-                                                </ThemedText>ThemedText>
+                                                </ThemedText>
                                                 <View style={styles.highlights}>
                                                   {cityWithScore.personalizedScore.highlights.map(renderHighlight)}
-                                                </View>View>
-                                    </View>View>
+                                                </View>
+                                    </View>
                                   ) : null}
                 
                   {/* Feature 2: Community Testimonials — "People Like You" */}
@@ -338,13 +338,13 @@ export default function CityDetailScreen({
                                                 >
                                                 <ThemedText type="h4" style={styles.sectionTitle}>
                                                               Things to Consider
-                                                </ThemedText>ThemedText>
+                                                </ThemedText>
                                                 <View style={styles.highlights}>
                                                   {cityWithScore.personalizedScore.concerns.map((c, i) =>
                                                                   renderHighlight(c, i + 100)
                                                                 )}
-                                                </View>View>
-                                    </View>View>
+                                                </View>
+                                    </View>
                                   ) : null}
                 
                         <View
@@ -358,7 +358,7 @@ export default function CityDetailScreen({
                                   >
                                   <ThemedText type="h4" style={styles.sectionTitle}>
                                               Demographics
-                                  </ThemedText>ThemedText>
+                                  </ThemedText>
                                   <View style={styles.statGrid}>
                                               <StatItem
                                                               label="Population"
@@ -380,8 +380,8 @@ export default function CityDetailScreen({
                                                               value={`${cityWithScore.costOfLivingIndex} index`}
                                                               theme={theme}
                                                             />
-                                  </View>View>
-                        </View>View>
+                                  </View>
+                        </View>
                 
                         <View
                                     style={[
@@ -394,7 +394,7 @@ export default function CityDetailScreen({
                                   >
                                   <ThemedText type="h4" style={styles.sectionTitle}>
                                               Safety & Politics
-                                  </ThemedText>ThemedText>
+                                  </ThemedText>
                                   <View style={styles.statGrid}>
                                               <StatItem
                                                               label="LGBTQ+ Protections"
@@ -418,8 +418,8 @@ export default function CityDetailScreen({
                                                               value={`${cityWithScore.political.progressiveScore}/100`}
                                                               theme={theme}
                                                             />
-                                  </View>View>
-                        </View>View>
+                                  </View>
+                        </View>
                 
                         <View
                                     style={[
@@ -432,7 +432,7 @@ export default function CityDetailScreen({
                                   >
                                   <ThemedText type="h4" style={styles.sectionTitle}>
                                               Climate & Weather
-                                  </ThemedText>ThemedText>
+                                  </ThemedText>
                           {weatherLoading ? (
                                                 <View style={styles.weatherLoading}>
                                                               <ActivityIndicator size="small" color={theme.primary} />
@@ -441,8 +441,8 @@ export default function CityDetailScreen({
                                                                                 style={{ color: theme.textSecondary, marginLeft: Spacing.sm }}
                                                                               >
                                                                               Loading current weather...
-                                                              </ThemedText>ThemedText>
-                                                </View>View>
+                                                              </ThemedText>
+                                                </View>
                                               ) : currentWeather ? (
                                                 <View style={styles.currentWeatherCard}>
                                                               <View style={styles.weatherMain}>
@@ -450,37 +450,37 @@ export default function CityDetailScreen({
                                                                               <View style={styles.weatherTemp}>
                                                                                                 <ThemedText style={styles.weatherTempText}>
                                                                                                   {currentWeather.temperature}°{currentWeather.temperatureUnit}
-                                                                                                  </ThemedText>ThemedText>
+                                                                                                  </ThemedText>
                                                                                                 <ThemedText type="small" style={{ color: theme.textSecondary }}>
                                                                                                   {currentWeather.shortForecast}
-                                                                                                  </ThemedText>ThemedText>
-                                                                              </View>View>
-                                                              </View>View>
+                                                                                                  </ThemedText>
+                                                                              </View>
+                                                              </View>
                                                               <ThemedText type="small" style={{ color: theme.textSecondary }}>
                                                                               Wind: {currentWeather.windSpeed}
-                                                              </ThemedText>ThemedText>
-                                                </View>View>
+                                                              </ThemedText>
+                                                </View>
                                               ) : weatherError ? (
                                                 <ThemedText type="small" style={{ color: theme.textSecondary }}>
                                                   {weatherError}
-                                                </ThemedText>ThemedText>
+                                                </ThemedText>
                                               ) : null}
                                   <View style={[styles.climateMatchCard, { backgroundColor: theme.primary + "10" }]}>
                                               <View style={styles.climateMatchHeader}>
                                                             <Feather name="thermometer" size={20} color={theme.primary} />
                                                             <ThemedText type="h4" style={{ marginLeft: Spacing.sm }}>
                                                                             Climate Match
-                                                            </ThemedText>ThemedText>
-                                              </View>View>
+                                                            </ThemedText>
+                                              </View>
                                               <View style={styles.climateMatchScore}>
                                                             <ThemedText style={styles.climateScoreText}>
                                                               {cityWithScore.personalizedScore.breakdown.climate}
-                                                            </ThemedText>ThemedText>
+                                                            </ThemedText>
                                                             <ThemedText type="small" style={{ color: theme.textSecondary }}>
                                                                             /100
-                                                            </ThemedText>ThemedText>
-                                              </View>View>
-                                  </View>View>
+                                                            </ThemedText>
+                                              </View>
+                                  </View>
                                   <View style={styles.statGrid}>
                                               <StatItem
                                                               label="Average Temp"
@@ -502,8 +502,8 @@ export default function CityDetailScreen({
                                                               value={cityWithScore.climate.seasonType.replace(/-/g, " ")}
                                                               theme={theme}
                                                             />
-                                  </View>View>
-                        </View>View>
+                                  </View>
+                        </View>
                 
                         <CostComparisonCalculator targetCity={cityWithScore} />
                         <PartnersSection cityId={cityId} theme={theme} />
@@ -511,7 +511,7 @@ export default function CityDetailScreen({
                         <View style={styles.actionButtons}>
                                   <Button onPress={handleAddToCompare} style={styles.addButton}>
                                               Add to Compare
-                                  </Button>Button>
+                                  </Button>
                                   <Pressable
                                                 onPress={() => {
                                                                 Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -528,8 +528,8 @@ export default function CityDetailScreen({
                                               <Feather name="file-text" size={20} color={theme.warning} />
                                               <ThemedText style={[styles.reportButtonText, { color: theme.warning }]}>
                                                             Detailed Report
-                                              </ThemedText>ThemedText>
-                                  </Pressable>Pressable>
+                                              </ThemedText>
+                                  </Pressable>
                                   <Pressable
                                                 onPress={() => {
                                                                 Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -546,11 +546,11 @@ export default function CityDetailScreen({
                                               <Feather name="check-square" size={20} color={theme.success} />
                                               <ThemedText style={[styles.checklistButtonText, { color: theme.success }]}>
                                                             Moving Checklist
-                                              </ThemedText>ThemedText>
-                                  </Pressable>Pressable>
-                        </View>View>
-                </ScrollView>ScrollView>
-          </View>View>
+                                              </ThemedText>
+                                  </Pressable>
+                        </View>
+                </ScrollView>
+          </View>
         );
 }
 
@@ -569,7 +569,7 @@ function StatItem({ label, value, positive, theme }: StatItemProps) {
                           style={[styles.statLabel, { color: theme.textSecondary }]}
                         >
                   {label}
-                </ThemedText>ThemedText>
+                </ThemedText>
                 <ThemedText
                           type="h4"
                           style={[
@@ -580,8 +580,8 @@ function StatItem({ label, value, positive, theme }: StatItemProps) {
                                     ]}
                         >
                   {value}
-                </ThemedText>ThemedText>
-          </View>View>
+                </ThemedText>
+          </View>
         );
 }
 
@@ -600,14 +600,14 @@ function PartnersSection({ cityId, theme }: PartnersSectionProps) {
                 <View style={styles.partnersSectionHeader}>
                         <View style={[styles.partnersIcon, { backgroundColor: theme.primary + "20" }]}>
                                   <Feather name="users" size={20} color={theme.primary} />
-                        </View>View>
+                        </View>
                         <View style={styles.partnersHeaderText}>
-                                  <ThemedText type="h4">Local Partners</ThemedText>ThemedText>
+                                  <ThemedText type="h4">Local Partners</ThemedText>
                                   <ThemedText type="small" style={{ color: theme.textSecondary }}>
                                               Verified relocation services & real estate agents
-                                  </ThemedText>ThemedText>
-                        </View>View>
-                </View>View>
+                                  </ThemedText>
+                        </View>
+                </View>
             {partners.slice(0, 3).map((partner) => (
                     <PartnerCard key={partner.id} partner={partner} />
                   ))}
@@ -617,9 +617,9 @@ function PartnersSection({ cityId, theme }: PartnersSectionProps) {
                                 style={[styles.morePartnersText, { color: theme.textSecondary }]}
                               >
                               +{partners.length - 3} more partners available
-                    </ThemedText>ThemedText>
+                    </ThemedText>
                   ) : null}
-          </View>View>
+          </View>
         );
 }
 
@@ -821,4 +821,3 @@ const styles = StyleSheet.create({
           fontWeight: "700",
     },
 });
-</ScrollView>

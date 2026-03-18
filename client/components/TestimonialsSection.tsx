@@ -60,9 +60,9 @@ function StarRating({
                                             size={size}
                                             color={star <= rating ? "#F59E0B" : color + "40"}
                                           />
-                    </Pressable>Pressable>
+                    </Pressable>
                   ))}
-          </View>View>
+          </View>
         );
 }
 
@@ -87,12 +87,12 @@ function AggregateBanner({
                         <View style={styles.aggregateScore}>
                                   <ThemedText style={[styles.aggregateNumber, { color: theme.primary }]}>
                                     {aggregate.averageRating.toFixed(1)}
-                                  </ThemedText>ThemedText>
+                                  </ThemedText>
                                   <StarRating rating={Math.round(aggregate.averageRating)} color={theme.textSecondary} />
                                   <ThemedText type="small" style={{ color: theme.textSecondary }}>
                                     {aggregate.totalCount} review{aggregate.totalCount !== 1 ? "s" : ""}
-                                  </ThemedText>ThemedText>
-                        </View>View>
+                                  </ThemedText>
+                        </View>
                 
                   {hasIdentityData && aggregate.identityMatchRating !== undefined ? (
                             <View
@@ -108,18 +108,18 @@ function AggregateBanner({
                                                                         style={{ color: theme.success, fontWeight: "600" }}
                                                                       >
                                                         {aggregate.identityMatchRating.toFixed(1)} / 5
-                                                      </ThemedText>ThemedText>
+                                                      </ThemedText>
                                                       <ThemedText type="small" style={{ color: theme.textSecondary }}>
                                                                       from {aggregate.identityMatchCount} people like you
                                                         {aggregate.matchedDimensions?.length
                                                                             ? ` (${aggregate.matchedDimensions.join(", ")})`
                                                                             : ""}
-                                                      </ThemedText>ThemedText>
-                                        </View>View>
-                            </View>View>
+                                                      </ThemedText>
+                                        </View>
+                            </View>
                           ) : null}
-                </View>View>
-          </View>View>
+                </View>
+          </View>
         );
 }
 
@@ -163,28 +163,28 @@ function TestimonialCard({
                                               >
                                               <ThemedText style={[styles.avatarInitial, { color: theme.primary }]}>
                                                 {name[0].toUpperCase()}
-                                              </ThemedText>ThemedText>
-                                  </View>View>
+                                              </ThemedText>
+                                  </View>
                                   <View>
-                                              <ThemedText style={styles.authorName}>{name}</ThemedText>ThemedText>
+                                              <ThemedText style={styles.authorName}>{name}</ThemedText>
                                     {identityParts.length > 0 ? (
                                 <ThemedText type="small" style={{ color: theme.textSecondary }}>
                                   {identityParts.join(" · ")}
-                                </ThemedText>ThemedText>
+                                </ThemedText>
                               ) : null}
-                                  </View>View>
-                        </View>View>
+                                  </View>
+                        </View>
                         <View style={styles.cardMeta}>
                                   <StarRating rating={testimonial.rating} color={theme.textSecondary} size={14} />
                                   <ThemedText type="small" style={{ color: theme.textSecondary }}>
                                     {date}
-                                  </ThemedText>ThemedText>
-                        </View>View>
-                </View>View>
+                                  </ThemedText>
+                        </View>
+                </View>
                 <ThemedText type="body" style={styles.testimonialContent}>
                   {testimonial.content}
-                </ThemedText>ThemedText>
-          </View>View>
+                </ThemedText>
+          </View>
         );
 }
 
@@ -224,8 +224,8 @@ function WriteReviewForm({
                           <Feather name="check-circle" size={20} color={theme.success} />
                           <ThemedText style={{ marginLeft: Spacing.sm, color: theme.success }}>
                                     Thanks! Your review is under review and will appear once approved.
-                          </ThemedText>ThemedText>
-                  </View>View>
+                          </ThemedText>
+                  </View>
                 );
     }
   
@@ -238,11 +238,11 @@ function WriteReviewForm({
                 >
                 <ThemedText type="h4" style={{ marginBottom: Spacing.md }}>
                         Write a Review
-                </ThemedText>ThemedText>
+                </ThemedText>
           
                 <ThemedText type="small" style={{ color: theme.textSecondary, marginBottom: Spacing.xs }}>
                         Your rating
-                </ThemedText>ThemedText>
+                </ThemedText>
                 <StarRating
                           rating={rating}
                           interactive
@@ -256,7 +256,7 @@ function WriteReviewForm({
                           style={{ color: theme.textSecondary, marginTop: Spacing.md, marginBottom: Spacing.xs }}
                         >
                         Display name (optional — leave blank to post anonymously)
-                </ThemedText>ThemedText>
+                </ThemedText>
                 <TextInput
                           style={[
                                       styles.textInput,
@@ -274,7 +274,7 @@ function WriteReviewForm({
                           style={{ color: theme.textSecondary, marginTop: Spacing.md, marginBottom: Spacing.xs }}
                         >
                         Your experience ({content.length}/280)
-                </ThemedText>ThemedText>
+                </ThemedText>
                 <TextInput
                           style={[
                                       styles.textArea,
@@ -297,15 +297,15 @@ function WriteReviewForm({
                         Your review goes into a moderation queue before appearing publicly.
                         Your identity information (if any) is only used to help others find
                         reviews from people like them.
-                </ThemedText>ThemedText>
+                </ThemedText>
           
                 <View style={styles.formButtons}>
                         <Pressable
                                     style={[styles.cancelButton, { borderColor: theme.cardBorder }]}
                                     onPress={onCancel}
                                   >
-                                  <ThemedText style={{ color: theme.textSecondary }}>Cancel</ThemedText>ThemedText>
-                        </Pressable>Pressable>
+                                  <ThemedText style={{ color: theme.textSecondary }}>Cancel</ThemedText>
+                        </Pressable>
                         <Pressable
                                     style={[
                                                   styles.submitButton,
@@ -319,11 +319,11 @@ function WriteReviewForm({
                                               ) : (
                                                 <ThemedText style={{ color: "#fff", fontWeight: "600" }}>
                                                               Submit Review
-                                                </ThemedText>ThemedText>
+                                                </ThemedText>
                                   )}
-                        </Pressable>Pressable>
-                </View>View>
-          </View>View>
+                        </Pressable>
+                </View>
+          </View>
         );
 }
 
@@ -361,7 +361,7 @@ export function TestimonialsSection({
                           ]}
                 >
                 <View style={styles.header}>
-                        <ThemedText type="h4">Community Reviews</ThemedText>ThemedText>
+                        <ThemedText type="h4">Community Reviews</ThemedText>
                         <Pressable
                                     style={[styles.writeButton, { backgroundColor: theme.primary + "15" }]}
                                     onPress={() => setShowForm((v) => !v)}
@@ -369,9 +369,9 @@ export function TestimonialsSection({
                                   <Feather name="edit-2" size={14} color={theme.primary} />
                                   <ThemedText style={[styles.writeButtonText, { color: theme.primary }]}>
                                               Write a Review
-                                  </ThemedText>ThemedText>
-                        </Pressable>Pressable>
-                </View>View>
+                                  </ThemedText>
+                        </Pressable>
+                </View>
           
             {showForm ? (
                           <WriteReviewForm
@@ -386,12 +386,12 @@ export function TestimonialsSection({
                                     <ActivityIndicator size="small" color={theme.primary} />
                                     <ThemedText type="small" style={{ color: theme.textSecondary, marginLeft: Spacing.sm }}>
                                                 Loading reviews...
-                                    </ThemedText>ThemedText>
-                          </View>View>
+                                    </ThemedText>
+                          </View>
                         ) : error ? (
                           <ThemedText type="small" style={{ color: theme.textSecondary }}>
                             {error}
-                          </ThemedText>ThemedText>
+                          </ThemedText>
                         ) : (
                           <>
                             {aggregate && aggregate.totalCount > 0 ? (
@@ -401,7 +401,7 @@ export function TestimonialsSection({
                             {testimonials.length === 0 ? (
                                         <ThemedText type="small" style={{ color: theme.textSecondary }}>
                                                       No reviews yet — be the first to share your experience.
-                                        </ThemedText>ThemedText>
+                                        </ThemedText>
                                       ) : (
                                         <View style={styles.testimonialList}>
                                           {testimonials.slice(0, 5).map((t) => (
@@ -413,13 +413,13 @@ export function TestimonialsSection({
                                                                               style={{ color: theme.textSecondary, textAlign: "center", marginTop: Spacing.sm }}
                                                                             >
                                                                             +{testimonials.length - 5} more reviews
-                                                          </ThemedText>ThemedText>
+                                                          </ThemedText>
                                                         ) : null}
-                                        </View>View>
+                                        </View>
                                     )}
-                          </>>
+                          </>
                         )}
-          </View>View>
+          </View>
         );
 }
 
@@ -564,4 +564,4 @@ const styles = StyleSheet.create({
           padding: Spacing.md,
           borderRadius: BorderRadius.sm,
     },
-});</></Pressable>
+});

@@ -58,8 +58,8 @@ function DeltaBadge({ delta, theme }: { delta: number; theme: any }) {
                   <View style={[styles.deltaBadge, { backgroundColor: theme.backgroundRoot }]}>
                             <ThemedText style={[styles.deltaText, { color: theme.textSecondary }]}>
                                         No change
-                            </ThemedText>ThemedText>
-                  </View>View>
+                            </ThemedText>
+                  </View>
                 );
     }
     const isPositive = delta > 0;
@@ -74,8 +74,8 @@ function DeltaBadge({ delta, theme }: { delta: number; theme: any }) {
                   <ThemedText style={[styles.deltaText, { color }]}>
                     {isPositive ? "+" : ""}
                     {delta}
-                  </ThemedText>ThemedText>
-          </View>View>
+                  </ThemedText>
+          </View>
         );
 }
 
@@ -108,8 +108,8 @@ function ScenarioTemplateChip({
                                     ]}
                         >
                   {template.label}
-                </ThemedText>ThemedText>
-          </Pressable>Pressable>
+                </ThemedText>
+          </Pressable>
         );
 }
 
@@ -139,11 +139,11 @@ function CityScenarioRow({
                         <ThemedText style={styles.cityName}>
                           {city.name}
                           {city.state ? `, ${city.state}` : ""}
-                        </ThemedText>ThemedText>
+                        </ThemedText>
                         <ThemedText type="small" style={{ color: theme.textSecondary }}>
                           {city.country}
-                        </ThemedText>ThemedText>
-                </View>View>
+                        </ThemedText>
+                </View>
                 <View style={styles.scoreComparison}>
                         <View style={styles.scoreColumn}>
                                   <ThemedText
@@ -151,13 +151,13 @@ function CityScenarioRow({
                                                 style={{ color: theme.textSecondary, marginBottom: 2 }}
                                               >
                                               Now
-                                  </ThemedText>ThemedText>
+                                  </ThemedText>
                                   <ThemedText
                                                 style={[styles.scoreNumber, { color: getScoreColor(baseScore) }]}
                                               >
                                     {baseScore}
-                                  </ThemedText>ThemedText>
-                        </View>View>
+                                  </ThemedText>
+                        </View>
                         <Feather name="arrow-right" size={16} color={theme.textSecondary} style={{ marginTop: 18 }} />
                         <View style={styles.scoreColumn}>
                                   <ThemedText
@@ -165,7 +165,7 @@ function CityScenarioRow({
                                                 style={{ color: theme.textSecondary, marginBottom: 2 }}
                                               >
                                               Scenario
-                                  </ThemedText>ThemedText>
+                                  </ThemedText>
                                   <ThemedText
                                                 style={[
                                                                 styles.scoreNumber,
@@ -173,11 +173,11 @@ function CityScenarioRow({
                                                               ]}
                                               >
                                     {scenarioScore}
-                                  </ThemedText>ThemedText>
-                        </View>View>
+                                  </ThemedText>
+                        </View>
                         <DeltaBadge delta={delta} theme={theme} />
-                </View>View>
-          </Pressable>Pressable>
+                </View>
+          </Pressable>
         );
 }
 
@@ -245,7 +245,7 @@ export default function ScenarioTestingScreen({
                                       ]}
                           >
                           <ActivityIndicator size="large" color={theme.primary} />
-                  </View>View>
+                  </View>
                 );
     }
   
@@ -258,8 +258,8 @@ export default function ScenarioTestingScreen({
                               { backgroundColor: theme.backgroundRoot },
                                       ]}
                           >
-                          <ThemedText>Please complete your profile to use Scenario Testing.</ThemedText>ThemedText>
-                  </View>View>
+                          <ThemedText>Please complete your profile to use Scenario Testing.</ThemedText>
+                  </View>
                 );
     }
   
@@ -289,18 +289,18 @@ export default function ScenarioTestingScreen({
                                                               ]}
                                               >
                                               <Feather name="shuffle" size={32} color={theme.primary} />
-                                  </View>View>
+                                  </View>
                                   <ThemedText type="h2" style={styles.heroTitle}>
                                               What If?
-                                  </ThemedText>ThemedText>
+                                  </ThemedText>
                                   <ThemedText
                                                 type="body"
                                                 style={[styles.heroSubtitle, { color: theme.textSecondary }]}
                                               >
                                               Explore how your city scores would change under different
                                               circumstances — without changing your profile.
-                                  </ThemedText>ThemedText>
-                        </View>View>
+                                  </ThemedText>
+                        </View>
                 
                   {/* Scenario template chips */}
                         <View
@@ -314,13 +314,13 @@ export default function ScenarioTestingScreen({
                                   >
                                   <ThemedText type="h4" style={styles.sectionTitle}>
                                               Choose a Scenario
-                                  </ThemedText>ThemedText>
+                                  </ThemedText>
                                   <ThemedText
                                                 type="small"
                                                 style={[styles.sectionSubtitle, { color: theme.textSecondary }]}
                                               >
                                               Tap a scenario to see how your scores change
-                                  </ThemedText>ThemedText>
+                                  </ThemedText>
                                   <View style={styles.chipList}>
                                     {SCENARIO_TEMPLATES.map((template) => (
                                                   <ScenarioTemplateChip
@@ -331,7 +331,7 @@ export default function ScenarioTestingScreen({
                                                                     theme={theme}
                                                                   />
                                                 ))}
-                                  </View>View>
+                                  </View>
                         
                           {activeScenario ? (
                                                 <View
@@ -345,13 +345,13 @@ export default function ScenarioTestingScreen({
                                                               >
                                                               <ThemedText style={{ fontWeight: "600", marginBottom: Spacing.xs }}>
                                                                 {activeScenario.label}
-                                                              </ThemedText>ThemedText>
+                                                              </ThemedText>
                                                               <ThemedText
                                                                                 type="small"
                                                                                 style={{ color: theme.textSecondary }}
                                                                               >
                                                                 {activeScenario.description}
-                                                              </ThemedText>ThemedText>
+                                                              </ThemedText>
                                                   {activeScenario.identityOverrides ? (
                                                                                 <ThemedText
                                                                                                     type="small"
@@ -362,7 +362,7 @@ export default function ScenarioTestingScreen({
                                                                                                         .filter(([, v]) => v !== undefined)
                                                                                                         .map(([k, v]) => `${k}: ${v}`)
                                                                                                         .join(", ")}
-                                                                                </ThemedText>ThemedText>
+                                                                                </ThemedText>
                                                                               ) : null}
                                                   {activeScenario.priorityOverrides ? (
                                                                                 <ThemedText
@@ -374,9 +374,9 @@ export default function ScenarioTestingScreen({
                                                                                                         .filter(([, v]) => v !== undefined)
                                                                                                         .map(([k, v]) => `${k}: ${v}`)
                                                                                                         .join(", ")}
-                                                                                </ThemedText>ThemedText>
+                                                                                </ThemedText>
                                                                               ) : null}
-                                                </View>View>
+                                                </View>
                                               ) : (
                                                 <View
                                                                 style={[
@@ -390,10 +390,10 @@ export default function ScenarioTestingScreen({
                                                                                 style={{ color: theme.textSecondary, marginLeft: Spacing.sm, flex: 1 }}
                                                                               >
                                                                               Select a scenario above to see how your scores would change.
-                                                              </ThemedText>ThemedText>
-                                                </View>View>
+                                                              </ThemedText>
+                                                </View>
                                   )}
-                        </View>View>
+                        </View>
                 
                   {/* City comparison table */}
                         <View
@@ -407,21 +407,21 @@ export default function ScenarioTestingScreen({
                                   >
                                   <ThemedText type="h4" style={styles.sectionTitle}>
                                               Your Top Cities
-                                  </ThemedText>ThemedText>
+                                  </ThemedText>
                           {!activeScenario ? (
                                                 <ThemedText
                                                                 type="small"
                                                                 style={{ color: theme.textSecondary, marginBottom: Spacing.md }}
                                                               >
                                                               Select a scenario above to see how scores change
-                                                </ThemedText>ThemedText>
+                                                </ThemedText>
                                               ) : (
                                                 <ThemedText
                                                                 type="small"
                                                                 style={{ color: theme.textSecondary, marginBottom: Spacing.md }}
                                                               >
                                                               Sorted by your current score. Tap a city for full details.
-                                                </ThemedText>ThemedText>
+                                                </ThemedText>
                                   )}
                         
                           {sortedCities.map((city) => (
@@ -440,7 +440,7 @@ export default function ScenarioTestingScreen({
                                                                 }
                                                               />
                                               ))}
-                        </View>View>
+                        </View>
                 
                   {/* Privacy notice */}
                         <View
@@ -459,10 +459,10 @@ export default function ScenarioTestingScreen({
                                               >
                                               Scenarios are computed entirely on your device. No scenario data is
                                               ever sent to our servers, and your real profile is never modified.
-                                  </ThemedText>ThemedText>
-                        </View>View>
-                </ScrollView>ScrollView>
-          </View>View>
+                                  </ThemedText>
+                        </View>
+                </ScrollView>
+          </View>
         );
 }
 
@@ -591,4 +591,4 @@ const styles = StyleSheet.create({
           padding: Spacing.lg,
           marginBottom: Spacing.lg,
     },
-});</Pressable>
+});

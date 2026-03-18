@@ -171,14 +171,14 @@ export default function InteractiveDemoScreen({ navigation }: Props) {
                 <View style={[styles.header, { paddingTop: insets.top + Spacing.md }]}>
                           <Pressable onPress={handleGoBack} style={styles.backButton}>
                                       <Feather name="arrow-left" size={24} color={theme.text} />
-                          </Pressable>Pressable>
+                          </Pressable>
                           <ThemedText
                                       style={[styles.headerTitle, { fontFamily: Fonts?.serifBold }]}
                                     >
                                     Interactive Demo
-                          </ThemedText>ThemedText>
+                          </ThemedText>
                         <View style={styles.headerSpacer} />
-                </View>View>
+                </View>
         
               <ScrollView
                         style={styles.scrollView}
@@ -191,12 +191,12 @@ export default function InteractiveDemoScreen({ navigation }: Props) {
                                 >
                                 See how different identities and priorities affect city scores. Adjust
                                 the sliders and watch scores update in real-time.
-                      </ThemedText>ThemedText>
+                      </ThemedText>
               
                       <View style={styles.section}>
                                 <ThemedText type="h4" style={styles.sectionTitle}>
                                             Choose an Identity
-                                </ThemedText>ThemedText>
+                                </ThemedText>
                                 <View style={styles.presetGrid}>
                                   {IDENTITY_PRESETS.map((preset) => (
                                       <Pressable
@@ -226,16 +226,16 @@ export default function InteractiveDemoScreen({ navigation }: Props) {
                                                                           }}
                                                                         >
                                                         {preset.label}
-                                                      </ThemedText>ThemedText>
-                                      </Pressable>Pressable>
+                                                      </ThemedText>
+                                      </Pressable>
                                     ))}
-                                </View>View>
-                      </View>View>
+                                </View>
+                      </View>
               
                       <View style={styles.section}>
                                 <ThemedText type="h4" style={styles.sectionTitle}>
                                             Adjust Priorities
-                                </ThemedText>ThemedText>
+                                </ThemedText>
                                 <PrioritySlider
                                               label="Safety"
                                               value={priorities.safety}
@@ -261,18 +261,18 @@ export default function InteractiveDemoScreen({ navigation }: Props) {
                                               value={priorities.jobMarket}
                                               onChange={(v) => handlePriorityChange("jobMarket", v)}
                                             />
-                      </View>View>
+                      </View>
               
                       <View style={styles.section}>
                                 <ThemedText type="h4" style={styles.sectionTitle}>
                                             City Rankings
-                                </ThemedText>ThemedText>
+                                </ThemedText>
                                 <ThemedText
                                               type="small"
                                               style={[styles.rankingHint, { color: theme.textSecondary }]}
                                             >
                                             Watch scores change as you adjust sliders above
-                                </ThemedText>ThemedText>
+                                </ThemedText>
                         {cityScores.map(({ city, score }, index) => (
                                     <CityScoreCard
                                                     key={city.id}
@@ -282,7 +282,7 @@ export default function InteractiveDemoScreen({ navigation }: Props) {
                                                     theme={theme}
                                                   />
                                   ))}
-                      </View>View>
+                      </View>
               
                       <View
                                   style={[
@@ -290,16 +290,16 @@ export default function InteractiveDemoScreen({ navigation }: Props) {
                                     { paddingBottom: insets.bottom + Spacing.xl },
                                               ]}
                                 >
-                                <Button onPress={handleStartOnboarding}>Create Your Profile</Button>Button>
+                                <Button onPress={handleStartOnboarding}>Create Your Profile</Button>
                                 <ThemedText
                                               type="small"
                                               style={[styles.ctaHint, { color: theme.textSecondary }]}
                                             >
                                             Get personalized city recommendations based on your unique identity
-                                </ThemedText>ThemedText>
-                      </View>View>
-              </ScrollView>ScrollView>
-        </View>View>
+                                </ThemedText>
+                      </View>
+              </ScrollView>
+        </View>
       );
 }
 
@@ -351,14 +351,14 @@ function CityScoreCard({ city, score, rank, theme }: CityScoreCardProps) {
                                   >
                                   <ThemedText style={[styles.rankText, { color: theme.primary }]}>
                                               #{rank}
-                                  </ThemedText>ThemedText>
-                        </View>View>
+                                  </ThemedText>
+                        </View>
                         <View style={styles.cityInfo}>
-                                  <ThemedText type="h4">{city.name}</ThemedText>ThemedText>
+                                  <ThemedText type="h4">{city.name}</ThemedText>
                                   <ThemedText type="small" style={{ color: theme.textSecondary }}>
                                     {city.state}
-                                  </ThemedText>ThemedText>
-                        </View>View>
+                                  </ThemedText>
+                        </View>
                         <View style={styles.scoreContainer}>
                                   <ThemedText
                                                 style={[
@@ -367,12 +367,12 @@ function CityScoreCard({ city, score, rank, theme }: CityScoreCardProps) {
                                                               ]}
                                               >
                                     {Math.round(score.overall)}
-                                  </ThemedText>ThemedText>
+                                  </ThemedText>
                                   <ThemedText type="small" style={{ color: theme.textSecondary }}>
                                               /100
-                                  </ThemedText>ThemedText>
-                        </View>View>
-                </View>View>
+                                  </ThemedText>
+                        </View>
+                </View>
                 <View style={styles.breakdownRow}>
                         <BreakdownPill
                                     label="Safety"
@@ -394,8 +394,8 @@ function CityScoreCard({ city, score, rank, theme }: CityScoreCardProps) {
                                     value={score.breakdown.costOfLiving}
                                     theme={theme}
                                   />
-                </View>View>
-          </Animated.View>Animated.View>
+                </View>
+          </Animated.View>
         );
 }
 
@@ -423,11 +423,11 @@ function BreakdownPill({ label, value, theme }: BreakdownPillProps) {
                           style={[styles.breakdownLabel, { color: theme.textSecondary }]}
                         >
                   {label}
-                </ThemedText>ThemedText>
+                </ThemedText>
                 <ThemedText style={[styles.breakdownValue, { color: getColor(value) }]}>
                   {Math.round(value)}
-                </ThemedText>ThemedText>
-          </View>View>
+                </ThemedText>
+          </View>
         );
 }
 
@@ -547,4 +547,4 @@ const styles = StyleSheet.create({
           marginTop: Spacing.md,
           textAlign: "center",
     },
-});</ThemedText>
+});

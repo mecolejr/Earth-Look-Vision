@@ -205,4 +205,4 @@ export function useUserProfile() {
           throw new Error("useUserProfile must be used within a UserProfileProvider");
     }
     return context;
-}</UserProfileContext.Provider>
+}

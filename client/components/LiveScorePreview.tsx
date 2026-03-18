@@ -300,7 +300,7 @@ const styles = StyleSheet.create({
   compactScore: {
     fontSize: 20,
     fontWeight: "700",
-  },,
+  },
   compactJobBar: {
     flexDirection: "row",
     alignItems: "center",

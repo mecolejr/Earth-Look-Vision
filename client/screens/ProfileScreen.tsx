@@ -122,17 +122,17 @@ const handleResetProfile = () => {
                                                               style={styles.avatarImage}
                                                               resizeMode="cover"
                                                             />
-                                  </View>View>
+                                  </View>
                                   <ThemedText style={[styles.title, { fontFamily: Fonts?.serifBold }]}>
                                               Your Profile
-                                  </ThemedText>ThemedText>
+                                  </ThemedText>
                                   <ThemedText
                                                 type="body"
                                                 style={[styles.subtitle, { color: theme.textSecondary }]}
                                               >
                                               Adjust your identity and priorities to refine your city matches
-                                  </ThemedText>ThemedText>
-                        </View>View>
+                                  </ThemedText>
+                        </View>
                 
                         <LiveScorePreview showLabel={true} />
                 
@@ -152,18 +152,18 @@ const handleResetProfile = () => {
                                               <View style={styles.field}>
                                                             <ThemedText type="h4" style={styles.fieldLabel}>
                                                                             Race / Ethnicity
-                                                            </ThemedText>ThemedText>
+                                                            </ThemedText>
                                                             <ChipGroup
                                                                               options={ETHNICITY_OPTIONS}
                                                                               selected={profile.identity.ethnicities}
                                                                               onChange={(ethnicities) => updateIdentity({ ethnicities })}
                                                                               multiSelect
                                                                             />
-                                              </View>View>
+                                              </View>
                                               <View style={styles.field}>
                                                             <ThemedText type="h4" style={styles.fieldLabel}>
                                                                             Gender Identity
-                                                            </ThemedText>ThemedText>
+                                                            </ThemedText>
                                                             <ChipGroup
                                                                               options={GENDER_OPTIONS}
                                                                               selected={
@@ -175,11 +175,11 @@ const handleResetProfile = () => {
                                                                                                   updateIdentity({ genderIdentity: selected[0] || "" })
                                                                               }
                                                                             />
-                                              </View>View>
+                                              </View>
                                               <View style={styles.field}>
                                                             <ThemedText type="h4" style={styles.fieldLabel}>
                                                                             Sexual Orientation
-                                                            </ThemedText>ThemedText>
+                                                            </ThemedText>
                                                             <ChipGroup
                                                                               options={ORIENTATION_OPTIONS}
                                                                               selected={
@@ -191,11 +191,11 @@ const handleResetProfile = () => {
                                                                                                   updateIdentity({ sexualOrientation: selected[0] || "" })
                                                                               }
                                                                             />
-                                              </View>View>
+                                              </View>
                                               <View style={styles.field}>
                                                             <ThemedText type="h4" style={styles.fieldLabel}>
                                                                             Religion
-                                                            </ThemedText>ThemedText>
+                                                            </ThemedText>
                                                             <ChipGroup
                                                                               options={RELIGION_OPTIONS}
                                                                               selected={
@@ -207,11 +207,11 @@ const handleResetProfile = () => {
                                                                                                   updateIdentity({ religion: selected[0] || "" })
                                                                               }
                                                                             />
-                                              </View>View>
+                                              </View>
                                               <View style={styles.field}>
                                                             <ThemedText type="h4" style={styles.fieldLabel}>
                                                                             Political Views
-                                                            </ThemedText>ThemedText>
+                                                            </ThemedText>
                                                             <ChipGroup
                                                                               options={POLITICAL_OPTIONS}
                                                                               selected={
@@ -223,12 +223,12 @@ const handleResetProfile = () => {
                                                                                                   updateIdentity({ politicalViews: selected[0] || "" })
                                                                               }
                                                                             />
-                                              </View>View>
+                                              </View>
                                               <Button onPress={handleSaveIdentity} style={styles.saveButton}>
                                                             Done
-                                              </Button>Button>
-                                  </View>View>
-                        </SectionCard>SectionCard>
+                                              </Button>
+                                  </View>
+                        </SectionCard>
                 
                         <SectionCard
                                     title="Priority Weights"
@@ -255,9 +255,9 @@ const handleResetProfile = () => {
                                                               ))}
                                               <Button onPress={handleSavePriorities} style={styles.saveButton}>
                                                             Done
-                                              </Button>Button>
-                                  </View>View>
-                        </SectionCard>SectionCard>
+                                              </Button>
+                                  </View>
+                        </SectionCard>
                 
                         <Pressable
                                     style={[
@@ -279,20 +279,20 @@ const handleResetProfile = () => {
                                                               ]}
                                               >
                                               <Feather name="shield" size={20} color={theme.primary} />
-                                  </View>View>
+                                  </View>
                                   <View style={styles.sectionInfo}>
-                                              <ThemedText type="h4">Privacy Settings</ThemedText>ThemedText>
+                                              <ThemedText type="h4">Privacy Settings</ThemedText>
                                               <ThemedText type="small" style={{ color: theme.textSecondary }}>
                                                 {Object.values(privacySettings).filter(Boolean).length} of{" "}
                                                 {Object.keys(privacySettings).length} factors active
-                                              </ThemedText>ThemedText>
-                                  </View>View>
+                                              </ThemedText>
+                                  </View>
                                   <Feather
                                                 name="chevron-right"
                                                 size={24}
                                                 color={theme.textSecondary}
                                               />
-                        </Pressable>Pressable>
+                        </Pressable>
                 
                         <Pressable
                                     style={[
@@ -315,19 +315,19 @@ const handleResetProfile = () => {
                                                               ]}
                                               >
                                               <Feather name="bar-chart-2" size={20} color={theme.success} />
-                                  </View>View>
+                                  </View>
                                   <View style={styles.sectionInfo}>
-                                              <ThemedText type="h4">How Scores Work</ThemedText>ThemedText>
+                                              <ThemedText type="h4">How Scores Work</ThemedText>
                                               <ThemedText type="small" style={{ color: theme.textSecondary }}>
                                                             Learn how we calculate your match
-                                              </ThemedText>ThemedText>
-                                  </View>View>
+                                              </ThemedText>
+                                  </View>
                                   <Feather
                                                 name="chevron-right"
                                                 size={24}
                                                 color={theme.textSecondary}
                                               />
-                        </Pressable>Pressable>
+                        </Pressable>
                 
                   {/* Issue #10 fix: Surface the interactive demo from the Profile tab */}
                         <Pressable
@@ -342,7 +342,7 @@ const handleResetProfile = () => {
                                                   Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
                                                   rootNavigation.navigate("InteractiveDemo");
                                     }}
-                                    testID="link-interactive-demo"                            >                                <View                                    style={[                                        styles.sectionIcon,                                        { backgroundColor: theme.primary + "20" },                                    ]}                                >                                    <Feather name="play-circle" size={20} color={theme.primary} />                                </View>                                <View style={styles.sectionInfo}>                                    <ThemedText type="h4">Interactive Score Demo</ThemedText>                                    <ThemedText type="small" style={{ color: theme.textSecondary }}>                                        See how adjusting priorities changes your matches in real time                                    </ThemedText>                                </View>                                <Feather                                    name="chevron-right"                                    size={24}                                    color={theme.primary}                                />                            </Pressable>                            {/* Feature 3: Scenario Testing entry point */}                            <Pressable                                style={[                                    styles.privacyLink,                                    {                                        backgroundColor: theme.success + "10",                                        borderColor: theme.success + "40",                                    },                                ]}                                onPress={() => {                                    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);                                    rootNavigation.navigate("ScenarioTesting");                                }}                                testID="link-scenario-testing"                            >                                <View                                    style={[                                        styles.sectionIcon,                                        { backgroundColor: theme.primary + "20" },                                    ]}                                >                                    <Feather name="play-circle" size={20} color={theme.primary} />                                </View>                                <View style={styles.sectionInfo}>                                    <ThemedText type="h4">Interactive Score Demo</ThemedText>                                    <ThemedText type="small" style={{ color: theme.textSecondary }}>                                        See how adjusting priorities changes your matches in real time                                    </ThemedText>                                </View>                                <Feather                                    name="chevron-right"                                    size={24}                                    color={theme.primary}                                />                            </Pressable>                            {/* Feature 3: Scenario Testing entry point */}                            <Pressable                                style={[                                    styles.privacyLink,                                    {                                        backgroundColor: theme.success + "10",                                        borderColor: theme.success + "40",                                    },                                ]}                                onPress={() => {                                    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);                                    rootNavigation.navigate("ScenarioTesting");                                }}                            >                                <View                                    style={[                                        styles.sectionIcon,                                        { backgroundColor: theme.primary + "20" },                                    ]}                                >                                    <Feather name="play-circle" size={20} color={theme.primary} />                                </View>                                <View style={styles.sectionInfo}>                                    <ThemedText type="h4">Interactive Score Demo</ThemedText>                                    <ThemedText type="small" style={{ color: theme.textSecondary }}>                                        See how adjusting priorities changes your matches in real time                                    </ThemedText>                                </View>                                <Feather                                    name="chevron-right"                                    size={24}                                    color={theme.primary}                                />                            </Pressable>                            {/* Feature 3: Scenario Testing entry point */}                            <Pressable                                style={[                                    styles.privacyLink,                                    {                                        backgroundColor: theme.success + "10",                                        borderColor: theme.success + "40",                                    },                                ]}                                onPress={() => {                                    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);                            >                                <View                                    style={[                                        styles.sectionIcon,                                        { backgroundColor: theme.primary + "20" },                                    ]}                                >                                    <Feather name="play-circle" size={20} color={theme.primary} />                                </View>                                <View style={styles.sectionInfo}>                                    <ThemedText type="h4">Interactive Score Demo</ThemedText>                                    <ThemedText type="small" style={{ color: theme.textSecondary }}>                                        See how adjusting priorities changes your matches in real time                                    </ThemedText>                                </View>                                <Feather                                    name="chevron-right"                                    size={24}                                    color={theme.primary}                                />                            </Pressable>                            {/* Feature 3: Scenario Testing entry point */}                            <Pressable                                style={[                                    styles.privacyLink,                                    {                                        backgroundColor: theme.success + "10",                                        borderColor: theme.success + "40",                                    },                                ]}                            >                                <View                                    style={[                                        styles.sectionIcon,                                        { backgroundColor: theme.primary + "20" },                                    ]}                                >                                    <Feather name="play-circle" size={20} color={theme.primary} />                                </View>                                <View style={styles.sectionInfo}>                                    <ThemedText type="h4">Interactive Score Demo</ThemedText>                                    <ThemedText type="small" style={{ color: theme.textSecondary }}>                                        See how adjusting priorities changes your matches in real time                                    </ThemedText>                                </View>                                <Feather                                    name="chevron-right"                                    size={24}                                    color={theme.primary}                                />                            </Pressable>                            {/* Feature 3: Scenario Testing entry point */}                            <Pressable                                style={[                                    styles.privacyLink,                                    {                                        backgroundColor: theme.success + "10",                                        borderColor: theme.success + "40",                            >                                <View                                    style={[                                        styles.sectionIcon,                                        { backgroundColor: theme.primary + "20" },                                    ]}                                >                                    <Feather name="play-circle" size={20} color={theme.primary} />                                </View>                                <View style={styles.sectionInfo}>                                    <ThemedText type="h4">Interactive Score Demo</ThemedText>                                    <ThemedText type="small" style={{ color: theme.textSecondary }}>                                        See how adjusting priorities changes your matches in real time                                    </ThemedText>                                </View>                                <Feather                                    name="chevron-right"                                    size={24}                                    color={theme.primary}                                />                            </Pressable>                            {/* Feature 3: Scenario Testing entry point */}                            <Pressable                                style={[                                    styles.privacyLink,                                    {                            >                                <View                                    style={[                                        styles.sectionIcon,                                        { backgroundColor: theme.primary + "20" },                                    ]}                                >                                    <Feather name="play-circle" size={20} color={theme.primary} />                                </View>                                <View style={styles.sectionInfo}>                                    <ThemedText type="h4">Interactive Score Demo</ThemedText>                                    <ThemedText type="small" style={{ color: theme.textSecondary }}>                                        See how adjusting priorities changes your matches in real time                                    </ThemedText>                                </View>                                <Feather                                    name="chevron-right"                                    size={24}                                    color={theme.primary}                                />                            </Pressable>                            {/* Feature 3: Scenario Testing entry point */}                            <Pressable                                style={[                            >                                <View                                    style={[                                        styles.sectionIcon,                                        { backgroundColor: theme.primary + "20" },                                    ]}                                >                                    <Feather name="play-circle" size={20} color={theme.primary} />                                </View>                                <View style={styles.sectionInfo}>                                    <ThemedText type="h4">Interactive Score Demo</ThemedText>                                    <ThemedText type="small" style={{ color: theme.textSecondary }}>                                        See how adjusting priorities changes your matches in real time                                    </ThemedText>                                </View>                                <Feather                                    name="chevron-right"                                    size={24}                                    color={theme.primary}                                />                            </Pressable>                            {/* Feature 3: Scenario Testing entry point */}                            >                                <View                                    style={[                                        styles.sectionIcon,                                        { backgroundColor: theme.primary + "20" },                                    ]}                                >                                    <Feather name="play-circle" size={20} color={theme.primary} />                                </View>                                <View style={styles.sectionInfo}>                                    <ThemedText type="h4">Interactive Score Demo</ThemedText>                                    <ThemedText type="small" style={{ color: theme.textSecondary }}>                                        See how adjusting priorities changes your matches in real time                                    </ThemedText>                                </View>                                <Feather                                    name="chevron-right"                                    size={24}                                    color={theme.primary}                                />                            </Pressable>                            >                                <View                                    style={[                                        styles.sectionIcon,                                        { backgroundColor: theme.primary + "20" },                                    ]}                                >                                    <Feather name="play-circle" size={20} color={theme.primary} />                                </View>                                <View style={styles.sectionInfo}>                                    <ThemedText type="h4">Interactive Score Demo</ThemedText>                                    <ThemedText type="small" style={{ color: theme.textSecondary }}>                                        See how adjusting priorities changes your matches in real time                                    </ThemedText>                                </View>                                <Feather                                    name="chevron-right"                                    size={24}                                    color={theme.primary}                            >                                <View                                    style={[                                        styles.sectionIcon,                                        { backgroundColor: theme.primary + "20" },                                    ]}                                >                                    <Feather name="play-circle" size={20} color={theme.primary} />                                </View>                                <View style={styles.sectionInfo}>                                    <ThemedText type="h4">Interactive Score Demo</ThemedText>                                    <ThemedText type="small" style={{ color: theme.textSecondary }}>                                        See how adjusting priorities changes your matches in real time                                    </ThemedText>                                </View>                                <Feather                                    name="chevron-right"                            >                                <View                                    style={[                                        styles.sectionIcon,                                        { backgroundColor: theme.primary + "20" },                                    ]}                                >                                    <Feather name="play-circle" size={20} color={theme.primary} />                                </View>                                <View style={styles.sectionInfo}>                                    <ThemedText type="h4">Interactive Score Demo</ThemedText>                                    <ThemedText type="small" style={{ color: theme.textSecondary }}>                                        See how adjusting priorities changes your matches in real time                                    </ThemedText>                                </View>                            >                                <View                                    style={[                                        styles.sectionIcon,                                        { backgroundColor: theme.primary + "20" },                                    ]}                                >                                    <Feather name="play-circle" size={20} color={theme.primary} />                                </View>                                <View style={styles.sectionInfo}>                                    <ThemedText type="h4">Interactive Score Demo</ThemedText>                                    <ThemedText type="small" style={{ color: theme.textSecondary }}>                                        See how adjusting priorities changes your matches in real time                            >                                <View                                    style={[                                        styles.sectionIcon,                                        { backgroundColor: theme.primary + "20" },                                    ]}                                >                                    <Feather name="play-circle" size={20} color={theme.primary} />                                </View>                                <View style={styles.sectionInfo}>                                    <ThemedText type="h4">Interactive Score Demo</ThemedText>                            >                                <View                                    style={[                                        styles.sectionIcon,                                        { backgroundColor: theme.primary + "20" },                                    ]}                                >                                    <Feather name="play-circle" size={20} color={theme.primary} />                                </View>                            >                                <View                                    style={[                                        styles.sectionIcon,                                        { backgroundColor: theme.primary + "20" },                                    ]}                                >                            >                                <View                                    style={[                                        styles.sectionIcon,                                        { backgroundColor: theme.primary + "20" },                            >                                <View                                    style={[                            >
+                                    testID="link-interactive-demo"
                                   >
                                   <View
                                                 style={[
@@ -351,58 +351,59 @@ const handleResetProfile = () => {
                                                               ]}
                                               >
                                               <Feather name="play-circle" size={20} color={theme.primary} />
-                                  </View>View>
+                                  </View>
                                   <View style={styles.sectionInfo}>
-                                              <ThemedText type="h4">Interactive Score Demo</ThemedText>ThemedText>
+                                              <ThemedText type="h4">Interactive Score Demo</ThemedText>
                                               <ThemedText type="small" style={{ color: theme.textSecondary }}>
                                                             See how adjusting priorities changes your matches in real time
-                                              </ThemedText>ThemedText>
-                                  </View>View>
+                                              </ThemedText>
+                                  </View>
                                   <Feather
                                                 name="chevron-right"
                                                 size={24}
                                                 color={theme.primary}
                                               />
-                        </Pressable>Pressable>
+                        </Pressable>
+                
+                        {/* Feature 3: Scenario Testing entry point */}
+                        <Pressable
+                                    style={[
+                                                  styles.privacyLink,
+                                      {
+                                                      backgroundColor: theme.success + "10",
+                                                      borderColor: theme.success + "40",
+                                      },
+                                                ]}
+                                    onPress={() => {
+                                                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                                                  rootNavigation.navigate("ScenarioTesting");
+                                    }}
+                                    testID="link-scenario-testing"
+                                  >
+                                  <View
+                                                style={[
+                                                                styles.sectionIcon,
+                                                  { backgroundColor: theme.success + "20" },
+                                                              ]}
+                                              >
+                                              <Feather name="shuffle" size={20} color={theme.success} />
+                                  </View>
+                                  <View style={styles.sectionInfo}>
+                                              <ThemedText type="h4">What If? Scenario Testing</ThemedText>
+                                              <ThemedText type="small" style={{ color: theme.textSecondary }}>
+                                                            Explore how scores change with different life circumstances
+                                              </ThemedText>
+                                  </View>
+                                  <Feather
+                                                name="chevron-right"
+                                                size={24}
+                                                color={theme.success}
+                                              />
+                        </Pressable>
                 
                         <Pressable
                                     style={[
                                                   styles.premiumLink,
-                                        {/* Feature 3: Scenario Testing entry point */}
-                                                                    <Pressable
-                                                                        style={[
-                                                                                                                styles.privacyLink,
-                                                                            {
-                                                                                                                        backgroundColor: theme.success + "10",
-                                                                                                                        borderColor: theme.success + "40",
-                                                                                },
-                                                                                                            ]}
-                                                                        onPress={() => {
-                                                                            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-                                                                            rootNavigation.navigate("ScenarioTesting");
-                                    }}
-                                                            testID="link-scenario-testing"
-                                                        >
-                                                        <View
-                                                                                                style={[
-                                                                                                                                            styles.sectionIcon,
-                                                                                                    { backgroundColor: theme.success + "20" },
-                                                                                                                                        ]}
-                                                                                            >
-                                                                                            <Feather name="shuffle" size={20} color={theme.success} />
-                                                        </View>View>
-                                                        <View style={styles.sectionInfo}>
-                                                                                            <ThemedText type="h4">What If? Scenario Testing</ThemedText>ThemedText>
-                                                                                            <ThemedText type="small" style={{ color: theme.textSecondary }}>
-                                                                                                                                    Explore how scores change with different life circumstances
-                                                                                                </ThemedText>ThemedText>
-                                                        </View>View>
-                                                        <Feather
-                                                                                                name="chevron-right"
-                                                                                                size={24}
-                                                                                                color={theme.success}
-                                                                                            />
-                        </Pressable>Pressable></Pressable>
                                       {
                                                       backgroundColor: theme.warning + "15",
                                                       borderColor: theme.warning + "40",
@@ -421,19 +422,19 @@ const handleResetProfile = () => {
                                                               ]}
                                               >
                                               <Feather name="star" size={20} color={theme.warning} />
-                                  </View>View>
+                                  </View>
                                   <View style={styles.sectionInfo}>
-                                              <ThemedText type="h4">EarthLook Premium</ThemedText>ThemedText>
+                                              <ThemedText type="h4">EarthLook Premium</ThemedText>
                                               <ThemedText type="small" style={{ color: theme.textSecondary }}>
                                                             Detailed reports, unlimited comparisons
-                                              </ThemedText>ThemedText>
-                                  </View>View>
+                                              </ThemedText>
+                                  </View>
                                   <Feather
                                                 name="chevron-right"
                                                 size={24}
                                                 color={theme.warning}
                                               />
-                        </Pressable>Pressable>
+                        </Pressable>
                 
                         <Pressable
                                     style={[
@@ -456,19 +457,19 @@ const handleResetProfile = () => {
                                                               ]}
                                               >
                                               <Feather name="heart" size={20} color={theme.success} />
-                                  </View>View>
+                                  </View>
                                   <View style={styles.sectionInfo}>
-                                              <ThemedText type="h4">Social Impact</ThemedText>ThemedText>
+                                              <ThemedText type="h4">Social Impact</ThemedText>
                                               <ThemedText type="small" style={{ color: theme.textSecondary }}>
                                                             Grant programs for underserved communities
-                                              </ThemedText>ThemedText>
-                                  </View>View>
+                                              </ThemedText>
+                                  </View>
                                   <Feather
                                                 name="chevron-right"
                                                 size={24}
                                                 color={theme.success}
                                               />
-                        </Pressable>Pressable>
+                        </Pressable>
                 
                         <Pressable
                                     style={[
@@ -491,19 +492,19 @@ const handleResetProfile = () => {
                                                               ]}
                                               >
                                               <Feather name="mail" size={20} color={theme.warning} />
-                                  </View>View>
+                                  </View>
                                   <View style={styles.sectionInfo}>
-                                              <ThemedText type="h4">Newsletter</ThemedText>ThemedText>
+                                              <ThemedText type="h4">Newsletter</ThemedText>
                                               <ThemedText type="small" style={{ color: theme.textSecondary }}>
                                                             Get personalized city updates
-                                              </ThemedText>ThemedText>
-                                  </View>View>
+                                              </ThemedText>
+                                  </View>
                                   <Feather
                                                 name="chevron-right"
                                                 size={24}
                                                 color={theme.textSecondary}
                                               />
-                        </Pressable>Pressable>
+                        </Pressable>
                 
                         <Pressable
                                     style={[
@@ -526,19 +527,19 @@ const handleResetProfile = () => {
                                                               ]}
                                               >
                                               <Feather name="headphones" size={20} color={theme.link} />
-                                  </View>View>
+                                  </View>
                                   <View style={styles.sectionInfo}>
-                                              <ThemedText type="h4">Get Support</ThemedText>ThemedText>
+                                              <ThemedText type="h4">Get Support</ThemedText>
                                               <ThemedText type="small" style={{ color: theme.textSecondary }}>
                                                             Contact us for help
-                                              </ThemedText>ThemedText>
-                                  </View>View>
+                                              </ThemedText>
+                                  </View>
                                   <Feather
                                                 name="chevron-right"
                                                 size={24}
                                                 color={theme.textSecondary}
                                               />
-                        </Pressable>Pressable>
+                        </Pressable>
                 
                         <View style={styles.dangerZone}>
                                   <ThemedText
@@ -546,16 +547,16 @@ const handleResetProfile = () => {
                                                 style={[styles.dangerLabel, { color: theme.textSecondary }]}
                                               >
                                               Reset Profile
-                                  </ThemedText>ThemedText>
+                                  </ThemedText>
                                   <Pressable onPress={handleResetProfile} style={styles.resetButton}>
                                               <Feather name="refresh-cw" size={16} color={theme.danger} />
                                               <ThemedText style={[styles.resetText, { color: theme.danger }]}>
                                                             Start Over
-                                              </ThemedText>ThemedText>
-                                  </Pressable>Pressable>
-                        </View>View>
-                </ScrollView>ScrollView>
-        </View>View>
+                                              </ThemedText>
+                                  </Pressable>
+                        </View>
+                </ScrollView>
+        </View>
       );
 }
 
@@ -596,21 +597,21 @@ function SectionCard({
                                                 ]}
                                   >
                                   <Feather name={icon as any} size={20} color={theme.primary} />
-                        </View>View>
+                        </View>
                         <View style={styles.sectionInfo}>
-                                  <ThemedText type="h4">{title}</ThemedText>ThemedText>
+                                  <ThemedText type="h4">{title}</ThemedText>
                                   <ThemedText type="small" style={{ color: theme.textSecondary }}>
                                     {description}
-                                  </ThemedText>ThemedText>
-                        </View>View>
+                                  </ThemedText>
+                        </View>
                         <Feather
                                     name={isExpanded ? "chevron-up" : "chevron-down"}
                                     size={24}
                                     color={theme.textSecondary}
                                   />
-                </Pressable>Pressable>
+                </Pressable>
             {isExpanded ? children : null}
-          </View>View>
+          </View>
         );
 }
 
@@ -715,4 +716,4 @@ const styles = StyleSheet.create({
           borderWidth: 2,
           marginBottom: Spacing.lg,
     },
-});</ScrollView>
+});
