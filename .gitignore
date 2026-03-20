@@ -54,3 +54,4 @@ secrets.json
 .secrets
 .claude-token
 .pat
+*.zip
