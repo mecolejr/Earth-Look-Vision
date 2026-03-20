@@ -1,11 +1,19 @@
 {
   "version": "0.0.1",
+  "autoVerify": false,
   "configurations": [
     {
-      "name": "dev",
+      "name": "server",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
-      "port": 3000,
+      "runtimeArgs": ["run", "server:dev"],
+      "port": 5000,
+      "autoPort": true
+    },
+    {
+      "name": "expo",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "expo:dev"],
+      "port": 8081,
       "autoPort": true
     }
   ]
