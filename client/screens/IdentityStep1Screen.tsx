@@ -12,7 +12,7 @@ import { InfoTooltip } from "@/components/InfoTooltip";
 import { LiveScorePreview } from "@/components/LiveScorePreview";
 import { useTheme } from "@/hooks/useTheme";
 import { useUserProfile } from "@/contexts/UserProfileContext";
-import { Spacing, Fonts, BorderRadius } from "@/constants/theme";
+import { Spacing, Fonts } from "@/constants/theme";
 import {
   CAREER_OPTIONS,
   INCOME_OPTIONS,
@@ -83,8 +83,7 @@ export default function IdentityStep1Screen({
     navigation.navigate("IdentityStep2");
   };
 
-  const canProceed =
-    career.length > 0 || income.length > 0 || family.length > 0 || climatePrefs.length > 0;
+  const canProceed = true;
 
   return (
     <View style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
@@ -178,7 +177,6 @@ export default function IdentityStep1Screen({
               description="Your climate preferences help us match you with cities that have weather patterns you'll enjoy. We consider temperature, seasons, rainfall, humidity, and sunshine levels."
             />
           </View>
-          <View style={[styles.climateCard, { backgroundColor: theme.surface, borderColor: theme.border }]}>
 
           <ThemedText type="small" style={[styles.climateSubLabel, { color: theme.textSecondary }]}>
             Temperature
@@ -206,7 +204,6 @@ export default function IdentityStep1Screen({
             selected={climatePrefs.precipitationPreference ? [climatePrefs.precipitationPreference] : []}
             onChange={(values) => handleClimateChange("precipitationPreference", values[0] || "")}
           />
-          </View>
         </View>
       </ScrollView>
 
@@ -268,13 +265,6 @@ const styles = StyleSheet.create({
     marginTop: Spacing.lg,
     marginBottom: Spacing.sm,
     fontWeight: "600",
-  },
-  climateCard: {
-    borderWidth: 1,
-    borderRadius: BorderRadius.lg,
-    padding: Spacing.md,
-    gap: Spacing.xs,
-    marginTop: Spacing.sm,
   },
   footer: {
     paddingHorizontal: Spacing["2xl"],

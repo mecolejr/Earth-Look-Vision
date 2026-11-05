@@ -80,28 +80,20 @@ export function LiveScorePreview({
   if (compact) {
     return (
       <View style={[styles.compactContainer, { backgroundColor: theme.backgroundSecondary }]}>
-        <View style={styles.compactInnerRow}>
-          <View style={styles.compactContent}>
-            <Feather name="map-pin" size={14} color={theme.textSecondary} />
-            <ThemedText type="small" style={{ color: theme.textSecondary }}>
-              {city.name}
-            </ThemedText>
-          </View>
-          <View style={styles.compactScoreWrapper}>
-            <Animated.View style={[styles.compactPulse, { backgroundColor: scoreColor }, animatedPulseStyle]} />
-            <Animated.View style={animatedScoreStyle}>
-              <ThemedText style={[styles.compactScore, { color: scoreColor }]}>
-                {Math.round(score.overall)}
-              </ThemedText>
-            </Animated.View>
-            <ThemedText type="small" style={{ color: theme.textSecondary }}>/100</ThemedText>
-          </View>
+        <View style={styles.compactContent}>
+          <Feather name="map-pin" size={14} color={theme.textSecondary} />
+          <ThemedText type="small" style={{ color: theme.textSecondary }}>
+            {city.name}
+          </ThemedText>
         </View>
-        <View style={styles.compactJobBar}>
-          <ThemedText type="small" style={styles.compactJobLabel}>Jobs</ThemedText>
-          <View style={[styles.compactBarTrack, { backgroundColor: theme.border }]}>
-            <View style={[styles.compactBarFill, { width: `${Math.round(score.breakdown.jobMarket)}%`, backgroundColor: scoreColor }]} />
-          </View>
+        <View style={styles.compactScoreWrapper}>
+          <Animated.View style={[styles.compactPulse, { backgroundColor: scoreColor }, animatedPulseStyle]} />
+          <Animated.View style={animatedScoreStyle}>
+            <ThemedText style={[styles.compactScore, { color: scoreColor }]}>
+              {Math.round(score.overall)}
+            </ThemedText>
+          </Animated.View>
+          <ThemedText type="small" style={{ color: theme.textSecondary }}>/100</ThemedText>
         </View>
       </View>
     );
@@ -269,15 +261,12 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
   },
   compactContainer: {
-    flexDirection: "column",
-    borderRadius: BorderRadius.md,
-    padding: Spacing.md,
-    marginBottom: Spacing.lg,
-  },
-  compactInnerRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    borderRadius: BorderRadius.md,
+    padding: Spacing.md,
+    marginBottom: Spacing.lg,
   },
   compactContent: {
     flexDirection: "row",
@@ -300,28 +289,5 @@ const styles = StyleSheet.create({
   compactScore: {
     fontSize: 20,
     fontWeight: "700",
-  },
-  compactJobBar: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: Spacing.xs,
-    gap: Spacing.xs,
-  },
-  compactJobLabel: {
-    fontSize: 10,
-    width: 28,
-  },
-  compactBarTrack: {
-    flex: 1,
-    height: 3,
-    borderRadius: 2,
-    overflow: "hidden",
-  },
-  compactBarFill: {
-    position: "absolute",
-    left: 0,
-    top: 0,
-    bottom: 0,
-    borderRadius: 2,
   },
 });
