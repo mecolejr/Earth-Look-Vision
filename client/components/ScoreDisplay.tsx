@@ -94,7 +94,7 @@ export function ScoreBar({
         <View style={styles.barValues}>
           {showWeight && weight !== undefined ? (
             <ThemedText
-              type="caption"
+              type="small"
               style={[styles.weight, { color: theme.textSecondary }]}
             >
               ({Math.round(weight)}% weight)

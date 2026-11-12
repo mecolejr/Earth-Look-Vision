@@ -72,7 +72,7 @@ export default function PrioritiesStepScreen({
       >
         <ProgressIndicator steps={3} currentStep={2} />
         <ThemedText
-          type="caption"
+          type="small"
           style={[styles.stepLabel, { color: theme.textSecondary }]}
         >
           Step 3 of 3

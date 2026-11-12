@@ -20,7 +20,7 @@ import { useTheme } from "@/hooks/useTheme";
 import { calculateCityScore } from "@/lib/scoring";
 import { CITIES, getCityById } from "@/data/cities";
 import { Spacing, BorderRadius, Fonts } from "@/constants/theme";
-import { IdentityProfile, PriorityWeights, City, CityScore } from "@/types";
+import { IdentityProfile, PriorityWeights, City, CityScore, DEFAULT_CLIMATE_PREFERENCES } from "@/types";
 import { OnboardingStackParamList } from "@/navigation/OnboardingNavigator";
 
 type Props = {
@@ -41,6 +41,7 @@ const DEFAULT_IDENTITY: IdentityProfile = {
   ageRange: "",
   disabilities: [],
   languages: [],
+  climatePreferences: DEFAULT_CLIMATE_PREFERENCES,
 };
 
 const IDENTITY_PRESETS = [
