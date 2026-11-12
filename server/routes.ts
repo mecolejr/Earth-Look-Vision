@@ -485,7 +485,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
    */
   app.post("/api/admin/testimonials/:id/approve", adminAuth, async (req, res) => {
     try {
-      const { id } = req.params;
+      const id = String(req.params.id);
       const [updated] = await db
         .update(testimonials)
         .set({ status: "approved" })
@@ -508,7 +508,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
    */
   app.post("/api/admin/testimonials/:id/reject", adminAuth, async (req, res) => {
     try {
-      const { id } = req.params;
+      const id = String(req.params.id);
       const [updated] = await db
         .update(testimonials)
         .set({ status: "rejected" })
@@ -531,7 +531,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
    */
   app.delete("/api/admin/testimonials/:id", adminAuth, async (req, res) => {
     try {
-      const { id } = req.params;
+      const id = String(req.params.id);
       const [deleted] = await db
         .delete(testimonials)
         .where(eq(testimonials.id, id))

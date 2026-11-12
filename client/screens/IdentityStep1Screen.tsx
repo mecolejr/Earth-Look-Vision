@@ -84,7 +84,7 @@ export default function IdentityStep1Screen({
   };
 
   const canProceed =
-    career.length > 0 || income.length > 0 || family.length > 0 || climatePrefs.length > 0;
+    career.length > 0 || income.length > 0 || family.length > 0 || Object.values(climatePrefs).some((v) => v !== "");
 
   return (
     <View style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>

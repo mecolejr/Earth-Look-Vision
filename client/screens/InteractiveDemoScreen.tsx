@@ -28,6 +28,7 @@ import {
     PriorityWeights,
     City,
     CityScore,
+    DEFAULT_CLIMATE_PREFERENCES,
 } from "@/types";
 import { OnboardingStackParamList } from "@/navigation/OnboardingNavigator";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
@@ -68,6 +69,7 @@ const DEFAULT_IDENTITY: IdentityProfile = {
     ageRange: "",
     disabilities: [],
     languages: [],
+    climatePreferences: DEFAULT_CLIMATE_PREFERENCES,
 };
 
 const IDENTITY_PRESETS = [
@@ -161,7 +163,7 @@ export default function InteractiveDemoScreen({ navigation }: Props) {
   };
 
   const handleStartOnboarding = () => {
-        (navigation as NativeStackNavigationProp<OnboardingStackParamList>).navigate(
+        (navigation as unknown as NativeStackNavigationProp<OnboardingStackParamList>).navigate(
                 "IdentityStep1"
               );
   };

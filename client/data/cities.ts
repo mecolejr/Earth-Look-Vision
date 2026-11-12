@@ -897,3 +897,7 @@ export function searchCities(query: string): City[] {
                   (city.state && city.state.toLowerCase().includes(lowerQuery))
         );
 }
+
+export function getAllCities(): City[] {
+  return CITIES;
+}

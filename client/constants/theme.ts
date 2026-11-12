@@ -19,6 +19,9 @@ export const Colors = {
     backgroundTertiary: "#E8E3F0",
     border: "#D8D0E5",
     cardBorder: "#D0C6DD",
+    backgroundElevated: "#FFFFFF",
+    surface: "#FFFFFF",
+    card: "#FFFFFF",
   },
   dark: {
     text: "#F5F3F8",
@@ -38,6 +41,9 @@ export const Colors = {
     backgroundTertiary: "#403852",
     border: "#403852",
     cardBorder: "#403852",
+    backgroundElevated: "#2A2438",
+    surface: "#2A2438",
+    card: "#2A2438",
   },
 };
 
