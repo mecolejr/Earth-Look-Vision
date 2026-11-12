@@ -28,6 +28,7 @@ This app is developed and hosted on Replit. All code changes must remain compati
 | R1 | `tsx` not installed — backend workflow failed to start on fresh Replit import | ✅ Fixed Mar 15 | package.json (devDependencies) |
 | R2 | `npx expo start` in workflow tried to install SDK 55 interactively, hanging the frontend | ✅ Fixed Mar 15 | .replit workflow config / package.json expo:dev script |
 | R3 | `</View>View>` typo in RootStackNavigator.tsx line 49 crashed app at boot | ✅ Fixed Mar 15 | client/navigation/RootStackNavigator.tsx |
+| R4 | Metro (Expo bundler) caches the file list: after CREATING or DELETING source files from the shell, restart the Start Frontend workflow or the app goes blank with UnableToResolveError | ✅ Documented Nov 12 | workflow restart fixes it |
 
 ---
 
