@@ -474,7 +474,7 @@ export default function CityDetailScreen({
                                               </View>
                                               <View style={styles.climateMatchScore}>
                                                             <ThemedText style={styles.climateScoreText}>
-                                                              {cityWithScore.personalizedScore.breakdown.climate}
+                                                              {Math.round(cityWithScore.personalizedScore.breakdown.climate)}
                                                             </ThemedText>
                                                             <ThemedText type="small" style={{ color: theme.textSecondary }}>
                                                                             /100

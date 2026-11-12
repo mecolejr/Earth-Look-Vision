@@ -117,6 +117,8 @@ function getCityPlaceholderColor(cityId: string): string {
   return palette[Math.abs(hash) % palette.length];
 }
 
+const cityFallbackImage = require("../../assets/images/welcome-hero.png");
+
 export function CityImage({ cityId, style, containerStyle, size = "medium", index = 0 }: CityImageProps) {
   const network = useNetworkStatus();
   const imageUrl = CITY_IMAGE_URLS[cityId];
@@ -162,6 +164,7 @@ export function CityImage({ cityId, style, containerStyle, size = "medium", inde
   return (
     <OptimizedImage
       source={{ uri: imageUrl + sizeParams }}
+      fallbackSource={cityFallbackImage}
       style={style}
       containerStyle={containerStyle}
       priority={effectivePriority}

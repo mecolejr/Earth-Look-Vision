@@ -22,6 +22,7 @@ import { CITIES, searchCities, getSponsoredCities } from "@/data/cities";
 import { calculateAllCityScores, calculateAllAnonymousCityScores } from "@/lib/scoring";
 import { AnonymousModeBanner } from "@/components/AnonymousModeBanner";
 import { SponsoredBadge } from "@/components/SponsoredBadge";
+import { CityImage } from "@/components/OptimizedImage";
 import { CityWithScore, City } from "@/types";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import {
@@ -380,22 +381,7 @@ function FeaturedSponsored({ cities, onCityPress, theme }: FeaturedSponsoredProp
               { backgroundColor: theme.backgroundDefault, borderColor: theme.cardBorder },
             ]}
           >
-            <View
-              style={[
-                sponsoredStyles.cardImage,
-                {
-                  backgroundColor: getCityPlaceholderColor(city.name),
-                  justifyContent: "center",
-                  alignItems: "center",
-                },
-              ]}
-            >
-              <ThemedText
-                style={{ fontSize: 36, fontWeight: "700", color: "rgba(255,255,255,0.9)" }}
-              >
-                {city.name.charAt(0)}
-              </ThemedText>
-            </View>
+            <CityImage cityId={city.id} style={sponsoredStyles.cardImage} />
             <View style={sponsoredStyles.cardContent}>
               <ThemedText type="body" style={sponsoredStyles.cardTitle}>
                 {city.name}
