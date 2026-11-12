@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { StyleSheet, View, StyleProp, ImageStyle, ViewStyle } from "react-native";
+import { StyleSheet, View, Text, StyleProp, ImageStyle, ViewStyle } from "react-native";
 import { Image, ImageSource, ImageContentFit } from "expo-image";
 import { useTheme } from "@/hooks/useTheme";
 import { useNetworkStatus, getImageQualityForConnection, ConnectionQuality } from "@/hooks/useNetworkStatus";
@@ -93,7 +93,29 @@ const CITY_IMAGE_URLS: Record<string, string> = {
   "melbourne": "https://images.unsplash.com/photo-1514395462725-fb4566210144?w=800&q=80&fm=webp",
 };
 
-const fallbackImage = require("../../assets/images/welcome-hero.png");
+const CITY_PLACEHOLDER_COLORS: Record<string, string> = {
+  london: "#1a3a4a",
+  paris: "#4a2040",
+  tokyo: "#4a1a1a",
+  sydney: "#1a3060",
+  melbourne: "#1a4030",
+  chicago: "#2a2a50",
+  miami: "#4a2a10",
+  boston: "#1a2a3a",
+  toronto: "#3a1a20",
+  barcelona: "#4a3010",
+};
+
+function getCityPlaceholderColor(cityId: string): string {
+  if (CITY_PLACEHOLDER_COLORS[cityId]) return CITY_PLACEHOLDER_COLORS[cityId];
+  let hash = 0;
+  for (let i = 0; i < cityId.length; i++) {
+    hash = ((hash << 5) - hash) + cityId.charCodeAt(i);
+    hash |= 0;
+  }
+  const palette = Object.values(CITY_PLACEHOLDER_COLORS);
+  return palette[Math.abs(hash) % palette.length];
+}
 
 export function CityImage({ cityId, style, containerStyle, size = "medium", index = 0 }: CityImageProps) {
   const network = useNetworkStatus();
@@ -122,10 +144,24 @@ export function CityImage({ cityId, style, containerStyle, size = "medium", inde
     network.connectionQuality === "slow" ? "disk" : 
     "memory-disk";
   
+  if (!imageUrl) {
+    const bgColor = getCityPlaceholderColor(cityId);
+    const initial = cityId ? cityId[0].toUpperCase() : "?";
+    return (
+      <View
+        style={[{ backgroundColor: bgColor, overflow: "hidden", justifyContent: "center", alignItems: "center" }, containerStyle, style]}
+        testID={`city-image-${cityId}`}
+      >
+        <Text style={{ fontSize: 32, fontWeight: "bold", color: "rgba(255,255,255,0.7)" }}>
+          {initial}
+        </Text>
+      </View>
+    );
+  }
+
   return (
     <OptimizedImage
-      source={imageUrl ? { uri: imageUrl + sizeParams } : fallbackImage}
-      fallbackSource={fallbackImage}
+      source={{ uri: imageUrl + sizeParams }}
       style={style}
       containerStyle={containerStyle}
       priority={effectivePriority}

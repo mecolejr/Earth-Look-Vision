@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EarthLook — Testimonials Moderation</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --border: #2e3350;
+      --text: #e8eaf6;
+      --muted: #8b8fa8;
+      --green: #4caf8a;
+      --green-dim: #1e3d30;
+      --red: #e05c6e;
+      --red-dim: #3d1e24;
+      --orange: #f0a050;
+      --orange-dim: #3d2e10;
+      --blue: #5b8def;
+      --blue-dim: #1a2d4f;
+      --radius: 10px;
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 14px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    header h1 {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+
+    header span { color: var(--muted); font-size: 13px; }
+
+    .container { max-width: 960px; margin: 0 auto; padding: 24px 16px; }
+
+    /* Stats bar */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      text-align: center;
+    }
+
+    .stat-card .num {
+      font-size: 28px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .stat-card .label { color: var(--muted); font-size: 12px; margin-top: 4px; }
+
+    .stat-card.pending .num { color: var(--orange); }
+    .stat-card.approved .num { color: var(--green); }
+    .stat-card.rejected .num { color: var(--red); }
+    .stat-card.total .num { color: var(--blue); }
+
+    /* Filter bar */
+    .filters {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 6px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 13px;
+      transition: all 0.15s;
+    }
+
+    .filter-btn:hover { border-color: var(--blue); color: var(--text); }
+    .filter-btn.active { background: var(--blue-dim); border-color: var(--blue); color: var(--blue); }
+
+    /* Testimonial cards */
+    #testimonials-list { display: flex; flex-direction: column; gap: 14px; }
+
+    .t-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      position: relative;
+    }
+
+    .t-card.status-pending { border-left: 3px solid var(--orange); }
+    .t-card.status-approved { border-left: 3px solid var(--green); }
+    .t-card.status-rejected { border-left: 3px solid var(--red); }
+
+    .t-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .t-meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+
+    .badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-city { background: var(--blue-dim); color: var(--blue); }
+    .badge-pending { background: var(--orange-dim); color: var(--orange); }
+    .badge-approved { background: var(--green-dim); color: var(--green); }
+    .badge-rejected { background: var(--red-dim); color: var(--red); }
+
+    .stars { color: var(--orange); font-size: 15px; }
+
+    .t-author { color: var(--muted); font-size: 12px; }
+
+    .t-identity {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin: 8px 0;
+    }
+
+    .id-tag {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: 11px;
+      padding: 2px 7px;
+      color: var(--muted);
+    }
+
+    .t-content {
+      font-size: 14px;
+      line-height: 1.6;
+      margin: 10px 0;
+      color: var(--text);
+    }
+
+    .t-date { color: var(--muted); font-size: 11px; margin-top: 6px; }
+
+    .t-actions { display: flex; gap: 8px; margin-top: 12px; }
+
+    .btn {
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 7px 16px;
+      transition: opacity 0.15s;
+    }
+
+    .btn:hover { opacity: 0.85; }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .btn-approve { background: var(--green); color: #0a1f17; }
+    .btn-reject  { background: var(--red-dim); color: var(--red); border: 1px solid var(--red); }
+    .btn-delete  { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+
+    /* Empty / loading states */
+    .empty-state {
+      text-align: center;
+      padding: 48px 20px;
+      color: var(--muted);
+    }
+
+    .empty-state h3 { font-size: 18px; margin-bottom: 8px; color: var(--text); }
+
+    .loading {
+      text-align: center;
+      padding: 48px 20px;
+      color: var(--muted);
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 20px;
+      font-size: 13px;
+      max-width: 320px;
+      z-index: 100;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+      transition: opacity 0.3s;
+    }
+
+    .toast.success { border-color: var(--green); color: var(--green); }
+    .toast.error   { border-color: var(--red);   color: var(--red);   }
+
+    @media (max-width: 600px) {
+      .t-header { flex-direction: column; }
+      .t-actions { flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>EarthLook Admin — Testimonials</h1>
+  <span id="last-refresh">Loading…</span>
+</header>
+
+<div class="container">
+  <div class="stats" id="stats-bar">
+    <div class="stat-card pending">
+      <div class="num" id="count-pending">—</div>
+      <div class="label">Pending Review</div>
+    </div>
+    <div class="stat-card approved">
+      <div class="num" id="count-approved">—</div>
+      <div class="label">Approved</div>
+    </div>
+    <div class="stat-card rejected">
+      <div class="num" id="count-rejected">—</div>
+      <div class="label">Rejected</div>
+    </div>
+    <div class="stat-card total">
+      <div class="num" id="count-total">—</div>
+      <div class="label">Total</div>
+    </div>
+  </div>
+
+  <div class="filters">
+    <button class="filter-btn active" data-filter="pending" onclick="setFilter('pending')">Pending</button>
+    <button class="filter-btn" data-filter="approved" onclick="setFilter('approved')">Approved</button>
+    <button class="filter-btn" data-filter="rejected" onclick="setFilter('rejected')">Rejected</button>
+    <button class="filter-btn" data-filter="all" onclick="setFilter('all')">All</button>
+  </div>
+
+  <div id="testimonials-list">
+    <div class="loading">Loading testimonials…</div>
+  </div>
+</div>
+
+<script>
+  // The admin secret is injected server-side at render time.
+  const ADMIN_SECRET = "ADMIN_SECRET_PLACEHOLDER";
+  let currentFilter = "pending";
+  let allTestimonials = [];
+
+  const stars = (n) => "★".repeat(n) + "☆".repeat(5 - n);
+
+  const cityLabels = {
+    "san-francisco": "San Francisco",
+    "new-york": "New York",
+    "austin": "Austin",
+    "toronto": "Toronto",
+    "berlin": "Berlin",
+    "barcelona": "Barcelona",
+    "amsterdam": "Amsterdam",
+    "seattle": "Seattle",
+  };
+
+  function relativeTime(iso) {
+    const diff = Date.now() - new Date(iso).getTime();
+    const mins = Math.floor(diff / 60000);
+    if (mins < 1) return "just now";
+    if (mins < 60) return `${mins}m ago`;
+    const hrs = Math.floor(mins / 60);
+    if (hrs < 24) return `${hrs}h ago`;
+    return new Date(iso).toLocaleDateString();
+  }
+
+  function showToast(msg, type = "success") {
+    const t = document.createElement("div");
+    t.className = `toast ${type}`;
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(() => { t.style.opacity = "0"; setTimeout(() => t.remove(), 300); }, 2500);
+  }
+
+  async function apiFetch(path, method = "GET", body = null) {
+    const opts = {
+      method,
+      headers: { "Authorization": `Bearer ${ADMIN_SECRET}`, "Content-Type": "application/json" },
+    };
+    if (body) opts.body = JSON.stringify(body);
+    const res = await fetch(path, opts);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return res.json();
+  }
+
+  async function loadTestimonials() {
+    try {
+      const data = await apiFetch("/api/admin/testimonials");
+      allTestimonials = data.testimonials;
+
+      document.getElementById("count-pending").textContent = data.counts.pending;
+      document.getElementById("count-approved").textContent = data.counts.approved;
+      document.getElementById("count-rejected").textContent = data.counts.rejected;
+      document.getElementById("count-total").textContent = data.counts.total;
+      document.getElementById("last-refresh").textContent =
+        "Refreshed " + new Date().toLocaleTimeString();
+
+      renderList();
+    } catch (e) {
+      document.getElementById("testimonials-list").innerHTML =
+        `<div class="empty-state"><h3>Failed to load</h3><p>${e.message}</p></div>`;
+    }
+  }
+
+  function renderList() {
+    const filtered = currentFilter === "all"
+      ? allTestimonials
+      : allTestimonials.filter((t) => t.status === currentFilter);
+
+    const list = document.getElementById("testimonials-list");
+
+    if (filtered.length === 0) {
+      list.innerHTML = `<div class="empty-state">
+        <h3>Nothing here</h3>
+        <p>No ${currentFilter === "all" ? "" : currentFilter} testimonials found.</p>
+      </div>`;
+      return;
+    }
+
+    list.innerHTML = filtered.map((t) => {
+      const identityTags = [
+        t.ethnicity && `Ethnicity: ${t.ethnicity}`,
+        t.genderIdentity && `Gender: ${t.genderIdentity}`,
+        t.sexualOrientation && `Orientation: ${t.sexualOrientation}`,
+        t.religion && `Religion: ${t.religion}`,
+      ].filter(Boolean);
+
+      const isPending = t.status === "pending";
+      const isApproved = t.status === "approved";
+
+      return `
+      <div class="t-card status-${t.status}" id="card-${t.id}">
+        <div class="t-header">
+          <div class="t-meta">
+            <span class="badge badge-city">${cityLabels[t.cityId] ?? t.cityId}</span>
+            <span class="badge badge-${t.status}">${t.status}</span>
+            <span class="stars">${stars(t.rating)}</span>
+            <span class="t-author">${t.displayName ?? "Anonymous"}</span>
+          </div>
+          <span class="t-date">${relativeTime(t.createdAt)}</span>
+        </div>
+
+        ${identityTags.length ? `<div class="t-identity">${identityTags.map((tag) => `<span class="id-tag">${tag}</span>`).join("")}</div>` : ""}
+
+        <div class="t-content">"${t.content}"</div>
+
+        <div class="t-actions">
+          ${isPending ? `<button class="btn btn-approve" onclick="doAction('${t.id}', 'approve')">✓ Approve</button>` : ""}
+          ${isPending || isApproved ? `<button class="btn btn-reject" onclick="doAction('${t.id}', 'reject')">${isPending ? "✕ Reject" : "Revoke"}</button>` : ""}
+          ${!isPending ? `<button class="btn btn-approve" onclick="doAction('${t.id}', 'approve')">Re-approve</button>` : ""}
+          <button class="btn btn-delete" onclick="doDelete('${t.id}')">Delete</button>
+        </div>
+      </div>`;
+    }).join("");
+  }
+
+  async function doAction(id, action) {
+    const card = document.getElementById(`card-${id}`);
+    const btns = card.querySelectorAll("button");
+    btns.forEach((b) => b.disabled = true);
+    try {
+      await apiFetch(`/api/admin/testimonials/${id}/${action}`, "POST");
+      showToast(`Testimonial ${action}d`, "success");
+      // Update in local array
+      const t = allTestimonials.find((x) => x.id === id);
+      if (t) t.status = action === "approve" ? "approved" : "rejected";
+      // Update counts
+      const counts = { pending: 0, approved: 0, rejected: 0, total: allTestimonials.length };
+      allTestimonials.forEach((x) => counts[x.status]++);
+      document.getElementById("count-pending").textContent = counts.pending;
+      document.getElementById("count-approved").textContent = counts.approved;
+      document.getElementById("count-rejected").textContent = counts.rejected;
+      renderList();
+    } catch (e) {
+      showToast(`Failed: ${e.message}`, "error");
+      btns.forEach((b) => b.disabled = false);
+    }
+  }
+
+  async function doDelete(id) {
+    if (!confirm("Permanently delete this testimonial? This cannot be undone.")) return;
+    const card = document.getElementById(`card-${id}`);
+    const btns = card.querySelectorAll("button");
+    btns.forEach((b) => b.disabled = true);
+    try {
+      await apiFetch(`/api/admin/testimonials/${id}`, "DELETE");
+      showToast("Testimonial deleted", "success");
+      allTestimonials = allTestimonials.filter((x) => x.id !== id);
+      const counts = { pending: 0, approved: 0, rejected: 0, total: allTestimonials.length };
+      allTestimonials.forEach((x) => counts[x.status]++);
+      document.getElementById("count-pending").textContent = counts.pending;
+      document.getElementById("count-approved").textContent = counts.approved;
+      document.getElementById("count-rejected").textContent = counts.rejected;
+      document.getElementById("count-total").textContent = counts.total;
+      renderList();
+    } catch (e) {
+      showToast(`Failed: ${e.message}`, "error");
+      btns.forEach((b) => b.disabled = false);
+    }
+  }
+
+  function setFilter(f) {
+    currentFilter = f;
+    document.querySelectorAll(".filter-btn").forEach((b) => {
+      b.classList.toggle("active", b.dataset.filter === f);
+    });
+    renderList();
+  }
+
+  // Initial load + auto-refresh every 60s
+  loadTestimonials();
+  setInterval(loadTestimonials, 60000);
+</script>
+</body>
+</html>

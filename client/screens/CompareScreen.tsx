@@ -5,13 +5,15 @@ import {
   ScrollView,
   Pressable,
   Dimensions,
+  Alert,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useHeaderHeight } from "@react-navigation/elements";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { Feather } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
-
 import { ThemedText } from "@/components/ThemedText";
 import { EmptyState } from "@/components/EmptyState";
 import { ScoreDisplay, ScoreBar } from "@/components/ScoreDisplay";
@@ -28,6 +30,7 @@ import {
   clearCompareList,
 } from "@/lib/storage";
 import { CityWithScore, PRIORITY_LABELS, PriorityWeights } from "@/types";
+import { RootStackParamList } from "@/navigation/RootStackNavigator";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const COLUMN_WIDTH = (SCREEN_WIDTH - Spacing.lg * 2 - Spacing.md) / 2;
@@ -37,8 +40,13 @@ export default function CompareScreen() {
   const headerHeight = useHeaderHeight();
   const tabBarHeight = useBottomTabBarHeight();
   const { theme } = useTheme();
-  const { profile, isLoading: profileLoading, isAnonymousMode } = useUserProfile();
-
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const {
+    profile,
+    isLoading: profileLoading,
+    isAnonymousMode,
+  } = useUserProfile();
   const [compareList, setCompareList] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -54,7 +62,6 @@ export default function CompareScreen() {
 
   const citiesWithScores: CityWithScore[] = useMemo(() => {
     if (!profile) return [];
-
     return compareList
       .map((id) => {
         const city = getCityById(id);
@@ -80,10 +87,28 @@ export default function CompareScreen() {
     setCompareList((prev) => prev.filter((id) => id !== cityId));
   };
 
-  const handleClearAll = async () => {
-    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
-    await clearCompareList();
-    setCompareList([]);
+  const handleClearAll = () => {
+    Alert.alert(
+      "Clear All Cities",
+      "This will remove all cities from your comparison list. You can add them back from the Explore tab.",
+      [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "Clear All",
+          style: "destructive",
+          onPress: async () => {
+            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
+            await clearCompareList();
+            setCompareList([]);
+          },
+        },
+      ]
+    );
+  };
+
+  const handleCityPress = (cityId: string) => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    navigation.navigate("CityDetail", { cityId });
   };
 
   if (isLoading || profileLoading) {
@@ -91,7 +116,12 @@ export default function CompareScreen() {
       <View
         style={[styles.container, { backgroundColor: theme.backgroundRoot }]}
       >
-        <View style={[styles.loadingContainer, { paddingTop: headerHeight + Spacing.lg }]}>
+        <View
+          style={[
+            styles.loadingContainer,
+            { paddingTop: headerHeight + Spacing.lg },
+          ]}
+        >
           <CompareListSkeleton count={2} />
         </View>
       </View>
@@ -128,14 +158,14 @@ export default function CompareScreen() {
           },
         ]}
         showsVerticalScrollIndicator={false}
+        scrollEventThrottle={16}
       >
         <View style={styles.header}>
-          <ThemedText type="h4">Comparing {citiesWithScores.length} cities</ThemedText>
-          <Pressable onPress={handleClearAll}>
-            <ThemedText
-              type="small"
-              style={{ color: theme.danger }}
-            >
+          <ThemedText type="h4">
+            Comparing {citiesWithScores.length} cities
+          </ThemedText>
+          <Pressable onPress={handleClearAll} accessibilityLabel="Clear all cities" accessibilityRole="button">
+            <ThemedText type="small" style={{ color: theme.danger }}>
               Clear All
             </ThemedText>
           </Pressable>
@@ -143,22 +173,30 @@ export default function CompareScreen() {
 
         <ScrollView
           horizontal
+          nestedScrollEnabled
+          decelerationRate="fast"
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.citiesRow}
         >
           {citiesWithScores.map((city) => (
-            <View
+            <Pressable
               key={city.id}
-              style={[
+              onPress={() => handleCityPress(city.id)}
+              accessibilityLabel={city.name}
+              accessibilityRole="button"
+              style={({ pressed }) => [
                 styles.cityColumn,
                 {
                   backgroundColor: theme.backgroundDefault,
                   borderColor: theme.cardBorder,
                 },
+                pressed && styles.cityColumnPressed,
               ]}
             >
               <Pressable
                 onPress={() => handleRemoveCity(city.id)}
+                accessibilityLabel={`Remove ${city.name}`}
+                accessibilityRole="button"
                 style={[
                   styles.removeButton,
                   { backgroundColor: theme.backgroundSecondary },
@@ -187,10 +225,8 @@ export default function CompareScreen() {
 
               <View style={styles.breakdown}>
                 {comparisonCategories.map((category) => {
-                  const score =
-                    city.personalizedScore.breakdown[category];
+                  const score = city.personalizedScore.breakdown[category];
                   const scoreColor = getScoreColor(score);
-
                   return (
                     <View key={category} style={styles.categoryRow}>
                       <ThemedText
@@ -220,7 +256,22 @@ export default function CompareScreen() {
                   );
                 })}
               </View>
-            </View>
+
+              <View
+                style={[
+                  styles.viewDetailsRow,
+                  { borderTopColor: theme.border },
+                ]}
+              >
+                <ThemedText
+                  type="small"
+                  style={[styles.viewDetailsText, { color: theme.primary }]}
+                >
+                  View Details
+                </ThemedText>
+                <Feather name="chevron-right" size={14} color={theme.primary} />
+              </View>
+            </Pressable>
           ))}
         </ScrollView>
 
@@ -228,52 +279,40 @@ export default function CompareScreen() {
           <ThemedText type="h4" style={styles.insightsTitle}>
             Key Differences
           </ThemedText>
-
           {citiesWithScores.length >= 2 ? (
             <>
+              {/* Best Overall is always first */}
               <InsightRow
                 label="Best Overall Match"
                 value={
-                  citiesWithScores.sort(
+                  [...citiesWithScores].sort(
                     (a, b) =>
                       b.personalizedScore.overall - a.personalizedScore.overall
                   )[0].name
                 }
                 theme={theme}
               />
-              <InsightRow
-                label="Most Affordable"
-                value={
-                  citiesWithScores.sort(
-                    (a, b) =>
-                      b.personalizedScore.breakdown.costOfLiving -
-                      a.personalizedScore.breakdown.costOfLiving
-                  )[0].name
-                }
-                theme={theme}
-              />
-              <InsightRow
-                label="Best for Safety"
-                value={
-                  citiesWithScores.sort(
-                    (a, b) =>
-                      b.personalizedScore.breakdown.safety -
-                      a.personalizedScore.breakdown.safety
-                  )[0].name
-                }
-                theme={theme}
-              />
-              <InsightRow
-                label="Best LGBTQ+ Scene"
-                value={
-                  citiesWithScores.sort(
-                    (a, b) =>
-                      b.personalizedScore.breakdown.lgbtqAcceptance -
-                      a.personalizedScore.breakdown.lgbtqAcceptance
-                  )[0].name
-                }
-                theme={theme}
-              />
+              {/* Remaining rows driven by user's top-weighted priorities */}
+              {profile &&
+                Object.entries(profile.priorities)
+                  .sort(([, a], [, b]) => b - a)
+                  .slice(0, 3)
+                  .map(([key]) => {
+                    const category = key as keyof PriorityWeights;
+                    const winner = [...citiesWithScores].sort(
+                      (a, b) =>
+                        b.personalizedScore.breakdown[category] -
+                        a.personalizedScore.breakdown[category]
+                    )[0];
+                    return (
+                      <InsightRow
+                        key={category}
+                        label={`Best: ${PRIORITY_LABELS[category]}`}
+                        value={winner.name}
+                        theme={theme}
+                      />
+                    );
+                  })}
             </>
           ) : null}
         </View>
@@ -335,6 +374,9 @@ const styles = StyleSheet.create({
     padding: Spacing.lg,
     position: "relative",
   },
+  cityColumnPressed: {
+    opacity: 0.75,
+  },
   removeButton: {
     position: "absolute",
     top: Spacing.sm,
@@ -372,6 +414,18 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     minWidth: 36,
     alignItems: "center",
+  },
+  viewDetailsRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: Spacing.lg,
+    paddingTop: Spacing.md,
+    borderTopWidth: 1,
+    gap: Spacing.xs,
+  },
+  viewDetailsText: {
+    fontWeight: "600",
   },
   insights: {
     marginTop: Spacing["2xl"],

@@ -1,4 +1,4 @@
-import { IdentityProfile, PriorityWeights, DEFAULT_CLIMATE_PREFERENCES } from "@/types";
+import { IdentityProfile, PriorityWeights } from "@/types";
 
 export interface Persona {
   id: string;
@@ -27,7 +27,6 @@ export const EXAMPLE_PERSONAS: Persona[] = [
       ageRange: "25-34",
       disabilities: [],
       languages: ["English", "Mandarin"],
-      climatePreferences: DEFAULT_CLIMATE_PREFERENCES,
     },
     priorities: {
       safety: 80,
@@ -59,7 +58,6 @@ export const EXAMPLE_PERSONAS: Persona[] = [
       ageRange: "25-34",
       disabilities: [],
       languages: ["English"],
-      climatePreferences: DEFAULT_CLIMATE_PREFERENCES,
     },
     priorities: {
       safety: 85,
@@ -91,7 +89,6 @@ export const EXAMPLE_PERSONAS: Persona[] = [
       ageRange: "35-44",
       disabilities: [],
       languages: ["English", "Spanish"],
-      climatePreferences: DEFAULT_CLIMATE_PREFERENCES,
     },
     priorities: {
       safety: 95,
@@ -123,7 +120,6 @@ export const EXAMPLE_PERSONAS: Persona[] = [
       ageRange: "25-34",
       disabilities: [],
       languages: ["English"],
-      climatePreferences: DEFAULT_CLIMATE_PREFERENCES,
     },
     priorities: {
       safety: 90,

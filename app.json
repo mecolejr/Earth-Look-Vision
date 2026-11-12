@@ -44,6 +44,11 @@
     ],
     "experiments": {
       "reactCompiler": true
-    }
+    },
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ]
   }
 }

@@ -69,14 +69,14 @@ export function InfoTooltip({ title, description }: InfoTooltipProps) {
             style={[
               styles.tooltipCard,
               {
-                backgroundColor: theme.backgroundDefault,
+                backgroundColor: theme.backgroundElevated,
                 shadowColor: theme.text,
               },
             ]}
           >
             <View style={styles.tooltipHeader}>
               <Feather name="info" size={18} color={theme.primary} />
-              <ThemedText type="h4" style={styles.tooltipTitle}>
+              <ThemedText type="headline" style={styles.tooltipTitle}>
                 {title}
               </ThemedText>
             </View>
