@@ -245,16 +245,11 @@ function calculateSafetyScore(
                     baseScore -= penalty;
                     note = hcNote;
           }
-  } else if (identity.ethnicities.length > 0) {
-          // Legacy fallback: use aggregate hate crime data
-        const avgHateCrimes =
-                  Object.values(city.safety.hateCrimesByCategory).reduce(
-                              (a, b) => a + b,
-                              0
-                            ) / 4;
-          const hateCrimePenalty = Math.min(avgHateCrimes / 5, 20);
-          baseScore -= hateCrimePenalty;
   }
+  // No-data rule (2026-11-13): when a city has no hateCrimesByBiasCategory data,
+  // no hate-crime penalty is applied at all. The old fallback used the unsourced
+  // legacy hateCrimesByCategory counts, which penalised cities that had counts
+  // and not cities that had none. Safety then comes from the crime rate alone.
 
   return {
           score: Math.max(0, Math.min(100, baseScore)),
