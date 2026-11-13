@@ -158,6 +158,8 @@ export default function MapScreen() {
             }}
             pinColor={getMarkerColor(city.matchScore)}
             onPress={() => handleMarkerPress(city)}
+            title={city.name}
+            description={`Match score ${Math.round(city.matchScore)}`}
           >
             <View style={[styles.markerContainer, { backgroundColor: getMarkerColor(city.matchScore) }]}>
               <ThemedText style={styles.markerScore}>
@@ -182,7 +184,20 @@ export default function MapScreen() {
       {selectedCity ? (
         <View style={[styles.cityCard, { paddingBottom: insets.bottom + Spacing.lg }]}>
           <View style={[styles.cardContent, { backgroundColor: theme.backgroundDefault }]}>
-            <Pressable onPress={handleCityDetailPress} style={styles.cardPressable}>
+            <Pressable
+              onPress={() => setSelectedCity(null)}
+              accessibilityLabel="Close city preview"
+              accessibilityRole="button"
+              style={[styles.closeButton, { backgroundColor: theme.backgroundSecondary }]}
+            >
+              <Feather name="x" size={16} color={theme.textSecondary} />
+            </Pressable>
+            <Pressable
+              onPress={handleCityDetailPress}
+              accessibilityLabel={`Open details for ${selectedCity.name}`}
+              accessibilityRole="button"
+              style={styles.cardPressable}
+            >
               <View style={styles.cardHeader}>
                 <View style={styles.cardTitleSection}>
                   <ThemedText style={[styles.cardCityName, { fontFamily: Fonts?.serifBold }]}>
@@ -230,7 +245,11 @@ export default function MapScreen() {
                 </View>
               </View>
 
-              <View style={[styles.viewDetailsButton, { backgroundColor: theme.primary }]}>
+              <View
+                style={[styles.viewDetailsButton, { backgroundColor: theme.primary }]}
+                accessibilityElementsHidden
+                importantForAccessibility="no-hide-descendants"
+              >
                 <ThemedText style={styles.viewDetailsText}>View Full Details</ThemedText>
                 <Feather name="arrow-right" size={16} color="#fff" />
               </View>
@@ -305,6 +324,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.lg,
   },
   cardContent: {
+    position: "relative",
     borderRadius: BorderRadius.lg,
     overflow: "hidden",
     shadowColor: "#000",
@@ -315,6 +335,17 @@ const styles = StyleSheet.create({
   },
   cardPressable: {
     padding: Spacing.lg,
+  },
+  closeButton: {
+    position: "absolute",
+    top: Spacing.sm,
+    right: Spacing.sm,
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 1,
   },
   cardHeader: {
     flexDirection: "row",

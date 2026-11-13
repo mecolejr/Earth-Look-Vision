@@ -6,7 +6,6 @@ import {
   ScrollView,
   Pressable,
   Dimensions,
-  Alert,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
@@ -17,7 +16,7 @@ import { Feather } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 import { ThemedText } from "@/components/ThemedText";
 import { EmptyState } from "@/components/EmptyState";
-import { ScoreDisplay, ScoreBar } from "@/components/ScoreDisplay";
+import { ScoreDisplay } from "@/components/ScoreDisplay";
 import { CompareListSkeleton } from "@/components/SkeletonLoader";
 import { useTheme } from "@/hooks/useTheme";
 import { useUserProfile } from "@/contexts/UserProfileContext";

@@ -7,7 +7,6 @@ import {
   ScrollView,
   TextInput,
   Pressable,
-  Alert,
   Platform,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";

@@ -63,6 +63,8 @@ export default function MapScreen() {
           <Pressable
             style={[styles.downloadBtn, { backgroundColor: theme.surface, borderColor: theme.border }]}
             onPress={() => Linking.openURL("https://apps.apple.com/us/app/earthlook/id0000000000")}
+            accessibilityLabel="Download on the App Store"
+            accessibilityRole="button"
           >
             <Feather name="smartphone" size={20} color={theme.text} />
             <View style={styles.downloadBtnText}>
@@ -73,6 +75,8 @@ export default function MapScreen() {
           <Pressable
             style={[styles.downloadBtn, { backgroundColor: theme.surface, borderColor: theme.border }]}
             onPress={() => Linking.openURL("https://play.google.com/store/apps/details?id=com.earthlook")}
+            accessibilityLabel="Get it on Google Play"
+            accessibilityRole="button"
           >
             <Feather name="play" size={20} color={theme.text} />
             <View style={styles.downloadBtnText}>
@@ -91,6 +95,8 @@ export default function MapScreen() {
             key={city.id}
             style={[styles.webCityCard, { backgroundColor: theme.backgroundDefault, borderColor: theme.cardBorder }]}
             onPress={() => navigation.navigate("CityDetail", { cityId: city.id })}
+            accessibilityLabel={`${city.name}, open city details`}
+            accessibilityRole="button"
           >
             <View style={styles.webCityCardHeader}>
               <View style={styles.webCityInfo}>
