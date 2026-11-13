@@ -83,9 +83,6 @@ export default function IdentityStep1Screen({
     navigation.navigate("IdentityStep2");
   };
 
-  const canProceed =
-    career.length > 0 || income.length > 0 || family.length > 0 || Object.values(climatePrefs).some((v) => v !== "");
-
   return (
     <View style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
       <View
@@ -219,7 +216,7 @@ export default function IdentityStep1Screen({
           },
         ]}
       >
-        <Button onPress={handleNext} disabled={!canProceed}>
+        <Button onPress={handleNext}>
           Continue
         </Button>
       </View>

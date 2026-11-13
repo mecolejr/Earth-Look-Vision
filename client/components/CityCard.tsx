@@ -105,6 +105,7 @@ export function CityCard({
         <CityImage
           cityId={city.id}
           style={styles.image}
+          containerStyle={styles.image}
           size="medium"
           index={index}
         />
