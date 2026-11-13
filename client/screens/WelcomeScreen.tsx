@@ -178,7 +178,7 @@ export default function WelcomeScreen({ navigation }: WelcomeScreenProps) {
         </View>
 
         <View style={styles.secondaryActions}>
-          <Pressable onPress={handleTryDemo} style={styles.secondaryButton} testID="button-try-demo">
+          <Pressable onPress={handleTryDemo} style={styles.secondaryButton} testID="button-try-demo" accessibilityRole="button" accessibilityLabel="Try the live demo">
             <Feather name="sliders" size={16} color={theme.primary} />
             <ThemedText
               type="body"
@@ -188,7 +188,7 @@ export default function WelcomeScreen({ navigation }: WelcomeScreenProps) {
             </ThemedText>
           </Pressable>
 
-          <Pressable onPress={handleTryExample} style={styles.secondaryButton} testID="button-try-persona">
+          <Pressable onPress={handleTryExample} style={styles.secondaryButton} testID="button-try-persona" accessibilityRole="button" accessibilityLabel="Try with an example persona">
             <Feather name="users" size={16} color={theme.textSecondary} />
             <ThemedText
               type="body"
@@ -198,7 +198,7 @@ export default function WelcomeScreen({ navigation }: WelcomeScreenProps) {
             </ThemedText>
           </Pressable>
 
-          <Pressable onPress={handleBrowseAnonymously} style={styles.secondaryButton} testID="button-browse-anonymously">
+          <Pressable onPress={handleBrowseAnonymously} style={styles.secondaryButton} testID="button-browse-anonymously" accessibilityRole="button" accessibilityLabel="Browse anonymously">
             <Feather name="eye-off" size={16} color={theme.textSecondary} />
             <ThemedText
               type="body"

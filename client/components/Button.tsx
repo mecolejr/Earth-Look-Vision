@@ -61,6 +61,8 @@ export function Button({
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}
       disabled={disabled}
+      accessibilityRole="button"
+      accessibilityState={{ disabled }}
       testID={testID}
       style={[
         styles.button,

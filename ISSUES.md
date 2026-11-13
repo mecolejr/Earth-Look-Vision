@@ -90,6 +90,7 @@ This app is developed and hosted on Replit. All code changes must remain compati
 | 26 | Pressable missing accessibilityLabel â needed for screen readers. | ✅ Fixed Mar 15 | client/screens/CompareScreen.tsx |
 | 27 | Pressable missing accessibilityLabel — needed for screen readers. | ✅ Fixed (verified Nov 13: all 3 Pressables labelled) | client/screens/CompareScreen.tsx |
 | 28 | Alert.alert does nothing on web, so every confirmation pop-up (Start Over, Clear All, Delete All Data, etc.) silently failed in the web version. | ✅ Fixed Nov 13: all 18 calls now use showAlert | client/lib/showAlert.ts |
+| 29 | Shared components had no screen-reader info: Chip (every onboarding choice), Button, CityCard and its compare button, Welcome secondary buttons. Also climate chips showed raw ids. | ✅ Fixed Nov 13: roles, labels and selected/disabled state added; ChipGroup takes friendly labels | client/components/Chip.tsx |
 | 28 | SyntaxError in UserProfileContext.tsx (198:38) — Unexpected token in closing Provider tag, crashes app on load. | ✅ Fixed Mar 15 | client/contexts/UserProfileContext.tsx |
 
 ---

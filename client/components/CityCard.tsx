@@ -92,6 +92,8 @@ export function CityCard({
       onPress={onPress}
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}
+      accessibilityRole="button"
+      accessibilityLabel={`${city.name}, open city details`}
       style={[
         styles.container,
         {
@@ -112,6 +114,8 @@ export function CityCard({
         <View style={styles.imageOverlay}>
           <Pressable
             onPress={handleComparePress}
+            accessibilityRole="button"
+            accessibilityLabel={isInCompareList ? `Remove ${city.name} from comparison` : `Add ${city.name} to comparison`}
             style={[
               styles.compareButton,
               {

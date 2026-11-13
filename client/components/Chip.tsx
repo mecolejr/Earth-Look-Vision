@@ -50,6 +50,9 @@ export function Chip({
       onPress={disabled ? undefined : onPress}
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}
+      accessibilityRole="button"
+      accessibilityLabel={label}
+      accessibilityState={{ selected, disabled }}
       style={[
         styles.chip,
         {
@@ -83,6 +86,8 @@ interface ChipGroupProps {
   onChange: (selected: string[]) => void;
   multiSelect?: boolean;
   disabled?: boolean;
+  /** Optional friendly text per option value; the stored value stays the option itself. */
+  labels?: Record<string, string>;
 }
 
 export function ChipGroup({
@@ -91,6 +96,7 @@ export function ChipGroup({
   onChange,
   multiSelect = false,
   disabled = false,
+  labels,
 }: ChipGroupProps) {
   const handlePress = (option: string) => {
     if (multiSelect) {
@@ -109,7 +115,7 @@ export function ChipGroup({
       {options.map((option) => (
         <Chip
           key={option}
-          label={option}
+          label={labels?.[option] ?? option}
           selected={selected.includes(option)}
           onPress={() => handlePress(option)}
           disabled={disabled}

@@ -182,6 +182,7 @@ export default function IdentityStep1Screen({
           </ThemedText>
           <ChipGroup
             options={CLIMATE_OPTIONS.temperature.map(o => o.value)}
+            labels={Object.fromEntries(CLIMATE_OPTIONS.temperature.map(o => [o.value, o.label.split(" (")[0]]))}
             selected={climatePrefs.temperaturePreference ? [climatePrefs.temperaturePreference] : []}
             onChange={(values) => handleClimateChange("temperaturePreference", values[0] || "")}
           />
@@ -191,6 +192,7 @@ export default function IdentityStep1Screen({
           </ThemedText>
           <ChipGroup
             options={CLIMATE_OPTIONS.seasons.map(o => o.value)}
+            labels={Object.fromEntries(CLIMATE_OPTIONS.seasons.map(o => [o.value, o.label.split(" (")[0]]))}
             selected={climatePrefs.seasonPreference ? [climatePrefs.seasonPreference] : []}
             onChange={(values) => handleClimateChange("seasonPreference", values[0] || "")}
           />
@@ -200,6 +202,7 @@ export default function IdentityStep1Screen({
           </ThemedText>
           <ChipGroup
             options={CLIMATE_OPTIONS.precipitation.map(o => o.value)}
+            labels={Object.fromEntries(CLIMATE_OPTIONS.precipitation.map(o => [o.value, o.label.split(" (")[0]]))}
             selected={climatePrefs.precipitationPreference ? [climatePrefs.precipitationPreference] : []}
             onChange={(values) => handleClimateChange("precipitationPreference", values[0] || "")}
           />
