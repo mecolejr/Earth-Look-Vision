@@ -147,6 +147,12 @@ export const testimonials = pgTable("testimonials", {
              * Optional author display name. Null = shown as "Anonymous".
        */
       displayName: text("display_name"),
+      /**
+             * True for the curated seed testimonials shown so "People Like You"
+       * isn't empty on first launch. Never settable by users — excluded from
+       * insertTestimonialSchema below. Shown to users as a "Sample review" badge.
+       */
+      isSample: boolean("is_sample").default(false).notNull(),
       createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 

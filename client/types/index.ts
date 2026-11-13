@@ -535,6 +535,8 @@ export interface Testimonial {
     sexualOrientation?: string;
     religion?: string;
     displayName?: string;
+    /** True for curated seed testimonials shown so this section isn't empty on first launch */
+  isSample?: boolean;
     createdAt: string;
 }
 

@@ -255,7 +255,13 @@ async function seed() {
       .limit(1);
 
     if (existing.length > 0) {
-      console.log(`  skip  [${row.cityId}] "${row.content.slice(0, 50)}…"`);
+      // Already inserted (e.g. before the isSample column existed) — make sure
+      // it's still flagged as a sample so the "Sample review" badge shows.
+      await db
+        .update(schema.testimonials)
+        .set({ isSample: true })
+        .where(eq(schema.testimonials.id, existing[0].id));
+      console.log(`  skip  [${row.cityId}] "${row.content.slice(0, 50)}…" (isSample ensured)`);
       skipped++;
       continue;
     }
@@ -270,6 +276,7 @@ async function seed() {
       sexualOrientation: row.sexualOrientation ?? null,
       religion: row.religion ?? null,
       status: "approved",
+      isSample: true,
     });
 
     console.log(`  ✓  [${row.cityId}] "${row.content.slice(0, 50)}…"`);

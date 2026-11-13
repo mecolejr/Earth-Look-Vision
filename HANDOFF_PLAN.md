@@ -95,3 +95,39 @@ few minutes of work.
 - Same dead-`Alert`-import cleanup applied to 4 other screens touched by the M3 showAlert migration (MovingChecklistScreen, SupportScreen, NewsletterScreen, ProfileScreen) — found while reviewing, same root cause, same fix, zero risk.
 - Verified: tsc clean, all 23 cities pass, Compare screen visually confirmed in Preview. Native Map tab is hidden on web by design (Issue #4) so it can't be visually checked in this browser Preview — verified by typecheck only; worth a real device/simulator check before launch.
 - Not done this pass (noted, not forgotten): a worldwide weather provider, estimate labeling in the UI, and the sample-review tag are still open from the M4 checkpoint.
+
+## Sample-review tagging (post-M5, pre-M6)
+
+Tagged the 20 seeded/fictional community testimonials as samples so they
+are no longer indistinguishable from real user submissions (the first of
+the three items recommended at the M4 checkpoint).
+
+- Added `isSample` boolean column to `testimonials` (default false,
+  excluded from `insertTestimonialSchema` so users can never set it).
+- `scripts/seed-testimonials.ts` now sets `isSample: true` on insert and
+  backfills it on existing rows when re-run (all 20 seed rows confirmed
+  backfilled).
+- Added `isSample?: boolean` to the client `Testimonial` type and a
+  "Sample review" badge next to the author name in `TestimonialCard`.
+- Ran `npm run db:push` (additive column, no data loss) then re-ran the
+  seed script to backfill.
+
+Bug found and fixed while verifying: `GET /api/testimonials/:cityId` maps
+rows through an explicit `safeTestimonials` allowlist before responding
+(a deliberate guard so new DB columns aren't auto-exposed to the client).
+That allowlist didn't include `isSample`, so the badge data never reached
+the app even though the DB and seed script were correct. Added
+`isSample: t.isSample` to the allowlist in `server/routes.ts`. Verified
+by curling the endpoint directly before/after and confirming `isSample`
+appears, since the native app's "anonymous mode" default profile hides
+the whole testimonials section in this browser Preview (can't visually
+confirm the badge render without setting up a non-anonymous profile).
+
+Verification: `npx tsc --noEmit` clean, `npx tsx scripts/check-cities.ts`
+all 23 cities pass, no server-route behavior changed other than the one
+added field, no files created/deleted (edits only, so no Metro restart
+needed).
+
+Still open from M4: estimate-labeling in UI, second weather provider.
+M6 (Reviews PII hardening) still requires a Fable checkpoint before
+starting, per the standing rule.

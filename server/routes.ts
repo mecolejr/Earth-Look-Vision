@@ -413,6 +413,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
                         sexualOrientation: t.sexualOrientation,
                         religion: t.religion,
                         displayName: t.displayName,
+                        isSample: t.isSample,
                         createdAt: t.createdAt,
             }));
 

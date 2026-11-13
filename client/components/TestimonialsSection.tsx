@@ -166,7 +166,25 @@ function TestimonialCard({
                                               </ThemedText>
                                   </View>
                                   <View>
-                                              <ThemedText style={styles.authorName}>{name}</ThemedText>
+                                              <View style={styles.authorNameRow}>
+                                                <ThemedText style={styles.authorName}>{name}</ThemedText>
+                                                {testimonial.isSample ? (
+                                                  <View
+                                                    style={[
+                                                      styles.sampleBadge,
+                                                      { backgroundColor: theme.backgroundSecondary },
+                                                    ]}
+                                                    accessibilityLabel="Sample review"
+                                                  >
+                                                    <ThemedText
+                                                      type="small"
+                                                      style={[styles.sampleBadgeText, { color: theme.textSecondary }]}
+                                                    >
+                                                      Sample review
+                                                    </ThemedText>
+                                                  </View>
+                                                ) : null}
+                                              </View>
                                     {identityParts.length > 0 ? (
                                 <ThemedText type="small" style={{ color: theme.textSecondary }}>
                                   {identityParts.join(" · ")}
@@ -514,9 +532,23 @@ const styles = StyleSheet.create({
           fontSize: 16,
           fontWeight: "700",
     },
+    authorNameRow: {
+          flexDirection: "row",
+          alignItems: "center",
+          gap: Spacing.xs,
+    },
     authorName: {
           fontWeight: "600",
           fontSize: 14,
+    },
+    sampleBadge: {
+          paddingHorizontal: 6,
+          paddingVertical: 2,
+          borderRadius: BorderRadius.sm,
+    },
+    sampleBadgeText: {
+          fontSize: 10,
+          fontWeight: "600",
     },
     cardMeta: {
           alignItems: "flex-end",
