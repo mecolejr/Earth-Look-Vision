@@ -148,3 +148,24 @@ Housekeeping: the backend on Replit is currently running from a manual
 shell process (nohup), not the Start Backend workflow — restart the
 workflow properly at the start of the next session so it survives
 Replit restarts.
+
+## M6 (Reviews PII hardening) — done
+
+Cleared by the Fable checkpoint above. Scope was: opt-in consent before identity info attaches to a review, rate limiting on submission, and tighter server-side validation. Per Mj's confirmed answers: identity tags stay visible on individual reviews (no change to that display logic).
+
+Server (`server/routes.ts`):
+- Added `express-rate-limit` (new dependency, installed). `testimonialSubmitLimiter`: 15-minute window, 5 requests per window, standard headers, custom JSON message. Applied to `POST /api/testimonials` only.
+- `server/index.ts`: added `app.set("trust proxy", 1)` right after the Express app is created, so `req.ip` reflects the real client behind Cloud Run's reverse proxy (required for the rate limiter to key correctly).
+- Added `.max(60)` to the four identity fields (`ethnicity`, `genderIdentity`, `sexualOrientation`, `religion`) in both `TestimonialSubmitSchema` and `IdentityFilterSchema` — these were previously unbounded free text.
+
+Client (`client/components/TestimonialsSection.tsx`):
+- `WriteReviewForm` now builds an opt-in checklist from the viewer's own profile identity values. Each item (ethnicity/gender identity/sexual orientation/religion) is only offered if the profile has a value, and every checkbox defaults to UNCHECKED. A footer line previews exactly what will show on the review if everything currently checked is submitted.
+- Only the checked items are sent in the `selectedIdentity` object passed to `onSubmit`; nothing is auto-attached from the profile anymore (previously all four fields were spread unconditionally).
+- Simplified the privacy-notice copy below the form to drop the now-inaccurate "used to help others find reviews from people like them" line, keeping only the moderation-queue notice.
+- Left `TestimonialCard`'s `identityParts` display logic untouched — per-review identity tags still render as before.
+
+Transfer note: both files were moved to Replit via the chunked base64 shell method (browser-typed, no direct git push available from the cloud sandbox). `TestimonialsSection.tsx` picked up a few bytes of corruption in transit this time (a dropped word and one dropped `</ThemedText>` closing tag, found via bisecting cumulative md5sum checksums against the local file and confirmed by a live `tsc --noEmit` failure) — both were patched by hand on Replit and re-verified clean. Worth flagging: a browser-typed base64 transfer of a large file is not perfectly reliable even after a clean-looking decode; the backup-swap-tsc-check cycle is what actually caught it, not the md5/byte comparison.
+
+Verification: `npx tsc --noEmit` clean and `npx tsx scripts/check-cities.ts` passes (same 12 expected pre-existing warnings, 23/23 cities) on both files, on Replit, after the dependency install.
+
+Outstanding: same as the M4/M5 note above — the native app's anonymous-mode default profile hides the whole TestimonialsSection in this browser Preview, so the new consent-checkbox UI has not been visually confirmed in Preview. No console errors on the City Detail screen otherwise.

@@ -206,12 +206,28 @@ function TestimonialCard({
         );
 }
 
+/** The identity fields a review can optionally carry, keyed the same way the API expects. */
+interface ShareableIdentity {
+    ethnicity?: string;
+    genderIdentity?: string;
+    sexualOrientation?: string;
+    religion?: string;
+}
+
 function WriteReviewForm({
+    identity,
     onSubmit,
     onCancel,
     theme,
 }: {
-    onSubmit: (content: string, rating: number, displayName?: string) => Promise<void>;
+    /** The viewer's own profile identity values — only these can be offered to share. */
+  identity?: Partial<IdentityProfile>;
+    onSubmit: (
+          content: string,
+          rating: number,
+          displayName: string | undefined,
+          selectedIdentity: ShareableIdentity
+        ) => Promise<void>;
     onCancel: () => void;
     theme: any;
 }) {
@@ -220,13 +236,45 @@ function WriteReviewForm({
     const [displayName, setDisplayName] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitted, setSubmitted] = useState(false);
-  
+
+    // Each item the viewer could choose to attach to this review, built from
+    // their own stored profile. Nothing here is pre-checked — opt-in, not
+    // opt-out — and an item with no value on the profile isn't offered at all.
+    const shareableItems: Array<{ key: keyof ShareableIdentity; label: string }> = [
+          identity?.ethnicities?.[0]
+                ? { key: "ethnicity", label: identity.ethnicities[0] }
+                : null,
+          identity?.genderIdentity
+                ? { key: "genderIdentity", label: identity.genderIdentity }
+                : null,
+          identity?.sexualOrientation
+                ? { key: "sexualOrientation", label: identity.sexualOrientation }
+                : null,
+          identity?.religion ? { key: "religion", label: identity.religion } : null,
+    ].filter((item): item is { key: keyof ShareableIdentity; label: string } => item !== null);
+
+    const [checked, setChecked] = useState<Record<string, boolean>>({});
+
+    const toggleChecked = (key: string) => {
+          setChecked((prev) => ({ ...prev, [key]: !prev[key] }));
+    };
+
     const canSubmit = content.trim().length >= 10 && rating >= 1;
-  
+
     const handleSubmit = async () => {
           if (!canSubmit || isSubmitting) return;
           setIsSubmitting(true);
-          await onSubmit(content.trim(), rating, displayName.trim() || undefined);
+          const selectedIdentity: ShareableIdentity = {};
+          for (const item of shareableItems) {
+                  if (checked[item.key]) {
+                            const value =
+                                        item.key === "ethnicity"
+                                                    ? identity?.ethnicities?.[0]
+                                                    : identity?.[item.key];
+                            if (value) selectedIdentity[item.key] = value;
+                  }
+          }
+          await onSubmit(content.trim(), rating, displayName.trim() || undefined, selectedIdentity);
           setIsSubmitting(false);
           setSubmitted(true);
     };
@@ -308,15 +356,60 @@ function WriteReviewForm({
                           textAlignVertical="top"
                         />
           
+                {shareableItems.length > 0 ? (
+                          <View style={{ marginTop: Spacing.md }}>
+                                    <ThemedText
+                                                type="small"
+                                                style={{ color: theme.textSecondary, marginBottom: Spacing.xs }}
+                                              >
+                                                Share identity info with this review? (optional — unchecked by default)
+                                    </ThemedText>
+                                    {shareableItems.map((item) => (
+                                              <Pressable
+                                                            key={item.key}
+                                                            style={styles.checkboxRow}
+                                                            onPress={() => toggleChecked(item.key)}
+                                                            accessibilityRole="checkbox"
+                                                            accessibilityState={{ checked: !!checked[item.key] }}
+                                                          >
+                                                        <View
+                                                                        style={[
+                                                                                      styles.checkboxBox,
+                                                                            {
+                                                                                            borderColor: theme.cardBorder,
+                                                                                            backgroundColor: checked[item.key]
+                                                                                                              ? theme.primary
+                                                                                                              : "transparent",
+                                                                            },
+                                                                                    ]}
+                                                                      >
+                                                                {checked[item.key] ? (
+                                                                                <Feather name="check" size={12} color="#fff" />
+                                                                              ) : null}
+                                                        </View>
+                                                        <ThemedText style={{ color: theme.textPrimary }}>
+                                                                      {item.label}
+                                                        </ThemedText>
+                                              </Pressable>
+                                    ))}
+                                    <ThemedText
+                                                type="small"
+                                                style={{ color: theme.textSecondary, marginTop: Spacing.xs }}
+                                              >
+                                                Checked items will show on your review (e.g. "
+                                                {shareableItems.map((i) => i.label).join(", ")}"). Anything left
+                                                unchecked stays off this review.
+                                    </ThemedText>
+                          </View>
+                        ) : null}
+
                 <ThemedText
                           type="small"
                           style={{ color: theme.textSecondary, marginTop: Spacing.sm, marginBottom: Spacing.md }}
-                        >
+                    >
                         Your review goes into a moderation queue before appearing publicly.
-                        Your identity information (if any) is only used to help others find
-                        reviews from people like them.
                 </ThemedText>
-          
+
                 <View style={styles.formButtons}>
                         <Pressable
                                     style={[styles.cancelButton, { borderColor: theme.cardBorder }]}
@@ -326,7 +419,7 @@ function WriteReviewForm({
                         </Pressable>
                         <Pressable
                                     style={[
-                                                  styles.submitButton,
+                                      styles.submitButton,
                                       { backgroundColor: canSubmit ? theme.primary : theme.primary + "40" },
                                                 ]}
                                     onPress={handleSubmit}
@@ -357,17 +450,19 @@ export function TestimonialsSection({
     const handleSubmit = async (
           content: string,
           rating: number,
-          displayName?: string
+          displayName: string | undefined,
+          selectedIdentity: ShareableIdentity
         ) => {
-          // Pass back identity dimensions the user has chosen to share
+          // Only the identity fields the user explicitly checked in the
+          // opt-in form are sent — nothing is auto-attached from the profile.
           await submitTestimonial({
                   content,
                   rating,
                   displayName,
-                  ethnicity: identity?.ethnicities?.[0],
-                  genderIdentity: identity?.genderIdentity,
-                  sexualOrientation: identity?.sexualOrientation,
-                  religion: identity?.religion,
+                  ethnicity: selectedIdentity.ethnicity,
+                  genderIdentity: selectedIdentity.genderIdentity,
+                  sexualOrientation: selectedIdentity.sexualOrientation,
+                  religion: selectedIdentity.religion,
           });
     };
   
@@ -393,18 +488,19 @@ export function TestimonialsSection({
           
             {showForm ? (
                           <WriteReviewForm
+                                      identity={identity}
                                       onSubmit={handleSubmit}
                                       onCancel={() => setShowForm(false)}
                                       theme={theme}
                                     />
                         ) : null}
           
-            {isLoading ? (
+             {isLoading ? (
                           <View style={styles.loadingRow}>
-                                    <ActivityIndicator size="small" color={theme.primary} />
-                                    <ThemedText type="small" style={{ color: theme.textSecondary, marginLeft: Spacing.sm }}>
+                                  <ActivityIndicator size="small" color={theme.primary} />
+                                  <ThemedText type="small" style={{ color: theme.textSecondary, marginLeft: Spacing.sm }}>
                                                 Loading reviews...
-                                    </ThemedText>
+                                  </ThemedText>
                           </View>
                         ) : error ? (
                           <ThemedText type="small" style={{ color: theme.textSecondary }}>
@@ -419,22 +515,22 @@ export function TestimonialsSection({
                             {testimonials.length === 0 ? (
                                         <ThemedText type="small" style={{ color: theme.textSecondary }}>
                                                       No reviews yet — be the first to share your experience.
-                                        </ThemedText>
-                                      ) : (
-                                        <View style={styles.testimonialList}>
-                                          {testimonials.slice(0, 5).map((t) => (
-                                                          <TestimonialCard key={t.id} testimonial={t} theme={theme} />
-                                                        ))}
-                                          {testimonials.length > 5 ? (
-                                                          <ThemedText
-                                                                              type="small"
-                                                                              style={{ color: theme.textSecondary, textAlign: "center", marginTop: Spacing.sm }}
-                                                                            >
-                                                                            +{testimonials.length - 5} more reviews
+                                      </ThemedText>
+                                    ) : (
+                                      <View style={styles.testimonialList}>
+                                        {testimonials.slice(0, 5).map((t) => (
+                                                        <TestimonialCard key={t.id} testimonial={t} theme={theme} />
+                                            ))}
+                              {testimonials.length > 5 ? (
+                                      <ThemedText
+                                                        type="small"
+                                                        style={{ color: theme.textSecondary, textAlign: "center", marginTop: Spacing.sm }}
+                                                      >
+                                                        +{testimonials.length - 5} more reviews
                                                           </ThemedText>
-                                                        ) : null}
-                                        </View>
-                                    )}
+                                                    ): null}
+                            </View>
+                          )}
                           </>
                         )}
           </View>
@@ -582,6 +678,20 @@ const styles = StyleSheet.create({
     formButtons: {
           flexDirection: "row",
           gap: Spacing.md,
+    },
+    checkboxRow: {
+          flexDirection: "row",
+          alignItems: "center",
+          gap: Spacing.sm,
+          paddingVertical: Spacing.xs,
+    },
+    checkboxBox: {
+          width: 18,
+          height: 18,
+          borderRadius: BorderRadius.sm,
+          borderWidth: 1,
+          alignItems: "center",
+          justifyContent: "center",
     },
     cancelButton: {
           flex: 1,

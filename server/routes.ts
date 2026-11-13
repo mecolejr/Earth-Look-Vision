@@ -4,11 +4,12 @@ import { db } from "./db";
 import { newsletterSubscribers, testimonials } from "@shared/schema";
 import { eq, and, sql, desc } from "drizzle-orm";
 import { z } from "zod";
+import { rateLimit } from "express-rate-limit";
 import { sendWelcomeEmail } from "./resend";
 import { getWeatherForecast, getCurrentWeather } from "./weather";
 import { getPersonalizedRecommendations } from "./cohere";
 
-// ─────────────────────────────────────────────────────────────────────────────
+// ───────────────────────────────────────────────────────────────────────────
 // Admin auth middleware — protects all /admin/* routes with a bearer token.
 // Set ADMIN_SECRET in your environment variables. Never hard-code a value here.
 // ─────────────────────────────────────────────────────────────────────────────
@@ -56,11 +57,14 @@ const TestimonialSubmitSchema = z.object({
       cityId: z.string().min(1),
       content: z.string().min(10).max(280),
       rating: z.number().int().min(1).max(5),
-      // Identity dimensions — all optional, privacy-first
-      ethnicity: z.string().optional(),
-      genderIdentity: z.string().optional(),
-      sexualOrientation: z.string().optional(),
-      religion: z.string().optional(),
+      // Identity dimensions — all optional, privacy-first.
+      // Capped at 60 chars: these are picklist-style values (e.g. "queer",
+      // "Black"), not free-form prose, and the cap keeps a submitted field
+      // from being used to stuff arbitrary text into identity data.
+      ethnicity: z.string().max(60).optional(),
+      genderIdentity: z.string().max(60).optional(),
+      sexualOrientation: z.string().max(60).optional(),
+      religion: z.string().max(60).optional(),
       displayName: z.string().max(50).optional(),
 });
 
@@ -69,10 +73,24 @@ const TestimonialSubmitSchema = z.object({
  * Used by GET /api/testimonials/:cityId to filter by identity dimensions.
  */
 const IdentityFilterSchema = z.object({
-      ethnicity: z.string().optional(),
-      genderIdentity: z.string().optional(),
-      sexualOrientation: z.string().optional(),
-      religion: z.string().optional(),
+      ethnicity: z.string().max(60).optional(),
+      genderIdentity: z.string().max(60).optional(),
+      sexualOrientation: z.string().max(60).optional(),
+      religion: z.string().max(60).optional(),
+});
+
+/**
+ * Feature 2 — Rate limit for testimonial submission.
+ * Keyed by IP (requires `trust proxy` to be set correctly behind Cloud Run,
+ * see server/index.ts). Generous enough for a real person leaving a review
+ * per city they've visited, tight enough to blunt scripted spam.
+ */
+const testimonialSubmitLimiter = rateLimit({
+      windowMs: 15 * 60 * 1000, // 15 minutes
+      limit: 5,
+      standardHeaders: true,
+      legacyHeaders: false,
+      message: { message: "Too many reviews submitted. Please try again later." },
 });
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -269,7 +287,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
        * Submit a new testimonial. Starts in "pending" status — requires moderation
        * before it is visible to other users.
        */
-  app.post("/api/testimonials", async (req, res) => {
+  app.post("/api/testimonials", testimonialSubmitLimiter, async (req, res) => {
           try {
                     const result = TestimonialSubmitSchema.safeParse(req.body);
                     if (!result.success) {
@@ -381,14 +399,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
                                                       });
                                       }
                                       return matches.length > 0;
-                        });
+                      });
             }
 
             const identityMatchCount = identityMatched.length;
                     const identityMatchRating =
                                 identityMatchCount > 0
                         ? identityMatched.reduce((sum, t) => sum + t.rating, 0) /
-                                    identityMatchCount
+                                  identityMatchCount
                                   : undefined;
 
             // Sort: identity-matched first, then all others, most recent first

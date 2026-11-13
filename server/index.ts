@@ -7,6 +7,10 @@ import * as path from "path";
 const app = express();
 const log = console.log;
 
+// Deployed behind Cloud Run's reverse proxy — trust the first hop so
+// req.ip (used by rate limiting) reflects the real client, not the proxy.
+app.set("trust proxy", 1);
+
 declare module "http" {
     interface IncomingMessage {
           rawBody: unknown;
