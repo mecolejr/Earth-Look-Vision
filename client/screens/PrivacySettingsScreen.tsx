@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { showAlert } from "@/lib/showAlert";
 import { StyleSheet, View, ScrollView, Switch, Pressable, Alert, Platform } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useHeaderHeight } from "@react-navigation/elements";
@@ -43,7 +44,7 @@ export default function PrivacySettingsScreen() {
         link.click();
         document.body.removeChild(link);
         URL.revokeObjectURL(url);
-        Alert.alert(
+        showAlert(
           "Export Complete",
           "Your data has been downloaded as a JSON file.",
           [{ text: "OK" }]
@@ -63,7 +64,7 @@ export default function PrivacySettingsScreen() {
             dialogTitle: "Export Your Data",
           });
         } else {
-          Alert.alert(
+          showAlert(
             "Export Complete",
             "Your data has been exported. On this device, sharing is not available, but your data file has been saved.",
             [{ text: "OK" }]
@@ -72,14 +73,14 @@ export default function PrivacySettingsScreen() {
       }
     } catch (error) {
       console.error("Error exporting data:", error);
-      Alert.alert("Export Failed", "There was an error exporting your data. Please try again.");
+      showAlert("Export Failed", "There was an error exporting your data. Please try again.");
     } finally {
       setIsExporting(false);
     }
   };
 
   const handleDeleteData = () => {
-    Alert.alert(
+    showAlert(
       "Delete All Data",
       "This will permanently delete all your data including your profile, saved cities, and preferences. This action cannot be undone.",
       [
@@ -91,7 +92,7 @@ export default function PrivacySettingsScreen() {
             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
             await clearAllData();
             await resetProfile();
-            Alert.alert("Data Deleted", "All your data has been permanently deleted.");
+            showAlert("Data Deleted", "All your data has been permanently deleted.");
           },
         },
       ]

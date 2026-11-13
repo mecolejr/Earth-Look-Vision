@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { showAlert } from "@/lib/showAlert";
 import {
   StyleSheet,
   View,
@@ -34,11 +35,11 @@ export default function SupportScreen() {
 
   const handleSubmitTicket = () => {
     if (!message.trim()) {
-      Alert.alert("Please enter a message", "Tell us how we can help you.");
+      showAlert("Please enter a message", "Tell us how we can help you.");
       return;
     }
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-    Alert.alert(
+    showAlert(
       isPremium ? "Priority Ticket Submitted" : "Ticket Submitted",
       isPremium
         ? "Your priority support ticket has been received. We typically respond within 4 hours."

@@ -1,4 +1,5 @@
 import React from "react";
+import { showAlert } from "@/lib/showAlert";
 import { StyleSheet, View, Pressable, Linking, Alert } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
@@ -17,7 +18,7 @@ export function PartnerCard({ partner }: PartnerCardProps) {
 
   const handleContact = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    Alert.alert(
+    showAlert(
       `Contact ${partner.name}`,
       "How would you like to reach out?",
       [

@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
+import { showAlert } from "@/lib/showAlert";
 import { Alert, Platform, Linking } from "react-native";
 
 import { useUserProfile } from "@/contexts/UserProfileContext";
@@ -44,7 +45,7 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
   };
 
   const showUpgradePrompt = (feature: string) => {
-    Alert.alert(
+    showAlert(
       "Premium Feature",
       `${feature} is available with EarthLook Premium. Upgrade to unlock unlimited comparisons, detailed reports, and priority support.`,
       [
@@ -57,7 +58,7 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
   const upgradeToPremium = async () => {
     setIsUpgrading(true);
     try {
-      Alert.alert(
+      showAlert(
         "Premium Coming Soon",
         "In-app purchases will be available soon. For now, enjoy all features for free during our beta period!",
         [{ text: "OK" }]

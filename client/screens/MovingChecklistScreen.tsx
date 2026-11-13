@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { showAlert } from "@/lib/showAlert";
 import {
   StyleSheet,
   View,
@@ -104,7 +105,7 @@ export default function MovingChecklistScreen({
   };
 
   const handleDeleteItem = (itemId: string) => {
-    Alert.alert(
+    showAlert(
       "Delete Item",
       "Are you sure you want to remove this task?",
       [

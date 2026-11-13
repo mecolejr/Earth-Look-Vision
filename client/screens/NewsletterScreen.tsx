@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { showAlert } from "@/lib/showAlert";
 import {
   View,
   Text,
@@ -48,7 +49,7 @@ export default function NewsletterScreen({ navigation }: Props) {
 
   const handleSubscribe = async () => {
     if (!isValidEmail(email)) {
-      Alert.alert("Invalid Email", "Please enter a valid email address.");
+      showAlert("Invalid Email", "Please enter a valid email address.");
       return;
     }
 
@@ -73,7 +74,7 @@ export default function NewsletterScreen({ navigation }: Props) {
       setIsSubscribed(true);
     } catch (error) {
       console.error("Newsletter subscription error:", error);
-      Alert.alert(
+      showAlert(
         "Subscription Failed",
         "There was an error subscribing. Please try again later."
       );

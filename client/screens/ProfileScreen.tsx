@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { showAlert } from "@/lib/showAlert";
 import {
     StyleSheet,
     View,
@@ -80,7 +81,7 @@ export default function ProfileScreen() {
   };
 
 const handleResetProfile = () => {
-            Alert.alert(
+            showAlert(
                             "Reset Profile",
                             "This will permanently erase all your lifestyle, identity, and priority data. This cannot be undone.",
                             [

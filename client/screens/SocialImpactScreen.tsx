@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { showAlert } from "@/lib/showAlert";
 import { StyleSheet, View, ScrollView, Pressable, Linking, Alert } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useHeaderHeight } from "@react-navigation/elements";
@@ -29,7 +30,7 @@ export default function SocialImpactScreen() {
 
   const handleApplyForGrant = (grant: GrantProgram) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    Alert.alert(
+    showAlert(
       "Apply for " + grant.name,
       "Applications are reviewed within 5 business days. You'll need to provide:\n\n• Proof of eligibility\n• Brief description of your situation\n• Contact information\n\nWould you like to start your application?",
       [
@@ -37,7 +38,7 @@ export default function SocialImpactScreen() {
         { 
           text: "Start Application", 
           onPress: () => {
-            Alert.alert(
+            showAlert(
               "Application Started",
               "Thank you for your interest! In the full app, you would be directed to a secure application form. For now, please contact support@earthlook.app to apply."
             );
@@ -174,7 +175,7 @@ export default function SocialImpactScreen() {
           <Button
             onPress={() => {
               Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-              Alert.alert("Thank You!", "In the full app, you would be directed to donation options or premium upgrade.");
+              showAlert("Thank You!", "In the full app, you would be directed to donation options or premium upgrade.");
             }}
           >
             Become a Supporter

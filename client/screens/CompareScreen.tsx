@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
+import { showAlert } from "@/lib/showAlert";
 import {
   StyleSheet,
   View,
@@ -88,7 +89,7 @@ export default function CompareScreen() {
   };
 
   const handleClearAll = () => {
-    Alert.alert(
+    showAlert(
       "Clear All Cities",
       "This will remove all cities from your comparison list. You can add them back from the Explore tab.",
       [
@@ -162,7 +163,7 @@ export default function CompareScreen() {
       >
         <View style={styles.header}>
           <ThemedText type="h4">
-            Comparing {citiesWithScores.length} cities
+            Comparing {citiesWithScores.length} {citiesWithScores.length === 1 ? "city" : "cities"}
           </ThemedText>
           <Pressable onPress={handleClearAll} accessibilityLabel="Clear all cities" accessibilityRole="button">
             <ThemedText type="small" style={{ color: theme.danger }}>

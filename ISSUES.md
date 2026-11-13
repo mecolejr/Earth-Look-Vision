@@ -88,7 +88,8 @@ This app is developed and hosted on Replit. All code changes must remain compati
 | 23 | welcome-hero.png used as a placeholder image outside of WelcomeScreen. | ✅ Fixed Mar 15 | client/screens/ExploreScreen.tsx |
 | 25 | Pressable missing accessibilityLabel â needed for screen readers. | ✅ Fixed Mar 15 | client/screens/PrioritiesStepScreen.tsx |
 | 26 | Pressable missing accessibilityLabel â needed for screen readers. | ✅ Fixed Mar 15 | client/screens/CompareScreen.tsx |
-| 27 | Pressable missing accessibilityLabel — needed for screen readers. | 🔴 Open | client/screens/CompareScreen.tsx |
+| 27 | Pressable missing accessibilityLabel — needed for screen readers. | ✅ Fixed (verified Nov 13: all 3 Pressables labelled) | client/screens/CompareScreen.tsx |
+| 28 | Alert.alert does nothing on web, so every confirmation pop-up (Start Over, Clear All, Delete All Data, etc.) silently failed in the web version. | ✅ Fixed Nov 13: all 18 calls now use showAlert | client/lib/showAlert.ts |
 | 28 | SyntaxError in UserProfileContext.tsx (198:38) — Unexpected token in closing Provider tag, crashes app on load. | ✅ Fixed Mar 15 | client/contexts/UserProfileContext.tsx |
 
 ---
