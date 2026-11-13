@@ -82,6 +82,8 @@ const CITY_IMAGE_URLS: Record<string, string> = {
   "boston": "https://images.unsplash.com/photo-1501979376754-2ff867a4f659?w=800&q=80&fm=webp",
   "toronto": "https://images.unsplash.com/photo-1517090504586-fde19ea6066f?w=800&q=80&fm=webp",
   "vancouver": "https://images.unsplash.com/photo-1559511260-66a68e37f3f0?w=800&q=80&fm=webp",
+  "mexico-city": "https://images.unsplash.com/photo-1562770174-9dc23ac6b61f?w=800&q=80&fm=webp",
+  "lisbon": "https://images.unsplash.com/photo-1753372900032-8454fba4ae9f?w=800&q=80&fm=webp",
   "atlanta": "https://images.unsplash.com/photo-1610741686854-5948cd981569?w=800&q=80&fm=webp",
   "houston": "https://images.unsplash.com/photo-1666610278692-51058ed05e9a?w=800&q=80&fm=webp",
   "washington-dc": "https://images.unsplash.com/photo-1570941144136-78aaaba16d78?w=800&q=80&fm=webp",

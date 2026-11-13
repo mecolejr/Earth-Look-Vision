@@ -40,7 +40,7 @@ assume they can debug code themselves.
   washington-dc, tulsa, kansas-city, pittsburgh, columbus, albuquerque).
   Verify each URL actually loads (curl -I → 200) before committing. Until then
   they show the fallback hero image, which is acceptable.
-- [ ] **M2 — International batch.** Add Montreal, Vancouver, Mexico City, Lisbon,
+- [x] **M2 — International batch.** Add Montreal, Vancouver, Mexico City, Lisbon,
   London by the documented process. Research real data; follow rule 4 strictly.
   → **FABLE CHECKPOINT after M2**
 - [ ] **M3 — Onboarding polish.** Fix remaining open items in `ISSUES.md`
@@ -67,6 +67,7 @@ few minutes of work.
 
 ## Status log (newest first — update after every session)
 
+- 2026-11-13 (Claude): M2 done. Added Montreal, Vancouver, Mexico City, Lisbon, London (23 cities). Real: population, ethnic/religion shares (Canada/UK census), climate. NO bias-category hate-crime data (US FBI categories do not apply) so those cities use aggregate safety only. ESTIMATES to review at the Fable checkpoint: crime rate, LGBTQ safety index/population/venues, job/transit scores, cost of living, ethnic split for Mexico City and Lisbon, London climate. Each file has a header comment listing this. Also found: existing Toronto/Amsterdam/Berlin/Barcelona files have hateCrimesByBiasCategory numbers with unverified sources. FABLE CHECKPOINT DUE.
 - 2026-11-13 (Claude): M1 done. Added real photos for the 8 new cities (all checked 200). Typecheck clean, checker green. Next: M2 (international cities).
 - 2026-11-13 (Fable): Plan created. 18 cities built and validated (10 pending
   apply to Replit at the time of writing). Baseline: typecheck clean, checker

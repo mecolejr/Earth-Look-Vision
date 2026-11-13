@@ -18,6 +18,11 @@ import { kansasCity } from "./kansas-city";
 import { pittsburgh } from "./pittsburgh";
 import { columbus } from "./columbus";
 import { albuquerque } from "./albuquerque";
+import { montreal } from "./montreal";
+import { vancouver } from "./vancouver";
+import { mexicoCity } from "./mexico-city";
+import { lisbon } from "./lisbon";
+import { london } from "./london";
 
 // To add a city: create <city-id>.ts in this folder (copy an existing one),
 // import it above, add it to this list, then run: npx tsx scripts/check-cities.ts
@@ -40,6 +45,11 @@ export const CITIES: City[] = [
   pittsburgh,
   columbus,
   albuquerque,
+  montreal,
+  vancouver,
+  mexicoCity,
+  lisbon,
+  london,
 ];
 
 export function getAllCities(): City[] {
