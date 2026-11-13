@@ -35,7 +35,7 @@ assume they can debug code themselves.
 
 ## Milestones (work top to bottom)
 
-- [ ] **M1 — City photos.** Add image URLs for the 8 new cities missing from
+- [x] **M1 — City photos.** Add image URLs for the 8 new cities missing from
   `CITY_IMAGE_URLS` in `client/components/OptimizedImage.tsx` (atlanta, houston,
   washington-dc, tulsa, kansas-city, pittsburgh, columbus, albuquerque).
   Verify each URL actually loads (curl -I → 200) before committing. Until then
@@ -67,6 +67,7 @@ few minutes of work.
 
 ## Status log (newest first — update after every session)
 
+- 2026-11-13 (Claude): M1 done. Added real photos for the 8 new cities (all checked 200). Typecheck clean, checker green. Next: M2 (international cities).
 - 2026-11-13 (Fable): Plan created. 18 cities built and validated (10 pending
   apply to Replit at the time of writing). Baseline: typecheck clean, checker
   green, reviews system seeded and working, app verified in Preview.
