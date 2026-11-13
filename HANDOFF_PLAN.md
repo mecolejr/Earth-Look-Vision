@@ -87,3 +87,11 @@ few minutes of work.
   2. Many displayed numbers (e.g. LGBTQ+ population %) are estimates with no visual distinction from sourced data — RECOMMEND: defer to the pre-launch data pass.
   3. Worldwide live weather needs a second, non-US weather provider (e.g. Open-Meteo) — RECOMMEND: defer, not worth it yet.
 - Recommendation: move back to a cheaper model for M5 (Compare + Map), since it's standard building work, not a checkpoint.
+
+### M5: Compare + Map polish (2026-11-13) — done
+- Compare screen: removed two dead imports (unused `Alert`, unused `ScoreBar`) left over from the M3 showAlert migration.
+- Map screen (native): added a dismiss/close button on the selected-city preview card (previously no way to deselect without tapping another marker); added marker `title`/`description` and accessibility labels on the city detail Pressable, matching the a11y pattern from M3.
+- Map screen (web fallback): added accessibility labels to the download buttons and city cards.
+- Same dead-`Alert`-import cleanup applied to 4 other screens touched by the M3 showAlert migration (MovingChecklistScreen, SupportScreen, NewsletterScreen, ProfileScreen) — found while reviewing, same root cause, same fix, zero risk.
+- Verified: tsc clean, all 23 cities pass, Compare screen visually confirmed in Preview. Native Map tab is hidden on web by design (Issue #4) so it can't be visually checked in this browser Preview — verified by typecheck only; worth a real device/simulator check before launch.
+- Not done this pass (noted, not forgotten): a worldwide weather provider, estimate labeling in the UI, and the sample-review tag are still open from the M4 checkpoint.
