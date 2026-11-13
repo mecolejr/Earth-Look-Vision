@@ -83,6 +83,11 @@ export default function CityDetailScreen({
   useEffect(() => {
         async function fetchWeather() {
                 if (!cityWithScore) return;
+                // The weather service (US National Weather Service) only covers the US.
+                if (cityWithScore.country !== "United States") {
+                          setWeatherError("Live weather is only available for US cities right now.");
+                          return;
+                }
                 setWeatherLoading(true);
                 setWeatherError(null);
                 try {
@@ -181,7 +186,7 @@ export default function CityDetailScreen({
                           showsVerticalScrollIndicator={false}
                         >
                         <View style={styles.heroSection}>
-                                  <CityImage cityId={cityId} style={styles.heroImage} size="large" />
+                                  <CityImage cityId={cityId} style={styles.heroImage} containerStyle={styles.heroImage} size="large" />
                         </View>
                 
                         <View style={styles.headerSection}>
