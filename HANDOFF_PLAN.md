@@ -131,3 +131,20 @@ needed).
 Still open from M4: estimate-labeling in UI, second weather provider.
 M6 (Reviews PII hardening) still requires a Fable checkpoint before
 starting, per the standing rule.
+
+## Fable checkpoint (post sample-tagging)
+
+Verdict: ON TRACK. Reviewed M5 + sample-tagging work; tsc and
+check-cities verified clean on Replit, commit 4a59555 pushed to
+version-2. The safeTestimonials allowlist found during verification is
+the exact code path M6 will harden — good find, M6 is now well-scoped.
+
+M6 (Reviews PII hardening) is CLEARED to start in the next Sonnet
+session. Scope: review what identity fields the API exposes per
+testimonial, consider aggregating/bucketing identity tags client-side,
+and rate-limit/validate the POST endpoint.
+
+Housekeeping: the backend on Replit is currently running from a manual
+shell process (nohup), not the Start Backend workflow — restart the
+workflow properly at the start of the next session so it survives
+Replit restarts.
