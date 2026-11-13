@@ -43,6 +43,25 @@ Store secrets in Replit **Secrets** tab (not in code). Required keys:
 - `DATABASE_URL` — Neon/Postgres connection string
 - `PORT` — defaults to `5000` (already set in `.replit`)
 
+
+## City Catalog (updated Nov 2026)
+
+City data lives in `client/data/cities/` — ONE FILE PER CITY plus `index.ts`.
+The old single `client/data/cities.ts` file is gone; do not recreate it.
+
+To add a city:
+1. Copy an existing city file (e.g. `denver.ts`) to `<city-id>.ts` (lowercase-with-dashes).
+2. Fill in real data. `hateCrimesByBiasCategory` is optional — include only with real
+   per-100k figures and set `hateCrimeDataYear`; omit it otherwise and the app shows
+   an "aggregate data only" notice.
+3. Import and list the city in `client/data/cities/index.ts`.
+4. Run `npx tsx scripts/check-cities.ts` — must pass before committing.
+5. IMPORTANT (rule R4 in ISSUES.md): after creating files from the shell, restart the
+   Start Frontend workflow, or Metro serves a blank app with UnableToResolveError.
+
+City photos come from `CITY_IMAGE_URLS` in `client/components/OptimizedImage.tsx`;
+cities without an entry show the fallback hero image.
+
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.

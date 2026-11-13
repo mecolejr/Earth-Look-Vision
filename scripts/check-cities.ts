@@ -8,7 +8,9 @@ import { CITIES } from "../client/data/cities";
 
 type Problem = { city: string; issue: string };
 const problems: Problem[] = [];
+const warnings: Problem[] = [];
 const note = (city: string, issue: string) => problems.push({ city, issue });
+const warn = (city: string, issue: string) => warnings.push({ city, issue });
 
 const inRange = (v: unknown, lo: number, hi: number) =>
   typeof v === "number" && !Number.isNaN(v) && v >= lo && v <= hi;
@@ -51,7 +53,7 @@ for (const c of CITIES) {
       }
       if (!c.safety.hateCrimeDataYear) note(name, "has bias-category data but no hateCrimeDataYear");
     } else {
-      note(name, "note: no hateCrimesByBiasCategory data — safety score will use aggregate data only");
+      warn(name, "no hateCrimesByBiasCategory data — safety score will use aggregate data only");
     }
   }
 
@@ -65,6 +67,11 @@ for (const c of CITIES) {
   if (c.jobMarket && !inRange(c.jobMarket.unemploymentRate, 0, 40)) note(name, "unemploymentRate looks wrong");
   if (c.healthcare && !inRange(c.healthcare.qualityIndex, 0, 100)) note(name, "healthcare qualityIndex should be 0-100");
   if (c.transit && !inRange(c.transit.publicTransitScore, 0, 100)) note(name, "publicTransitScore should be 0-100");
+}
+
+if (warnings.length) {
+  console.warn(`\n⚠ ${warnings.length} warning(s) (allowed, shown for awareness):`);
+  for (const w of warnings) console.warn(`  - [${w.city}] ${w.issue}`);
 }
 
 if (problems.length) {
