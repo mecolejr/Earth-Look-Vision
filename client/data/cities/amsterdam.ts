@@ -1,5 +1,8 @@
 import { City } from "@/types";
 
+// Per-category hate-crime data removed 2026-11-13: the old numbers used US FBI categories
+// and had no source. Add back only with real published figures (see HANDOFF_PLAN.md rule 4).
+
 export const amsterdam: City = {
   "id": "amsterdam",
   "name": "Amsterdam",
@@ -39,25 +42,7 @@ export const amsterdam: City = {
     },
     "discriminationReports": 180,
     "lgbtqSafetyIndex": 95,
-    "policeAccountabilityScore": 82,
-    "hateCrimesByBiasCategory": {
-      "antiBlack": 1.9,
-      "antiWhite": 0.2,
-      "antiHispanic": 0.4,
-      "antiAsian": 0.7,
-      "antiArab": 1.2,
-      "antiNativeAmerican": 0,
-      "antiJewish": 4.8,
-      "antiMuslim": 1.4,
-      "antiOtherReligion": 0.4,
-      "antiGay": 3,
-      "antiLesbian": 1.1,
-      "antiBisexual": 0.2,
-      "antiTransgender": 0.8,
-      "antiGenderNonconforming": 0.5,
-      "antiDisability": 0.1
-    },
-    "hateCrimeDataYear": 2022
+    "policeAccountabilityScore": 82
   },
   "political": {
     "votingPatterns": {
