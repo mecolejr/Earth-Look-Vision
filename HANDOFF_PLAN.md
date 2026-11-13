@@ -78,3 +78,12 @@ few minutes of work.
 - 2026-11-13 (Fable): Plan created. 18 cities built and validated (10 pending
   apply to Replit at the time of writing). Baseline: typecheck clean, checker
   green, reviews system seeded and working, app verified in Preview.
+
+### M4 Fable checkpoint (2026-11-13) — VERDICT: ON TRACK
+- Verified: `npx tsc --noEmit` clean; `npx tsx scripts/check-cities.ts` all 23 cities pass; no server-side changes since M2; `client/lib/scoring.ts` confirmed free of fetch/axios/API calls (scoring stays fully client-side).
+- Reviewed the Correction 2 scoring diff (legacy hate-crime fallback removal) line by line — matches what was described, no unintended side effects.
+- Three open decisions carried forward, with recommendation:
+  1. 20 seeded community reviews are fictional but shown as real — RECOMMEND: add a "Sample review" tag now (small, cheap).
+  2. Many displayed numbers (e.g. LGBTQ+ population %) are estimates with no visual distinction from sourced data — RECOMMEND: defer to the pre-launch data pass.
+  3. Worldwide live weather needs a second, non-US weather provider (e.g. Open-Meteo) — RECOMMEND: defer, not worth it yet.
+- Recommendation: move back to a cheaper model for M5 (Compare + Map), since it's standard building work, not a checkpoint.
