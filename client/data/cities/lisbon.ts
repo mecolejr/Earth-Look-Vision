@@ -103,5 +103,7 @@ export const lisbon: City = {
       "Buddhist": 4,
       "Jewish": 3
     }
-  }
+  },
+  "sources": ["unsourced — needs verification"],
+  "lastUpdated": "2026-11"
 };

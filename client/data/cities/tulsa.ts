@@ -103,5 +103,7 @@ export const tulsa: City = {
       "Buddhist": 4,
       "Hindu": 2
     }
-  }
+  },
+  "sources": ["unsourced — needs verification"],
+  "lastUpdated": "2026-11"
 };

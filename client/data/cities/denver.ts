@@ -111,5 +111,7 @@ export const denver: City = {
       "Buddhist": 20,
       "Hindu": 8
     }
-  }
+  },
+  "sources": ["unsourced — needs verification"],
+  "lastUpdated": "2026-11"
 };

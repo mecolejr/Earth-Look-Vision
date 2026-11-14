@@ -101,5 +101,7 @@ export const barcelona: City = {
       "Buddhist": 12,
       "Christian": 420
     }
-  }
+  },
+  "sources": ["unsourced — needs verification"],
+  "lastUpdated": "2026-11"
 };

@@ -109,5 +109,7 @@ export const columbus: City = {
       "Buddhist": 8,
       "Hindu": 10
     }
-  }
+  },
+  "sources": ["unsourced — needs verification"],
+  "lastUpdated": "2026-11"
 };

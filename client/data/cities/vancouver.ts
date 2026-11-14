@@ -107,5 +107,7 @@ export const vancouver: City = {
       "Muslim": 20,
       "Hindu": 15
     }
-  }
+  },
+  "sources": ["unsourced — needs verification"],
+  "lastUpdated": "2026-11"
 };

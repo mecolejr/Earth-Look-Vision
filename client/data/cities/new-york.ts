@@ -129,5 +129,7 @@ export const newYork: City = {
     "verifiedDate": "2025-06-20",
     "communityType": "bipoc",
     "communityName": "NYC BIPOC Alliance"
-  }
+  },
+  "sources": ["unsourced — needs verification"],
+  "lastUpdated": "2026-11"
 };

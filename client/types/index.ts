@@ -366,6 +366,16 @@ export interface City {
     };
     community?: CommunityVerification;
     sponsored?: SponsoredInfo;
+    /**
+     * Data provenance (added 2026-11-14, see HANDOFF_PLAN.md M7).
+     * `sources` lists where this city'''s stats came from; when the original
+     * source is unknown, use the literal string "unsourced — needs
+     * verification" rather than inventing a citation. `lastUpdated` is the
+     * "YYYY-MM" this file'''s data was last reviewed, not a claim that every
+     * figure was freshly re-verified against its source that month.
+     */
+  sources?: string[];
+  lastUpdated?: string;
 }
 
 export interface CityWithScore extends City {

@@ -134,5 +134,7 @@ export const sanFrancisco: City = {
     "sponsorName": "SF Welcome Center",
     "sponsorMessage": "Discover why San Francisco has been a haven for diverse communities for decades.",
     "featuredUntil": "2026-06-30"
-  }
+  },
+  "sources": ["unsourced — needs verification"],
+  "lastUpdated": "2026-11"
 };

@@ -103,5 +103,7 @@ export const pittsburgh: City = {
       "Buddhist": 6,
       "Hindu": 5
     }
-  }
+  },
+  "sources": ["unsourced — needs verification"],
+  "lastUpdated": "2026-11"
 };

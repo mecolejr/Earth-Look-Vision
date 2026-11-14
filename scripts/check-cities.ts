@@ -59,6 +59,10 @@ for (const c of CITIES) {
 
   if (c.political && !inRange(c.political.progressiveScore, 0, 100)) note(name, "progressiveScore should be 0-100");
 
+  if (!c.lastUpdated) warn(name, "no lastUpdated date — add one (YYYY-MM) per M7");
+  else if (!/^\d{4}-\d{2}$/.test(c.lastUpdated)) note(name, `lastUpdated "${c.lastUpdated}" should be YYYY-MM`);
+  if (!c.sources || c.sources.length === 0) warn(name, "no sources — add real sources or [\"unsourced — needs verification\"]");
+
   if (c.climate) {
     if (!inRange(c.climate.averageTemp, -30, 110)) note(name, "averageTemp (F) looks wrong");
     if (!inRange(c.climate.sunnyDays, 0, 366)) note(name, "sunnyDays looks wrong");

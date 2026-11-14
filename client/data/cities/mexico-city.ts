@@ -99,5 +99,7 @@ export const mexicoCity: City = {
       "Muslim": 8,
       "Buddhist": 10
     }
-  }
+  },
+  "sources": ["unsourced — needs verification"],
+  "lastUpdated": "2026-11"
 };

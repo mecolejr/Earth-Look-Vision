@@ -105,5 +105,7 @@ export const montreal: City = {
       "Hindu": 15,
       "Buddhist": 20
     }
-  }
+  },
+  "sources": ["unsourced — needs verification"],
+  "lastUpdated": "2026-11"
 };

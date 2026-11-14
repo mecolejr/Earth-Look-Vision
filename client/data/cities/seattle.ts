@@ -132,5 +132,7 @@ export const seattle: City = {
     "sponsorName": "Seattle Metro Tourism",
     "sponsorMessage": "A progressive tech hub where diversity and innovation thrive together.",
     "featuredUntil": "2026-06-30"
-  }
+  },
+  "sources": ["unsourced — needs verification"],
+  "lastUpdated": "2026-11"
 };

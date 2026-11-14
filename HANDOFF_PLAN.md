@@ -193,3 +193,13 @@ Goal: every number in the app is either sourced or labeled an estimate.
   footer: lastUpdated date and tappable source list. Estimated stats keep the
   "(est.)" suffix pattern from the LGBTQ+ stat.
 Order: 7a → 7b → 7c. Fable checkpoint after 7b, before 7c polish.
+
+### M7 7a done (2026-11-14)
+- Added optional `sources` / `lastUpdated` fields to the City type; check-cities
+  warns when either is missing. Backfilled all 23 cities with
+  `lastUpdated: "2026-11"` and `sources: ["unsourced — needs verification"]`
+  (honest placeholder, no invented citations — real sourcing is follow-up work).
+- City Detail now shows a small footer: review date, and source list once a
+  city has real ones. Verified in Preview on Amsterdam.
+- 7b (FBI hate-crime import) is next and needs Mj to sign up for a free
+  data.gov / FBI Crime Data Explorer API key before it can start.

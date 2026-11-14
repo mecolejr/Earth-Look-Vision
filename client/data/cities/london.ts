@@ -106,5 +106,7 @@ export const london: City = {
       "Jewish": 150,
       "Sikh": 60
     }
-  }
+  },
+  "sources": ["unsourced — needs verification"],
+  "lastUpdated": "2026-11"
 };

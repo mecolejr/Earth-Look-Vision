@@ -120,5 +120,7 @@ export const austin: City = {
       "Buddhist": 12,
       "Hindu": 6
     }
-  }
+  },
+  "sources": ["unsourced — needs verification"],
+  "lastUpdated": "2026-11"
 };

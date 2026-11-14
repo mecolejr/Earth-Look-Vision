@@ -104,5 +104,7 @@ export const albuquerque: City = {
       "Buddhist": 10,
       "Hindu": 3
     }
-  }
+  },
+  "sources": ["unsourced — needs verification"],
+  "lastUpdated": "2026-11"
 };

@@ -23,7 +23,7 @@ import { getPartnersForCity } from "@/data/partners";
 import { calculateCityScore, calculateAnonymousCityScore, applyPrivacyFilter } from "@/lib/scoring";
 import { AnonymousModeBanner } from "@/components/AnonymousModeBanner";
 import { PartnerCard } from "@/components/PartnerCard";
-import { CityWithScore, ScoreHighlight, PRIORITY_LABELS, PriorityWeights } from "@/types";
+import { City, CityWithScore, ScoreHighlight, PRIORITY_LABELS, PriorityWeights } from "@/types";
 import { RootStackParamList } from "@/navigation/RootStackNavigator";
 import { addToCompareList, getCompareList } from "@/lib/storage";
 
@@ -549,9 +549,30 @@ export default function CityDetailScreen({
                                               </ThemedText>
                                   </Pressable>
                         </View>
+
+                        <DataProvenanceFooter city={cityWithScore} theme={theme} />
                 </ScrollView>
           </View>
         );
+}
+
+function DataProvenanceFooter({ city, theme }: { city: City; theme: any }) {
+    const sources = city.sources ?? [];
+    const isUnsourced = sources.length === 0 || (sources.length === 1 && sources[0] === "unsourced — needs verification");
+    return (
+        <View style={styles.provenanceFooter}>
+                <ThemedText type="small" style={{ color: theme.textSecondary }}>
+                          {city.lastUpdated ? `Data last reviewed ${city.lastUpdated}` : "Data review date unknown"}
+                          {isUnsourced ? " · sources not yet verified" : ""}
+                </ThemedText>
+                {!isUnsourced &&
+                  sources.map((s, i) => (
+                              <ThemedText key={i} type="small" style={{ color: theme.textSecondary }}>
+                                            {s}
+                              </ThemedText>
+                            ))}
+        </View>
+    );
 }
 
 interface StatItemProps {
@@ -726,6 +747,11 @@ const styles = StyleSheet.create({
           gap: Spacing.md,
     },
     addButton: {},
+    provenanceFooter: {
+          marginTop: Spacing.lg,
+          paddingTop: Spacing.md,
+          gap: 2,
+    },
     checklistButton: {
           flexDirection: "row",
           alignItems: "center",

@@ -102,5 +102,7 @@ export const berlin: City = {
       "Buddhist": 25,
       "Christian": 320
     }
-  }
+  },
+  "sources": ["unsourced — needs verification"],
+  "lastUpdated": "2026-11"
 };

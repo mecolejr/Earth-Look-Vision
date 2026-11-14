@@ -106,5 +106,7 @@ export const toronto: City = {
       "Jewish": 48,
       "Christian": 680
     }
-  }
+  },
+  "sources": ["unsourced — needs verification"],
+  "lastUpdated": "2026-11"
 };

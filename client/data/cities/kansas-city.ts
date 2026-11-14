@@ -112,5 +112,7 @@ export const kansasCity: City = {
       "Buddhist": 6,
       "Hindu": 4
     }
-  }
+  },
+  "sources": ["unsourced — needs verification"],
+  "lastUpdated": "2026-11"
 };
