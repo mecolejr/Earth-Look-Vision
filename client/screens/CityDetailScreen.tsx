@@ -371,7 +371,7 @@ export default function CityDetailScreen({
                                                               theme={theme}
                                                             />
                                               <StatItem
-                                                              label="LGBTQ+ Population"
+                                                              label="LGBTQ+ Population (est.)"
                                                               value={`${cityWithScore.demographics.lgbtqPopulation.toFixed(1)}%`}
                                                               theme={theme}
                                                             />

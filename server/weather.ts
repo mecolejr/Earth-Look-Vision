@@ -1,3 +1,5 @@
+import { getMetNorwayForecast } from "./metNorway";
+
 const USER_AGENT = "(EarthLook, support@earthlook.app)";
 
 interface WeatherPeriod {
@@ -23,6 +25,15 @@ interface ForecastResponse {
 }
 
 export async function getWeatherForecast(lat: number, lon: number): Promise<ForecastResponse> {
+  try {
+    return await getNwsForecast(lat, lon);
+  } catch (err) {
+    console.warn("NWS forecast failed, falling back to MET Norway:", (err as Error).message);
+    return await getMetNorwayForecast(lat, lon);
+  }
+}
+
+async function getNwsForecast(lat: number, lon: number): Promise<ForecastResponse> {
   // Step 1: Get the grid point info for the coordinates
   const pointResp = await fetch(
     `https://api.weather.gov/points/${lat},${lon}`,

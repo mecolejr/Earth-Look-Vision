@@ -169,3 +169,9 @@ Transfer note: both files were moved to Replit via the chunked base64 shell meth
 Verification: `npx tsc --noEmit` clean and `npx tsx scripts/check-cities.ts` passes (same 12 expected pre-existing warnings, 23/23 cities) on both files, on Replit, after the dependency install.
 
 Outstanding: same as the M4/M5 note above — the native app's anonymous-mode default profile hides the whole TestimonialsSection in this browser Preview, so the new consent-checkbox UI has not been visually confirmed in Preview. No console errors on the City Detail screen otherwise.
+
+## Post-M6 polish (Nov 14, 2026)
+- Backend now runs under the Start Backend workflow (manual process retired).
+- City detail: LGBTQ+ population stat relabeled "LGBTQ+ Population (est.)" since it is an estimate.
+- Weather: server/weather.ts tries NWS first (US only); on failure it falls back to MET Norway Locationforecast (server/metNorway.ts, global, no key, identifying User-Agent) with the same period shape. Open-Meteo was tried first but api.open-meteo.com is unreachable from Replit's network. Non-US days are grouped by UTC date and precipitation probability is null (MET gives amounts only).
+- Verified: tsc clean, check-cities passes, London returns 7 periods via fallback, New York still uses NWS.
