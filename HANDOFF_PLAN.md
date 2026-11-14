@@ -212,3 +212,23 @@ Order: 7a → 7b → 7c. Fable checkpoint after 7b, before 7c polish.
   (est.)" in City Detail's Safety & Politics section. Left Population, Median
   Age, Cost of Living, and the climate stats alone — those read as ordinary
   facts/figures rather than modeled scores. Verified on Amsterdam in Preview.
+
+## New city batch: 7 more US metros (2026-11-14)
+Added Los Angeles, Boston, Philadelphia, Portland OR, Minneapolis, Phoenix, and
+Miami (city total now 30). Real sourced data for population, state cost-of-living
+index, metro unemployment rate, 2024 presidential county results, state-level
+LGBTQ+ nondiscrimination and reproductive-rights law, Williams Institute metro
+LGBT% estimate, and NOAA climate normals; sources listed per city and shown in
+the City Detail provenance footer (see M7 7a). Composite 0-100 scores
+(crime/safety, progressive, job-market, healthcare, transit sub-indices) are
+estimates, called out as such in each city's sources list, matching the
+unsourced placeholder already used on the other 23 cities. hateCrimesByCategory
+left as {} (legacy field, unused by scoring) rather than invented per-category
+counts; hateCrimesByBiasCategory omitted, so these 7 join the 12 other cities
+using aggregate-only safety scoring.
+Added working Unsplash images for philadelphia, minneapolis, phoenix (the other
+4 already had entries); verified each returns HTTP 200 webp.
+Verified: tsc clean, check-cities passes (30/30), Start Backend + Start Frontend
+restarted after new files, visually checked Phoenix in Preview (live US weather
+working, Safety & Politics estimates labeled, provenance footer showing all
+sources).
