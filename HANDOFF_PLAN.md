@@ -175,3 +175,4 @@ Outstanding: same as the M4/M5 note above — the native app's anonymous-mode de
 - City detail: LGBTQ+ population stat relabeled "LGBTQ+ Population (est.)" since it is an estimate.
 - Weather: server/weather.ts tries NWS first (US only); on failure it falls back to MET Norway Locationforecast (server/metNorway.ts, global, no key, identifying User-Agent) with the same period shape. Open-Meteo was tried first but api.open-meteo.com is unreachable from Replit's network. Non-US days are grouped by UTC date and precipitation probability is null (MET gives amounts only).
 - Verified: tsc clean, check-cities passes, London returns 7 periods via fallback, New York still uses NWS.
+- Follow-up: removed the client-side US-only gate on the weather card so non-US cities show live weather via the MET Norway fallback; checked Amsterdam in Preview.
