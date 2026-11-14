@@ -409,12 +409,12 @@ export default function CityDetailScreen({
                                                               theme={theme}
                                                             />
                                               <StatItem
-                                                              label="LGBTQ+ Safety Index"
+                                                              label="LGBTQ+ Safety Index (est.)"
                                                               value={`${cityWithScore.safety.lgbtqSafetyIndex}/100`}
                                                               theme={theme}
                                                             />
                                               <StatItem
-                                                              label="Progressive Score"
+                                                              label="Progressive Score (est.)"
                                                               value={`${cityWithScore.political.progressiveScore}/100`}
                                                               theme={theme}
                                                             />

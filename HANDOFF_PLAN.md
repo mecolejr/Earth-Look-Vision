@@ -203,3 +203,12 @@ Order: 7a → 7b → 7c. Fable checkpoint after 7b, before 7c polish.
   city has real ones. Verified in Preview on Amsterdam.
 - 7b (FBI hate-crime import) is next and needs Mj to sign up for a free
   data.gov / FBI Crime Data Explorer API key before it can start.
+
+### M7 7c (partial) done (2026-11-14) — 7b skipped for now
+- 7b (FBI hate-crime import) skipped: still blocked on Mj getting a data.gov /
+  FBI Crime Data Explorer API key.
+- Labeled the other two soft/composite figures as estimates, same pattern as
+  LGBTQ+ Population: "LGBTQ+ Safety Index (est.)" and "Progressive Score
+  (est.)" in City Detail's Safety & Politics section. Left Population, Median
+  Age, Cost of Living, and the climate stats alone — those read as ordinary
+  facts/figures rather than modeled scores. Verified on Amsterdam in Preview.
