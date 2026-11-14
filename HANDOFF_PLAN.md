@@ -176,3 +176,20 @@ Outstanding: same as the M4/M5 note above — the native app's anonymous-mode de
 - Weather: server/weather.ts tries NWS first (US only); on failure it falls back to MET Norway Locationforecast (server/metNorway.ts, global, no key, identifying User-Agent) with the same period shape. Open-Meteo was tried first but api.open-meteo.com is unreachable from Replit's network. Non-US days are grouped by UTC date and precipitation probability is null (MET gives amounts only).
 - Verified: tsc clean, check-cities passes, London returns 7 periods via fallback, New York still uses NWS.
 - Follow-up: removed the client-side US-only gate on the weather card so non-US cities show live weather via the MET Norway fallback; checked Amsterdam in Preview.
+
+## M7 — Data provenance + real safety data (scoped by Fable, 2026-11-14)
+Goal: every number in the app is either sourced or labeled an estimate.
+- [ ] **7a. Provenance fields.** Add optional `sources: string[]` and
+  `lastUpdated: "YYYY-MM"` to the city type. check-cities warns when a city
+  has no lastUpdated. Backfill the 23 cities with at least one source each
+  and a date. No invented citations: if the original source is unknown, write
+  "unsourced — needs verification" and the UI shows nothing.
+- [ ] **7b. FBI hate-crime import (US cities).** One-time script
+  `scripts/import-hate-crimes.ts` using the FBI Crime Data Explorer API
+  (free key, data.gov signup — Mj must create this). Writes per-bias-category
+  counts into the 12 US city files that lack them, each tagged with source +
+  year. Non-US cities stay aggregate-only. Rule 4 (never invent) still binding.
+- [ ] **7c. Surface it.** City Detail gets a small "Data sources & freshness"
+  footer: lastUpdated date and tappable source list. Estimated stats keep the
+  "(est.)" suffix pattern from the LGBTQ+ stat.
+Order: 7a → 7b → 7c. Fable checkpoint after 7b, before 7c polish.
